@@ -1,27 +1,27 @@
 ---
-title             : "Some Long Title - Maybe something more specific"
-shorttitle        : "Short Title"
+title             : "An algorithm for detecting ERP components using the grand average waveform as a template"
+shorttitle        : "Template Matching"
 
 author: 
-  - name          : "Author 1"
+  - name          : "Sven Lesche"
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
-    address       : "Street Str. 1"
-    email         : "author.one@mail.com"
+    address       : "Im Neuenheimer Feld 695, 69120 Heidelberg"
+    email         : "sven.lesche@psychologie.uni-heidelberg.de"
     role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
       - "Conceptualization"
       - "Writing - Original Draft Preparation"
       - "Writing - Review & Editing"
-  - name          : "Author 2"
-    affiliation   : "2"
-    role:
-      - "Supervision"
+  # - name          : "Author 2"
+  #   affiliation   : "2"
+  #   role:
+  #     - "Supervision"
 
 affiliation:
   - id            : "1"
     institution   : "Ruprecht-Karls-University Heidelberg"
-  - id            : "2"
-    institution   : "Konstanz Business School"
+  # - id            : "2"
+  #   institution   : "Konstanz Business School"
   # add a second id using this syntax
 
 authornote: |
@@ -47,7 +47,7 @@ abstract: |
 keywords          : "keyword, more keyword, crazy keyword"
 wordcount         : "X"
 
-bibliography      : ["r-references.bib", "pes_lib.bib"] # put your ref files here
+bibliography      : ["r-references.bib", "template_matching.bib"] # put your ref files here
 
 floatsintext      : yes # for pics in text
 linenumbers       : no
