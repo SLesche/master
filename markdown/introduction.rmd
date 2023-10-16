@@ -1,0 +1,18 @@
+**something about the relevance of ERPs for cognitive sciences**
+
+**examples about the problems of amplitude and latency detection**
+**both from a methods-standpoint and a practical standpoint**
+
+**give broad overview of how we intend to solve this: template matching**
+**give overview of how this technique is used in other fields of signal processing**
+
+**describe the two general problems: transformation and deviation measure**
+**describe the algorithms used to solve these problems and why we implemented them, broadly (more comes in methods section)**
+
+**describe the hopes we have: make it easier, more reliable, more objective than current algorithms**
+**explain how we will test this: psychometric properties and correlation with human-picked erps**
+**describe which components we will aim to pick and why**
+
+
+
+
