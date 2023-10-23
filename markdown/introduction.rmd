@@ -1,17 +1,80 @@
-**something about the relevance of ERPs for cognitive sciences**
+#exp28 #EEG #methods #template 
 
-**examples about the problems of amplitude and latency detection**
-**both from a methods-standpoint and a practical standpoint**
+talk about the importance of erp latency extraction
 
-**give broad overview of how we intend to solve this: template matching**
-**give overview of how this technique is used in other fields of signal processing**
+talk about previous approaches and their problems: see [[outline template matching]], and [[Issues with current latency measures]]
 
-**describe the two general problems: transformation and deviation measure**
-**describe the algorithms used to solve these problems and why we implemented them, broadly (more comes in methods section)**
 
-**describe the hopes we have: make it easier, more reliable, more objective than current algorithms**
-**explain how we will test this: psychometric properties and correlation with human-picked erps**
-**describe which components we will aim to pick and why**
+
+
+# Relevance of ERPs
+Event-related potentials (ERPs) are a key tool used in a variety of fields of study. Clinical psychology [REF], cognitive psychology [REF], experimental psychology [REF] all make use of ERPs to investigate the neural processes. Both the amplitude as well as the latency of components are often used to gain insights into individual differences in cognitive processes [REF]. Accurate estimation of the latency of ERP components thus presents an important topic relevant to all applications of ERP research [REF]. 
+
+**something about N2 and P3 processes here** **also write something about its relevance for individual differences research** 
+
+**the first paragraph should already illustrate how imporant accurate latency extraction methods are**
+
+A number of algorithms have been developed hoping to ease identification of components and their latencies. The earliest version of an algorithm to automatically extract ERP latencies is the _peak latency_ approach [REF]. It involves finding the point in time within a set measurement window that has the largest voltage deflection in the appropriate direction.  This method was developed as it was easy to implement **something about historical ease of use** **Luck, 2014, p. 286 cites Donchin & Heffley, 1978 as historical example**. Even though an algorithm detecting the _peak latency_ inside some measurement window is easy to implement and run, it can be corrupted by several factors.
+
+**be aware that luck lists the following issues: peak != component; high-freq noise; time-window/point differences in subjects; biased by noise-level; is non-linear measure; influence of latency jitter; difficult to compare with RT**
+
+1. Choice of measurement window
+As the peak latency method is blind to the general structure within the ERP signal, it simply chooses the point in time with the largest voltage deflection within the measurement window. The "true" maximum signal may lay just outside of the measurement window, resulting in the algorithm picking an outside edge of the window to reflect the _peak latency_, even though the signal increases in amplitude just following that timepoint. This may be true even if there is a clear component-like structure fully contained in the measurement window. Later components may already influence the amplitude on the outer ranges of the measurement window, resulting in their latency being picked instead of the true component of interest. Simple _peak latency_ algorithms can thus fail to pick the _local maximum_ of a component of interest fully contained inside the measurement window in favor of a datapoint possibly influenced by later or earlier components. This problem is often referred to as the _superimposition problem_ [REF, just luck, 2014?]. 
+
+To combat the influence of other components, [REF] have modified the simple _peak latency_ algorithm to only consider maxima inside the measurement window which are also larger than the surrounding datapoints. A spike just on the edge of the measurement window induced by a later component will not meet these criteria, as the last datapoint inside the measurement window will be smaller than the following datapoint. This method is more accurate in finding the _local_ peak latency [REF] but still vulnerable to other issues with peak latency approaches.
+
+2. Superimposition of other components
+The _peak latency_ approach is also especially vulnerable to influences of other components on the ERP signal - **bad sentence**. Even though the inclusion of neighboring datapoints does help the algorithms find local optima, peak latency approaches will fail to detect the peak of the component of interest if the measurement window contains portions of non-relevant components. Researchers thus have to carefully choose the measurement window in order to **not include other components**, **keep it homogenous across all subjects**, **fully include the component of interest**
+
+3. high frequency noise
+The influence of high frequency noise presents another issue for peak latency algorithms. The maximum voltage deflection may not reflect the true point in time at which the component reaches its maximum. Rather it may be the result of high frequency noise inducing a spike in the signal, independent of any cognitive process. This is problematic especially in the identification of the latency of later ERP components, as the larger measurement window most commonly applied here will increase the likelihood of high frequency noise impacting the maximum voltage deflection [REF, luck? or liesemeier?].
+
+4. The peak latency is also just not that relevant
+Lastly, as [Luck, 2014] so aptly states: _There is nothing special about the point at which the voltage reaches a local maximum_. The largest deflection does not inherently relate to any physiological or psychological process and may not even reflect the true maximum of the component of interest due to the _superimposition problem_. [REF luck rule paper] visually demonstrates how peak latency may be a result of the overlap of multiple components and not related to any single component.
+
+_Fractional Area Latency_ approaches hope to remedy some of the problems associated with _peak latency_ algorithms. _Fractional Area Latency_ revolves around the area under the ERP signal in a given measurement window and finding the point in time that divides that area into a given fraction before and a after that point in time. The timepoint halving the area under the signal, for example, is referred to as the _50% area latency_. This approach is much less susceptible to the influence of high frequency noise, as short spikes in the signal do not influence the area under the signal much. It remains highly dependent on the measurement window [Luck, 2005]. Choosing a shorter window may result in only a part of the area of the component of interest being captured. A wider measurement window on the other hand might be influenced by surrounding components. _Fractional Area_ measures thus work best for investigating an isolated component [Luck, 2014], limiting the applicability of algorithms based on this.
+
+Another approach towards dealing with noisy subject-level ERPs is to try and remove that noise by averaging multiple subject-level ERPs. This technique is referred to as _jackknifing_. It uses the grand average of $N$ subject-level ERPs and generates $N$ sub-grand averages by removing one of the subject-level ERPs from this grand average. This results in $N$ ERPs with higher signal-to-noise ratios as they are the average of $N-1$ subject-level ERPs. Both _peak_ and _area_ based measures can then be applied to the jackknifed data to extract latencies. As jackknifed signals share $\frac{N-2}{N} * 100$ percent of the subject-level signals that are averaged, each jackknifed-subaverage is quite similar to all others. This artificially decreases the error variance, which needs to be corrected for when testing for significant differences between groups [(Ulrich & Miller, 2001), aus Sadus (2023)]. Because Latencies extracted from jackknifed ERPs are based on averaged waveforms, they can not be readily associated with any single subject, preventing this method from generating individual-level latency estimates needed for individual differences research. This problem was adressed by [Smulders 2010, aus Sadus (2023)] who introduced a transformation able to generate individual-level latency estimates.
+
+[Kiesel 2008] compared a number of extraction methods for a variety of ERP components and found [SUMMARY HERE]. Their analyses indicates **drawbacks of each method summarized**
+[Sadus 2023] used a multiverse approach to investigate P3 stuff and utilizied **these** algorithms as well as manual extraction of ERP latencies ... 
+
+Look at comparison studies report what they thought is best. Sadus et al. as last
+
+the conclusion from this needs to be made clear: no algorithm provides a sufficiently reliable method of extracting component latencies. - Manual inspection seems to reign supreme, **talk about the practical problems associated with this**, **also talk about the methods problems, low objectivity**
+
+When visually inspecting ERP signals, the goal is to identify a pattern within the signal that resembles the component of interest in shape, size and location. None of the previously described algorithms used in most ERP research aim to replicate this human behavior but rather focus on generating similar decisions, not similar decision processes. The goal of this work is to introduce a new method for extracting component latencies that more closely resembles the manual extraction process. 
+
+**pattern matching in short**
+The general question each ERP-researcher asks themselves when investigating ERP signals is: "Where in this ERP signal is the component of interest?" Most researchers have some mental representation of what the component _should_ look like and where it _should_ generally appear that helps them identify a specific component in some noisy ERP.
+Finding a given pattern inside a noisy signal is not a novel task in the field of signal processing. Algorithms aiming to detect the appearance of a pattern - a _template_ -inside audio-, video- or radio signals have been around since **HISTORY** [REF] and a large amount of research has gone into perfecting these _template matching_ algorithms [REF]. 
+
+No matter the implementation of the template matching algorithm, they all aim to answer the question "Does this (shorter) template appear in my (larger) signal?". To achieve this, a researcher needs to specify two things. First, the template that they want to search the signal for. And second, the _deviance measure_ by which the algorithm can figure out how well the template fits in a given spot of the signal.
+
+Depending on the field, the first question is easily solved... This was the problem for ERP research.
+There has been some debate about the optimal answer to the second thing... [REFs]
+
+Our goal is to show that the concepts used in signal processing to find specific patterns can be adopted by ERP researchers to conduct _template matching_ in a similar manner. 
+
+There have been some attempts at using an idealized component structure, like the COMPONENT[depending on citation] and using template matching algorithms to identify the component in noisy subjet-level data. The variance of ERP signal structure within and especially between ERP studies has presented a challenge to this approach [REF]. The morphology of the P3, for example, varies depending on the task used and the participants studied [REF]. This compromises the ability to use a heavily idealized P3-like component as a template to search for in subject-level ERPs [Does it work with GA?]. **want to talk about the Hidden-semi-markov-chain approach?**
+
+This problem can be addressed by using using an experiment-specific template of the component of interest that will reflect influences of the task and participant sample on the morphology of the idealized ERP component. The grand average enables us to generate this sort of idealized ERP component. The grand average's high signal-to-noise ratio leads to a more clear component structure from which the researcher can specify the times during which the component of interest occurs. This part of the grand average's signal can then be used as a template and matched to subject-level ERPs. 
+
+** this section really here? **
+Template Matching in ERP studies differs from classical approaches in the sense that the template may change shape based on individual differences. The question shifts from "Does the template appear in the signal" to "Which transformation of the template appears in the signal". Of course some aspects of both questions are present in traditional approaches and our algorithm should also be able to detect cases in which no clear match is found for the component of interest. But as an accurate measurement of individual differences in the latency of ERP components is the goal of this algorithm and transformations of the template allow for a more realistic representation of individual differences in ERP signals, finding the transformation of the template based on the grand average that best fits each subject-level ERP is the goal of our algorithm.
+
+
+
+**describe what we do with the pattern once extracted**
+**explain the two problems with template matching: template generation and deviance measures**
+**how we transform it in order to allow for individual differences (this is novel)**
+**explain why not horizontal shift**
+**explain our two deviance measures (link to maths papers)** 
+
+**explain how we hope to make ERP extraction more objective and easier**
+**what are we investigating: measurement window, filtering, sub-GAs
+
+
 
 
 
