@@ -232,14 +232,11 @@ Two or three sentences to provide a \textbf{broader perspective}, readily compre
 \begin{document}
 \maketitle
 
-\#exp28 \#EEG \#methods \#template
+\hypertarget{history-of-extraction-methods}{%
+\section{History of Extraction Methods}\label{history-of-extraction-methods}}
 
-talk about the importance of erp latency extraction
-
-talk about previous approaches and their problems: see {[}{[}outline template matching{]}{]}, and {[}{[}Issues with current latency measures{]}{]}
-
-\hypertarget{relevance-of-erps}{%
-\section{Relevance of ERPs}\label{relevance-of-erps}}
+\hypertarget{importance-of-erps}{%
+\subsection{Importance of ERPs}\label{importance-of-erps}}
 
 Event-related potentials (ERPs) are a key tool used in a variety of fields of study. Clinical psychology {[}REF{]}, cognitive psychology {[}REF{]}, experimental psychology {[}REF{]} all make use of ERPs to investigate the neural processes. Both the amplitude as well as the latency of components are often used to gain insights into individual differences in cognitive processes {[}REF{]}. Accurate estimation of the latency of ERP components thus presents an important topic relevant to all applications of ERP research {[}REF{]}.
 
@@ -247,9 +244,18 @@ Event-related potentials (ERPs) are a key tool used in a variety of fields of st
 
 \textbf{the first paragraph should already illustrate how imporant accurate latency extraction methods are}
 
+\hypertarget{prior-algorithms}{%
+\subsection{Prior Algorithms}\label{prior-algorithms}}
+
+\hypertarget{peak-latency}{%
+\subsubsection{Peak Latency}\label{peak-latency}}
+
 A number of algorithms have been developed hoping to ease identification of components and their latencies. The earliest version of an algorithm to automatically extract ERP latencies is the \emph{peak latency} approach {[}REF{]}. It involves finding the point in time within a set measurement window that has the largest voltage deflection in the appropriate direction. This method was developed as it was easy to implement \textbf{something about historical ease of use} \textbf{Luck, 2014, p.~286 cites Donchin \& Heffley, 1978 as historical example}. Even though an algorithm detecting the \emph{peak latency} inside some measurement window is easy to implement and run, it can be corrupted by several factors.
 
 \textbf{be aware that luck lists the following issues: peak != component; high-freq noise; time-window/point differences in subjects; biased by noise-level; is non-linear measure; influence of latency jitter; difficult to compare with RT}
+
+\hypertarget{issues-with-peak-latency}{%
+\paragraph{Issues with peak latency}\label{issues-with-peak-latency}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -275,9 +281,18 @@ To combat the influence of other components, {[}REF{]} have modified the simple 
   Lastly, as {[}Luck, 2014{]} so aptly states: \emph{There is nothing special about the point at which the voltage reaches a local maximum}. The largest deflection does not inherently relate to any physiological or psychological process and may not even reflect the true maximum of the component of interest due to the \emph{superimposition problem}. {[}REF luck rule paper{]} visually demonstrates how peak latency may be a result of the overlap of multiple components and not related to any single component.
 \end{enumerate}
 
+\hypertarget{fractional-area-latency}{%
+\subsubsection{Fractional Area Latency}\label{fractional-area-latency}}
+
 \emph{Fractional Area Latency} approaches hope to remedy some of the problems associated with \emph{peak latency} algorithms. \emph{Fractional Area Latency} revolves around the area under the ERP signal in a given measurement window and finding the point in time that divides that area into a given fraction before and a after that point in time. The timepoint halving the area under the signal, for example, is referred to as the \emph{50\% area latency}. This approach is much less susceptible to the influence of high frequency noise, as short spikes in the signal do not influence the area under the signal much. It remains highly dependent on the measurement window {[}Luck, 2005{]}. Choosing a shorter window may result in only a part of the area of the component of interest being captured. A wider measurement window on the other hand might be influenced by surrounding components. \emph{Fractional Area} measures thus work best for investigating an isolated component {[}Luck, 2014{]}, limiting the applicability of algorithms based on this.
 
+\hypertarget{jackknifing}{%
+\subsubsection{Jackknifing}\label{jackknifing}}
+
 Another approach towards dealing with noisy subject-level ERPs is to try and remove that noise by averaging multiple subject-level ERPs. This technique is referred to as \emph{jackknifing}. It uses the grand average of \(N\) subject-level ERPs and generates \(N\) sub-grand averages by removing one of the subject-level ERPs from this grand average. This results in \(N\) ERPs with higher signal-to-noise ratios as they are the average of \(N-1\) subject-level ERPs. Both \emph{peak} and \emph{area} based measures can then be applied to the jackknifed data to extract latencies. As jackknifed signals share \(\frac{N-2}{N} * 100\) percent of the subject-level signals that are averaged, each jackknifed-subaverage is quite similar to all others. This artificially decreases the error variance, which needs to be corrected for when testing for significant differences between groups {[}(Ulrich \& Miller, 2001), aus Sadus (2023){]}. Because Latencies extracted from jackknifed ERPs are based on averaged waveforms, they can not be readily associated with any single subject, preventing this method from generating individual-level latency estimates needed for individual differences research. This problem was adressed by {[}Smulders 2010, aus Sadus (2023){]} who introduced a transformation able to generate individual-level latency estimates.
+
+\hypertarget{comparison-of-algorithms}{%
+\subsection{Comparison of Algorithms}\label{comparison-of-algorithms}}
 
 {[}Kiesel 2008{]} compared a number of extraction methods for a variety of ERP components and found {[}SUMMARY HERE{]}. Their analyses indicates \textbf{drawbacks of each method summarized}
 {[}Sadus 2023{]} used a multiverse approach to investigate P3 stuff and utilizied \textbf{these} algorithms as well as manual extraction of ERP latencies \ldots{}
@@ -286,34 +301,88 @@ Look at comparison studies report what they thought is best. Sadus et al.~as las
 
 the conclusion from this needs to be made clear: no algorithm provides a sufficiently reliable method of extracting component latencies. - Manual inspection seems to reign supreme, \textbf{talk about the practical problems associated with this}, \textbf{also talk about the methods problems, low objectivity}
 
+\hypertarget{our-algorithm}{%
+\section{Our algorithm}\label{our-algorithm}}
+
+\hypertarget{motivation}{%
+\subsection{Motivation}\label{motivation}}
+
 When visually inspecting ERP signals, the goal is to identify a pattern within the signal that resembles the component of interest in shape, size and location. None of the previously described algorithms used in most ERP research aim to replicate this human behavior but rather focus on generating similar decisions, not similar decision processes. The goal of this work is to introduce a new method for extracting component latencies that more closely resembles the manual extraction process.
 
-\textbf{pattern matching in short}
+\hypertarget{template-matching}{%
+\subsection{template matching}\label{template-matching}}
+
+\hypertarget{introduction}{%
+\subsubsection{Introduction}\label{introduction}}
+
 The general question each ERP-researcher asks themselves when investigating ERP signals is: ``Where in this ERP signal is the component of interest?'' Most researchers have some mental representation of what the component \emph{should} look like and where it \emph{should} generally appear that helps them identify a specific component in some noisy ERP.
 Finding a given pattern inside a noisy signal is not a novel task in the field of signal processing. Algorithms aiming to detect the appearance of a pattern - a \emph{template} -inside audio-, video- or radio signals have been around since \textbf{HISTORY} {[}REF{]} and a large amount of research has gone into perfecting these \emph{template matching} algorithms {[}REF{]}.
 
-No matter the implementation of the template matching algorithm, they all aim to answer the question ``Does this (shorter) template appear in my (larger) signal?''. To achieve this, a researcher needs to specify two things. First, the template that they want to search the signal for. And second, the \emph{deviance measure} by which the algorithm can figure out how well the template fits in a given spot of the signal.
+No matter the implementation of the template matching algorithm, they all aim to answer the question ``Does this (shorter) template appear in my (larger) signal?''. To achieve this, a researcher needs to specify two things. First, the template that they want to search the signal for. And second, the \emph{similarity measure} by which the algorithm can figure out how well the template fits in a given spot of the signal.
 
-Depending on the field, the first question is easily solved\ldots{} This was the problem for ERP research.
-There has been some debate about the optimal answer to the second thing\ldots{} {[}REFs{]}
+\hypertarget{template-generation}{%
+\subsubsection{Template generation}\label{template-generation}}
 
-Our goal is to show that the concepts used in signal processing to find specific patterns can be adopted by ERP researchers to conduct \emph{template matching} in a similar manner.
+Depending on the field, the template is easily specified. If you are looking to extract a particular audio-signal or some image {[}REF{]}\ldots. It becomes more challenging when it is not exactly certain what template you are looking for. Recent research in image processing has attempted to use template matching to process faces, for example. You cannot just use ``the ideal nose'' describe more here\ldots{} {[}REF{]} \textbf{more about history of pattern matching here}\ldots{} A similar issue has plagued template matching approaches in ERP research. The variance in ERP signals introduced by the task used or the type of participants prevents a successful implementation of template matching algorithms using one idealized template over all types of studies.
 
-There have been some attempts at using an idealized component structure, like the COMPONENT{[}depending on citation{]} and using template matching algorithms to identify the component in noisy subjet-level data. The variance of ERP signal structure within and especially between ERP studies has presented a challenge to this approach {[}REF{]}. The morphology of the P3, for example, varies depending on the task used and the participants studied {[}REF{]}. This compromises the ability to use a heavily idealized P3-like component as a template to search for in subject-level ERPs {[}Does it work with GA?{]}. \textbf{want to talk about the Hidden-semi-markov-chain approach?}
+\hypertarget{similarity-measures}{%
+\subsubsection{Similarity measures}\label{similarity-measures}}
+
+A number of similarity measures have been proposed to capture the degree of similarity between a template and the signal. These include, but are not limited to: the Sum of Absolute Differences (SAD), the Mean Square Error (MSE), the Geometric Distance, Mutual Information or Cross-Correlation (CC){[}{[}mahalakshmi2012image{]}{]} {[}REFs{]}. We have chosen to implement algorithms based on two of these measures, one minimizing the Sum of Squared Differences (MINSQ) and one maximizing the correlation between the template and the signal (CORR).
+
+Our goal is to show that the concepts used in signal processing to find specific patterns can be adopted by ERP researchers to use \emph{template matching} algorithms when identifying ERP components.
+
+\hypertarget{prior-attempts}{%
+\subsection{Prior attempts}\label{prior-attempts}}
+
+There have been some attempts at using an idealized component structure, like the COMPONENT{[}depending on citation{]} as a template to identify the component in noisy subject-level data. The variance of ERP signal structure within and especially between ERP studies has presented a challenge to this approach {[}REF{]}. The morphology of the P3, for example, varies depending on the task used and the participants studied {[}REF{]}. This compromises the ability to use a heavily idealized P3-like component as a template to search for in subject-level ERPs {[}Does it work with GA?{]}. \textbf{want to talk about the Hidden-semi-markov-chain approach?}
+
+\hypertarget{our-solution}{%
+\subsection{our solution}\label{our-solution}}
 
 This problem can be addressed by using using an experiment-specific template of the component of interest that will reflect influences of the task and participant sample on the morphology of the idealized ERP component. The grand average enables us to generate this sort of idealized ERP component. The grand average's high signal-to-noise ratio leads to a more clear component structure from which the researcher can specify the times during which the component of interest occurs. This part of the grand average's signal can then be used as a template and matched to subject-level ERPs.
 
-** this section really here? **
-Template Matching in ERP studies differs from classical approaches in the sense that the template may change shape based on individual differences. The question shifts from ``Does the template appear in the signal'' to ``Which transformation of the template appears in the signal''. Of course some aspects of both questions are present in traditional approaches and our algorithm should also be able to detect cases in which no clear match is found for the component of interest. But as an accurate measurement of individual differences in the latency of ERP components is the goal of this algorithm and transformations of the template allow for a more realistic representation of individual differences in ERP signals, finding the transformation of the template based on the grand average that best fits each subject-level ERP is the goal of our algorithm.
+\hypertarget{differences-to-other-template-matching-studies}{%
+\subsubsection{Differences to other template matching studies}\label{differences-to-other-template-matching-studies}}
 
-\textbf{describe what we do with the pattern once extracted}
-\textbf{explain the two problems with template matching: template generation and deviance measures}
-\textbf{how we transform it in order to allow for individual differences (this is novel)}
-\textbf{explain why not horizontal shift}
-\textbf{explain our two deviance measures (link to maths papers)}
+Template Matching in ERP studies differs from classical approaches in the sense that the template may change shape based on individual differences. The question shifts from ``Does the template appear in the signal'' to ``Which transformation of the template appears in the signal''. Of course some aspects of both questions are present in traditional approaches and our algorithm should also be able to detect cases in which no clear match is found for the component of interest. But the goal of this algorithm is to accurately measure individual differences in the latency of ERP components. Since not all subjects' ERP components have the same size, shape and location as the grand averages', transformations of the template allow for a more realistic representation of individual differences in ERP signals. Finding the transformation of the template that best fits each subject-level ERP thus allows us to identify how the subject-level signal differs from the grand average. This is precisely the issue that individual differences research using ERPs is faced with and that we hope to provide an algorithm for.
 
-\textbf{explain how we hope to make ERP extraction more objective and easier}
-**what are we investigating: measurement window, filtering, sub-GAs
+\hypertarget{subject-level-transformations-as-the-goal}{%
+\subsection{Subject-level transformations as the goal}\label{subject-level-transformations-as-the-goal}}
+
+Linear transformations of the grand average reflect individual differences in the shape, size and location of ERP components. All ERP signals can be transformed into a sum of sines function with the properties amplitude, frequency and phase for each sine term. ERP signals can thus be modified by multiplying all amplitude-factors \textbf{this is terrible, do math notation!} by a factor \emph{a}. This effectively transforms the amplitudes of the overall signal by that factor. Multiplying all frequency factors by a factor \emph{b} can change the latency of peaks in the signal. It effectively squishes or stretches the signal along the x axis. We have limited our transformations to these to operations, with future studies inspecting the impact of manipulating the phase parameter. This would effectively ``shift'' the signal.
+** Explain why this was done\textbf{
+} show examples of the effect of this**
+
+\hypertarget{figuring-out-the-optimal-transformation}{%
+\subsubsection{Figuring out the optimal transformation}\label{figuring-out-the-optimal-transformation}}
+
+We can produce an infinite number of transformed grand averages each one version of our ``template''. The algorithm then finds the one template that best fits the subject-level ERP signal and returns the parameters used to generate this template. A subject whos P3 peaks at 400ms, while the grand average's P3 is located around 600ms would most likely receive a parameter around \(b = 1,5\). All frequency parameters in the sum of sine functions would be multiplied by 1,5, effectively ``speeding up'' the signal and thus ``squishing'' it more closely to the origin.
+
+Component latencies can also be recovered from this method. Researchers need to specify a time-point of the grand average denoting the latency of the component of interest in the grand average. The transformation parameters resulting in the best fit of the grand average to the subject level signal can then just be applied to the grand average latency to recover the subject-level latency of the component.
+
+The algorithm is naive to the method used to generate the component latency of the grand average. It simply applies the optimal transformation to a given latency value. Researchers can use whatever tool they want to identify component latencies in the grand average waveform. Both peak and area latency measures, 50\% area or onset / offset latencies can be supplied to the algorithm. It will then return the transformed latency based on the transformation parameters.
+
+Even though the algorithm allows for the use of peak latency measures when specifying the grand average component latency, it is by no means a peak based algorithm. Approaches based on both similarity measures, Squared Sum of Differences and Cross-Correlation are not impacted by high frequency noise.
+
+Talk about how this matches the entire component and is also similar to area measures.
+Talk about how this is more like z-Standardizing the Dataset. You can extract peak latencies, but you can also just leave it be defined by the stretching parameter
+
+\hypertarget{uncertain-parameters}{%
+\subsection{Uncertain parameters}\label{uncertain-parameters}}
+
+\hypertarget{validation}{%
+\subsection{Validation}\label{validation}}
+
+We will investigated psychometric properties of the latency values generated by this algorithm. We will estimate reliability of extraction methods
+\textbf{explain how we hope to validate this algorithm}
+\textbf{what are we investigating: measurement window, filtering, sub-GAs
+}explain how we hope to make ERP extraction more objective and easier**
+
+** you can say something about moving averages clearing up signal-to-noise ration (in {[}{[}william2020erp{]}{]} cited: ``Stein's Unbiased Risk {[}21{]}. This thresholding technique has better signal to noise ratio and outperforms other methods such as moving average and Savitzky Golay'') **
+
+** in methods, talk about how actually the subject-signal is transformed \textbf{
+} also talk about the weighting function of the minsq algorithm **
 
 \hypertarget{method}{%
 \section{Method}\label{method}}
