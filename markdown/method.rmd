@@ -1,15 +1,57 @@
 # Method
-The Method section is usually a good place to start embedding your data-child documents
-```{r method-source-data-prep, child = "markdown/data_prep.rmd"}
-```
+# Algorithm
+## Implementation in Matlab with details
 
-```{r method-source-data-anal, child = "markdown/data_analysis.rmd"}
-```
-Describe your method here. You can embed pictured and reference their label (see Figure \@ref(fig:method-example-fig)). You need to call `\@ref(TYPE:CHUNK-NAME)` to embed reference the output of an r chunk.
+We implemented the algorithm in MATLAB [VERSION, CITATION]. Data must be in ERPLAB - shape **better way**. The researcher then specifies the name and polarity of the component of interest as well as the measurement window. This window is then applied to the grand average and used to extract the template. In order to transform the template, we use MATLABs Curve Fitting Toolbox [Citation] to generate _sum of sines_ functions that fit to the data with $R^2 >= 0.999$. We then add an amplitude parameter _a_ to the overall function in order to allow for scaling of the amplitude of the template and a frequency parameter _b_ to all frequency terms in the _sum of sines_ function to allow for "squishing" or "stretching" the template along the x-Axis. As these transformations also change the measurement window, we chose to use the subject-level ERP as a template and keep the grand average untransformed as a signal. This reverse matching approach is only an implementation detail and does not affect any decisions made by the algorithm.
 
-```{r method-example-fig, fig.cap = 'Plot of mpg over wt', results = 'asis'}
-car_plot
-```
+Depending on the similarity measure employed, we use different functions to find the set of optimal parameters [a, b] that lead to the transformation most similar to the signal. 
 
+The MINSQ algorithm minimizes the sum of squared differences between the transformed subject signal and the grand average. We also added a vector weighting the differences. This weighting vector $\omega$ is computed by the following function:
+$$\omega_i = 1+(10 * |\frac{y_i}{y_{max}}|)^2$$All values outside of the measurement window receive a weight of 1. This places more emphasis on fitting the template within the measurement window specified and to places in the signal where the voltage deflection is high.
 
-You can also refer in inline code to data objects. We used the dataset `mtcars` for our analysis. It consists of data of `r nrow(mtcars)` cars. The syntax "r command" in backticks will evaluate the command using your R-engine.
+The CORR algorithm optimizes the parameters to produce the maximum correlation between the transformed subject-level signal and the grand average for values in the measurement window. It only optimizes the parameter $b$ as amplitude changes would not affect the correlation.
+
+Both algorithms then return the transformation parameters that result in optimal similarity of template and signal. We use the returned value of the parameter $b_i$
+to transform the component latency specified by the researcher in the grand average $l_{GA}$ to the component latency of the subject-level ERP signal $l_i$. 
+
+$$ l_i = l_{GA} * b_i $$
+## Fit index
+For both algorithms, we use the correlation of the transformed subject level signal and the grand average template as a fit indicator.
+## Review methods
+Researchers can manually review all choices the algorithm has made in a custom-built user interface. They can also make use of the fit index to only review those cases where the correlation between template and signal dips below a certain value. We will investigate the additional benefits a manual review process provides over accepting the choices as-is or only automatically discarding those matches with correlations $r < 0.2$.
+# Data
+We made use of data published by [Sadus 2023]. They conducted a multiverse study to investigate the impact of data preparation techniques on various methods of extracting P3 latency differences. We will compare our algorithm to the methods presented in their paper. 
+## Participants
+
+The data is comprised of 30 young (AGE) and 30 old (AGE) participants.
+## Tasks
+Participants completed a set of 3 tasks, a Flanker Task, a Nback Task and a Switching Task. 
+** The flanker task has people... (short) **
+** the Nback task requires... **
+** the switching task requires **
+Details regarding the procedure can be found in [Sadus 2003].
+
+## Preparation
+
+** say that EEG procedure is described in Sadus et al. **
+** different filter settings and data preparation techniques **
+
+## Components
+All algorithms estimated the latency of the P3 component. Based on signals from **which electrode**
+
+# Exact analysis plan
+## Which algorithms are run based on which data?
+**something about conditions, the bins used. Number of erpsets we looked at**
+**filter settings used**; **measurement windows deployed**; **algorithms used**
+
+# Validation Techniques
+** make clear that it will be done just as in Sadus' paper **
+## Reliability
+** estimate reliability based on split-half correlation between odd-even splitted bins in the different conditions. Good method should have reliability... **
+## Homogeneity
+Estimated the mean correlation between the method and other methods, good homogeneity should be..
+## Effect size?
+We also investigated the effect of age on P3 latency with different methods. They should not lead to misclassifications
+## Correlation with manual extraction
+[Sadus 2023] found manual extraction methods to be the best indicator. We will assess correlations of different algorithms with latencies extracted by expert raters.
+
