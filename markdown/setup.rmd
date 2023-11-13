@@ -26,3 +26,13 @@ r_citations <- cite_r(
   )
 
 ```
+
+```{r setup-print-percent}
+print_percent <- function(freq){
+  percent = freq*100
+  apa_msg = papaja::apa_num(percent)
+  final = paste(apa_msg, "%")
+  return(final)
+}
+```
+
