@@ -371,6 +371,9 @@ As these transformations also change the measurement window, we chose to use the
 
 Depending on the similarity measure employed, we use different functions to find the set of optimal parameters \([a_j, b_j]\) that lead to the transformation of ERP of subject \(j\) most similar to the grand average.
 
+\hypertarget{minsq}{%
+\subsubsection{MINSQ}\label{minsq}}
+
 The MINSQ algorithm minimizes the weighted sum \(S\) of squared differences \(d\) between the transformed subject signal and the grand average.
 \[S = \sum_{i = 1}^{n}\omega_{i}d_{i}^2\]
 This weighting vector \(\omega\) is computed as follows
@@ -381,6 +384,13 @@ Where
 This places more emphasis on fitting the template within the measurement window specified and to places in the signal where the voltage deflection is high.
 
 We use MATLABs \emph{fit} function to find optimal parameters \([a_j, b_j]\) with upper and lower bounds such that \(a_j \in [0, 50]; b_j \in [0.5, 3]\). As this function may be prone to converging on local minima, we initialize 5 different start points. The solution with the best correlation between transformed template and signal that multiple start points converged on is selected.
+
+In cases where the subject-level ERP only has signal with deflections opposite of the deflection of the component of interest, it may occur that the parameter \(a_j \le 0\). In these cases, we attempt to re-match the signal with an added parameter \(d\) shifting the entire template up or down.
+\[f(x, a,b, d) = d +\sum_{i = 1}^{n} a*(A_isin(b*f_ix + \phi_i)\]
+Should the algorithm again converge on a solution with \(a_j \le 0\), the latency value is set to NA.
+
+\hypertarget{corr}{%
+\subsubsection{CORR}\label{corr}}
 
 The CORR algorithm optimizes the parameters to produce the maximal correlation \(r_{st}\) between the transformed subject-level signal \(s\) and the grand average \(t\) for values in the measurement window.
 \[r_{st} = \frac{\sum(s_i - \bar{s})(t_{i} - \bar{t})}{\sqrt{\sum(s_i - \bar{s})^2(t_{i} - \bar{t})^2}}\]
@@ -486,34 +496,36 @@ All data wrangling and statistical analyses were conducted in R {[}Version, Cita
 \hypertarget{review-process}{%
 \subsection{Review process}\label{review-process}}
 
-We reviewed results of the CORR and MINSQ algorithms if their fit was below \(r_{st} \le .60\). For the CORR algorithmn, out of 9720 ERPs evaluated by the algorithms, we inspected 1045 of ERPs. Of those ERPs, we rejected 23.35 \% and accepted 64.21 \% of the results despite their fit. We manually corrected the decisions in 12.44 \% of cases. For the MINSQ algorithm, out of 9720 ERPs evaluated by the algorithms, we inspected 1063 of ERPs. Of those ERPs, we rejected 28.22 \% of ERPs and accepted 62.65 \% of the results despite their fit. We manually corrected the decisions in 9.13 \% of cases. When reporting the psychometric properties of the algorithms, we will focus on those values passed through manual inspection with those passed through the automatic rejection filter reported in parenthesis.
+We reviewed results of the CORR and MINSQ algorithms if their fit was below \(r_{st} \le .60\) or if \(0.65 \le b_j \le 1.7\). For the CORR algorithm, out of 9720 ERPs evaluated by the algorithm, we inspected 1045 (10.75 \%) of ERPs. Of those ERPs, we rejected 23.35 \% and accepted 64.21 \% of the results despite their fit. We manually corrected the decisions in 12.44 \% of cases. Automatically rejecting fits \(r_{st} \le .20\) discards 2.09 \% of latencies. For the MINSQ algorithm, out of 9720 ERPs evaluated by the algorithm, we inspected 1063 (10.94 \%) of ERPs. Of those ERPs, we rejected 28.22 \% of ERPs and accepted 62.65 \% of the results despite their fit. We manually corrected the decisions in 9.13 \% of cases. Automatically rejecting fits \(r_{st} \le .20\) discards 1.43 \% of latencies. Because the MINSQ algorithm may fail to find a valid solution if an amplitude parameter of \(a = 0\) fits the signal best, we discarded 7.13 \% of cases. This did not occur in the CORR algorithm.
+
+When reporting the psychometric properties of the algorithms, we will focus on those values passed through manual inspection. Values passed through the automatic rejection filter reported in parenthesis. Properties of uninspected pipelines can be found in the respective tables.
 
 \hypertarget{reliability-1}{%
 \subsection{Reliability}\label{reliability-1}}
 
-An overview of Spearman-Brown corrected split-half correlations \(r_{tt}\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had mean split-half correlations of \(\bar{r_{tt}} =\) .89 (\(\bar{r_{tt}} =\) .87), the MINSQ algorithm \(\bar{r_{tt}} =\) .90 (\(\bar{r_{tt}} =\) .86). Uninformed area latency measures presented even better mean split-correlations \(\bar{r_{tt}} =\) .92. The average split-half correlation for values extracted by an expert ERP researcher was \(\bar{r_{tt}} = .92\) for area latency measures and \(\bar{r_{tt}} = .93\) for peak latency measures {[}Sadus 2023{]}.
+An overview of Spearman-Brown corrected split-half correlations \(r_{tt}\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm had mean split-half correlations of \(\bar{r_{tt}} =\) .89 for manually reviewed latencies (\(\bar{r_{tt}} =\) .87 for automatically reviewed latencies), the MINSQ algorithm \(\bar{r_{tt}} =\) .90 (\(\bar{r_{tt}} =\) .86). Uninformed area latency measures presented even better mean split-correlations \(\bar{r_{tt}} =\) .92. The average split-half correlation for values extracted by an expert ERP researcher was \(\bar{r_{tt}} = .92\) for area latency measures and \(\bar{r_{tt}} = .93\) for peak latency measures {[}Sadus 2023{]}.
 
 \hypertarget{homogeneity-1}{%
 \subsection{Homogeneity}\label{homogeneity-1}}
 
-An overview of a method's mean correlation with other methods \(r_h\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had a homogeneity of \(\bar{r_{h}} =\) .81 (\(\bar{r_{h}} =\) .80), the MINSQ algorithm \(\bar{r_{h}} =\) .87 (\(\bar{r_{h}} =\) .86). Uninformed area latency measures presented worse homogeneities. \(\bar{r_{h}} =\) .78.
+An overview of a method's mean correlation with other methods \(r_h\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm had a homogeneity of \(\bar{r_{h}} =\) .81 (\(\bar{r_{h}} =\) .80), the MINSQ algorithm \(\bar{r_{h}} =\) .87 (\(\bar{r_{h}} =\) .86). Uninformed area latency measures presented worse homogeneities. \(\bar{r_{h}} =\) .78.
 
 \hypertarget{effect-size-1}{%
 \subsection{Effect size}\label{effect-size-1}}
 
-An overview of the effect size of the age effect detect by a particular method split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had a mean effect size of \(\bar{\omega^2} =\) .18 (\(\bar{\omega^2} =\) .18), the MINSQ algorithm \(\bar{\omega^2} =\) .23 (\(\bar{\omega^2} =\) .23). Uninformed area latency measures presented similar average effect sizes \(\bar{\omega^2} =\) .15. The average effect size for values extracted by an expert ERP researcher {[}Sadus 2023{]} was \(\bar{\omega^2} = .18\) for area latency measures and \(\bar{\omega^2} = .17\) for peak latency measures.
+An overview of the effect size of the age effect detect by a particular method split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm had a mean effect size of \(\bar{\omega^2} =\) .18 (\(\bar{\omega^2} =\) .18), the MINSQ algorithm \(\bar{\omega^2} =\) .23 (\(\bar{\omega^2} =\) .23). Uninformed area latency measures presented similar average effect sizes \(\bar{\omega^2} =\) .15. The average effect size for values extracted by an expert ERP researcher {[}Sadus 2023{]} was \(\bar{\omega^2} = .18\) for area latency measures and \(\bar{\omega^2} = .17\) for peak latency measures.
 
 \hypertarget{correlation-with-manual-rater}{%
 \subsection{Correlation with manual rater}\label{correlation-with-manual-rater}}
 
-An overview of the correlation with latency values extracted by an expert ERP researcher {[}Sadus 2023{]} split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had mean correlations of \(\bar{r} =\) .89 (\(\bar{r} =\) .88), the MINSQ algorithm \(\bar{r} =\) .91 (\(\bar{r} =\) .91). Uninformed area latency measures had a mean correlation of \(\bar{r} =\) .85.
+An overview of the correlation with latency values extracted by an expert ERP researcher {[}Sadus 2023{]} split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm had mean correlations of \(\bar{r} =\) .89 (\(\bar{r} =\) .88), the MINSQ algorithm \(\bar{r} =\) .91 (\(\bar{r} =\) .91). Uninformed area latency measures had a mean correlation of \(\bar{r} =\) .85.
 
 \hypertarget{influence-of-researcher-degrees-of-freedom}{%
 \subsection{Influence of researcher degrees of freedom}\label{influence-of-researcher-degrees-of-freedom}}
 
-The repeated measures ANOVA with split-half correlation of a particular method as a dependent variable and the within factors filter (8 Hz vs.~16 Hz vs.~32 Hz) and measurement window (narrow vs.~medium vs.~wide) showed an effect of filter with {[}EFFECT{]} for the CORR algorithm, {[}EFFECT{]} for the MINSQ algorithm and {[}EFFECT{]} for uninformed area latency measures. The measurement windows had an effect of {[}EFFECT{]} for the CORR algorithm, {[}EFFECT{]} for the MINSQ algorithm and {[}EFFECT{]} for uninformed area latency measures {[}See TABLE{]}.
+The repeated measures ANOVA with split-half correlation of a particular method as a dependent variable, the between factor filter (8 Hz vs.~16 Hz vs.~32 Hz) and the within factor measurement window (narrow vs.~medium vs.~wide) showed no effect of filter, \(\omega^2 =\) .00, for the CORR algorithm, no effect, \(\omega^2 =\) .00, for the MINSQ algorithm and no effect, \(\omega^2 =\) .00, for uninformed area latency measures. The measurement windows had an effect of \(\omega^2 =\) .17 for the CORR algorithm, \(\omega^2 =\) .00 for the MINSQ algorithm and \(\omega^2 =\) .31 for uninformed area latency measures. Consult {[}TABLE{]} for a full overview.
 
-When the correlation with manually extracted latencies was used as a dependent variable, the effect of filter settings for the CORR algorithm were {[}EFFECT{]}, for the MINSQ algorithm {[}EFFECT{]} and {[}EFFECT{]} for uninformed area latency measures. The measurement windows had an effect of {[}EFFECT{]} for the CORR algorithm, {[}EFFECT{]} for the MINSQ algorithm and {[}EFFECT{]} for uninformed area latency measures {[}See TABLE{]}.
+When the correlation with manually extracted latencies was used as a dependent variable, the effect of filter settings for the CORR algorithm were \(\omega^2 =\) .00, for the MINSQ algorithm \(\omega^2 =\) .00 and \(\omega^2 =\) .00 for uninformed area latency measures. The measurement windows had an effect of \(\omega^2 =\) .30 for the CORR algorithm, \(\omega^2 =\) .27 for the MINSQ algorithm and \(\omega^2 =\) .70 for uninformed area latency measures. Consult {[}TABLE{]} for a full overview.
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}

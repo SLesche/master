@@ -1,6 +1,5 @@
 # Algorithm
 ## Implementation in Matlab with details
-
 We implemented the algorithm in MATLAB [VERSION, CITATION]. Data must be in ERPLAB - shape **better way**. The researcher then specifies the name and polarity of the component of interest as well as the measurement window. This window is used to extract the template. In order to transform the template, we use MATLABs Curve Fitting Toolbox [Citation] to generate _sum of sines_ functions that fit to the data with $R^2 \ge 0.999$. We then add an amplitude parameter $a$ to the overall function in order to allow for scaling of the amplitude of the template and a frequency parameter $b$ to all frequency terms in the _sum of sines_ function to allow for "squishing" or "stretching" the template along the x-Axis. The template is described by a function $f(x, a, b)$ with $n$ sine terms and their respective amplitude $A_i$, frequency $f_i$ and phase $\phi_i$. 
 
 $$f(x, a,b ) = \sum_{i = 1}^{n} a*(A_isin(b*f_ix + \phi_i)$$
@@ -8,6 +7,7 @@ As these transformations also change the measurement window, we chose to use the
 
 Depending on the similarity measure employed, we use different functions to find the set of optimal parameters $[a_j, b_j]$ that lead to the transformation of ERP of subject $j$ most similar to the grand average. 
 
+### MINSQ
 The MINSQ algorithm minimizes the weighted sum $S$ of squared differences $d$ between the transformed subject signal and the grand average. 
 $$S = \sum_{i = 1}^{n}\omega_{i}d_{i}^2$$
 This weighting vector $\omega$ is computed as follows
@@ -19,6 +19,11 @@ This places more emphasis on fitting the template within the measurement window 
 
 We use MATLABs _fit_ function to find optimal parameters $[a_j, b_j]$ with upper and lower bounds such that $a_j \in [0, 50]; b_j \in [0.5, 3]$. As this function may be prone to converging on local minima, we initialize 5 different start points. The solution with the best correlation between transformed template and signal that multiple start points converged on is selected.
 
+In cases where the subject-level ERP only has signal with deflections opposite of the deflection of the component of interest, it may occur that the parameter $a_j \le 0$. In these cases, we attempt to re-match the signal with an added parameter $d$ shifting the entire template up or down. 
+$$f(x, a,b, d) = d +\sum_{i = 1}^{n} a*(A_isin(b*f_ix + \phi_i)$$ 
+Should the algorithm again converge on a solution with $a_j \le 0$, the latency value is set to NA.
+
+### CORR
 The CORR algorithm optimizes the parameters to produce the maximal correlation $r_{st}$ between the transformed subject-level signal $s$ and the grand average $t$ for values in the measurement window. 
 $$r_{st} = \frac{\sum(s_i - \bar{s})(t_{i} - \bar{t})}{\sqrt{\sum(s_i - \bar{s})^2(t_{i} - \bar{t})^2}}$$
 $t$ represents the vector of values of the transformed subject ERP that are in the measurement window, $s$ the vector of values of the grand average that are in the measurement window. 
@@ -33,6 +38,7 @@ Researchers can manually review all choices the algorithm has made in a custom-b
 
 # Data
 The data used here were first published by [Sadus 2023] and are a subset of the data collected by [Löffler REF].
+
 ## Participants
 The data is comprised of 30 young participants (18-21 years old, mean age = 19.37, SD age = 0.76) and 30 old participants (50-60 years old, mean age = 55.83, SD age = 2.87). This sample was part of a larger study [Löffler REF] of which the 30 youngest and 30 oldest participants were selected. All participants had normal or corrected to normal vision. None of the participants had neurological or mental disorders, used psychotropic drugs, wore a pacemaker or suffered from red-green color vision deficiency. The participants provided informed consent prior to participation and received 75€ or course credit for participation. **ethics stuff?**
 
