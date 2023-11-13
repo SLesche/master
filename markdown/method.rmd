@@ -87,6 +87,6 @@ To investigate the effect of age on P3 latencies, we ran a repeated measures ANO
 To quantify the extent to which an extraction method is able to replicate the benchmark of manual extraction, we correlated the latencies extracted by a particular method with those extracted by an expert researcher in the same task and filter condition
 
 ## Impact of Filters / Measurement Window
-We also quantified the impact preprocessing steps and the choice of measurement window have on the reliability and validity of extraction methods. We ran a repeated measures ANOVA with the dependent variable being either the estimated reliability of a method or its correlation with manually extracted data and the within factors filter (8 Hz vs. 16 Hz vs. 32 Hz) and measurement window (narrow vs. medium vs. wide). 
+We also quantified the impact preprocessing steps and the choice of measurement window have on the reliability and validity of extraction methods. We ran a repeated measures ANOVA with the dependent variable being either the estimated reliability of a method or its correlation with manually extracted data and the between factor filter (8 Hz vs. 16 Hz vs. 32 Hz) and the within factor measurement window (narrow vs. medium vs. wide). 
 
 

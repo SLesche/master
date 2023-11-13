@@ -342,10 +342,7 @@ We introduce variability in the template through two sources, amplitude and late
 \hypertarget{why-our-algorithm-may-perform-better}{%
 \subsection{Why our algorithm may perform better}\label{why-our-algorithm-may-perform-better}}
 
-** makes use of the structure in the signal **
-** is not as influenced by peaks \textbf{
-} measurement window only controls the size of the template, should have less of an impact \textbf{
-} the decisions are similarly understandable, it is not some ``black box'' ML algorithm, you can plot the decision and understand the reasoning **
+This algorithm aims to address some of the issues faced by other algorithms. It makes use of the entire component structure that is used as a template. This reflects the decision process of expert ERP researchers and enables an intuitive understanding of the decisions made by our algorithm. Because the similarity measures take the whole component structure into account, they are robust to peaks in the signal introduced by high frequency noise. Furthermore, the measurement window set by the researcher only impacts the size and shape of the template. It has no direct connection to the subject-level ERP. The influence of measurement windows on the latencies extracted should thus be lower than in peak or area latency algorithms. Lastly, it is important to note that this is not a machine learning algorithm with a neural net representing some ``black box'' decision making algorithm. Simplicity and traceability of the decision process was an express goal, allowing more insight into the benefits and drawbacks of our algorithm.
 
 \hypertarget{the-present-study}{%
 \subsection{The present study}\label{the-present-study}}
@@ -410,7 +407,10 @@ Researchers can manually review all choices the algorithm has made in a custom-b
 \section{Data}\label{data}}
 
 The data used here were first published by {[}Sadus 2023{]} and are a subset of the data collected by {[}Löffler REF{]}.
-\#\# Participants
+
+\hypertarget{participants}{%
+\subsection{Participants}\label{participants}}
+
 The data is comprised of 30 young participants (18-21 years old, mean age = 19.37, SD age = 0.76) and 30 old participants (50-60 years old, mean age = 55.83, SD age = 2.87). This sample was part of a larger study {[}Löffler REF{]} of which the 30 youngest and 30 oldest participants were selected. All participants had normal or corrected to normal vision. None of the participants had neurological or mental disorders, used psychotropic drugs, wore a pacemaker or suffered from red-green color vision deficiency. The participants provided informed consent prior to participation and received 75€ or course credit for participation. \textbf{ethics stuff?}
 
 \hypertarget{tasks}{%
@@ -486,7 +486,7 @@ To quantify the extent to which an extraction method is able to replicate the be
 \hypertarget{impact-of-filters-measurement-window}{%
 \subsection{Impact of Filters / Measurement Window}\label{impact-of-filters-measurement-window}}
 
-We also quantified the impact preprocessing steps and the choice of measurement window have on the reliability and validity of extraction methods. We ran a repeated measures ANOVA with the dependent variable being either the estimated reliability of a method or its correlation with manually extracted data and the within factors filter (8 Hz vs.~16 Hz vs.~32 Hz) and measurement window (narrow vs.~medium vs.~wide).
+We also quantified the impact preprocessing steps and the choice of measurement window have on the reliability and validity of extraction methods. We ran a repeated measures ANOVA with the dependent variable being either the estimated reliability of a method or its correlation with manually extracted data and the between factor filter (8 Hz vs.~16 Hz vs.~32 Hz) and the within factor measurement window (narrow vs.~medium vs.~wide).
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
