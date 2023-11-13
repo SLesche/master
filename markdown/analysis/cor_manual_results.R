@@ -22,7 +22,7 @@ mean_manualcor_overall <- double_full_cors %>%
     quant_90 = quantile(correlation, 0.9)
   )
 
-data_nested <- double_full_cors %>%
+data_nested_cormanual <- double_full_cors %>%
   filter(
     method1_approach != "jackknifemanual",
     method1_type %in% c("area", "peak"),
@@ -47,7 +47,7 @@ data_nested <- double_full_cors %>%
     )
   )
 
-data_nested <- data_nested %>%
+data_nested_cormanual <- data_nested_cormanual %>%
   mutate(
     omega = map(
       aov,
@@ -59,10 +59,10 @@ data_nested <- data_nested %>%
     )
   )
 
-data_nested$omega_filter = NA
-data_nested$omega_window = NA
+data_nested_cormanual$omega_filter = NA
+data_nested_cormanual$omega_window = NA
 
-for (i in 1:nrow(data_nested)){
-  data_nested$omega_filter[i] = data_nested$omega[i][[1]][1, 2]
-  data_nested$omega_window[i] = data_nested$omega[i][[1]][2, 2]
+for (i in 1:nrow(data_nested_cormanual)){
+  data_nested_cormanual$omega_filter[i] = data_nested_cormanual$omega[i][[1]][1, 2]
+  data_nested_cormanual$omega_window[i] = data_nested_cormanual$omega[i][[1]][2, 2]
 }
