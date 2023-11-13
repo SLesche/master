@@ -138,13 +138,13 @@
   {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
 \makeatother
 
-% \usepackage{etoolbox}
 \makeatletter
-\patchcmd{\HyOrg@maketitle}
+\usepackage{etoolbox}
+\patchcmd{\maketitle}
   {\section{\normalfont\normalsize\abstractname}}
   {\section*{\normalfont\normalsize\abstractname}}
   {}{\typeout{Failed to patch abstract.}}
-\patchcmd{\HyOrg@maketitle}
+\patchcmd{\maketitle}
   {\section{\protect\normalfont{\@title}}}
   {\section*{\protect\normalfont{\@title}}}
   {}{\typeout{Failed to patch title.}}
@@ -446,6 +446,8 @@ We also ran a traditional simple peak latency algorithm and a fractional area la
 To investigate the benefits of manually reviewing the decisions of the algorithm, we chose to review all matches that resulted in fit values \(r_{st} \le .60\). We then inspected the subject-level ERP with the matched template displayed over it and either accepted, rejected or manually determined the P3 latency of these ERPs.
 We also explored the impact of automatically excluding all those matches with fit values \(r_{st} \le .20\).
 
+In our dataset, each of the 60 participants contributed 6 ERPs per task to the data. One ERP averaged over all trials of each of the two conditions and two more ERPs generated from an odd-even split on a trial level of that condition. These 360 ERPs each from the 3 different tasks were passed through 3 different low-pass filters and subjected to analyses with 3 separate measurement windows. We applied both the correlation-based (CORR) and distance-based (MINSQ) algorithm and either reviewed the results manually, discarded bad matches automatically or accepted the results regardless of fit. We also applied both a peak latency and area latency algorithm with either uninformed measurement windows or measurement windows transformed by the transformation parameters recovered from the CORR or MINSQ algorithm. This results in \(3 \ tasks \times 3 \ filters \times 3 \ windows \times 12 \ algorithms = 324\) different extraction pipelines.
+
 \hypertarget{validation-techniques}{%
 \section{Validation Techniques}\label{validation-techniques}}
 
@@ -479,22 +481,22 @@ We also quantified the impact preprocessing steps and the choice of measurement 
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
-All data wrangling and statistical analyses were conducted in R {[}Version, Citation{]}. We used the packages {[}packages{]}. Each of the 60 participants contributed 6 ERPs per task to the data. One ERP averaged over all trials of each of the two conditions and two more ERPs generated from an odd-even split on a trial level of that condition. These 360 ERPs each from the 3 different tasks were passed through 3 different low-pass filters and subjected to analyses with 3 separate measurement windows. We applied both the correlation-based (CORR) and distance-based (MINSQ) algorithm and either reviewed the results manually, discarded bad matches automatically or accepted the results regardless of fit. We also applied both a peak latency and area latency algorithm with either uninformed measurement windows or measurement windows transformed by the transformation parameters recovered from the CORR or MINSQ algorithm. This results in \(3 \ tasks \times 3 \ filters \times 3 \ windows \times 12 \ algorithms = 324\) different extraction pipelines
+All data wrangling and statistical analyses were conducted in R {[}Version, Citation{]}. We used the packages {[}packages{]}.
 
 \hypertarget{review-process}{%
 \subsection{Review process}\label{review-process}}
 
-We reviewed results of 54 out of these 324 pipelines. In total, we inspected {[}PERCENT{]} of ERPs, rejected {[}PERCENT{]} of ERPs and accepted {[}PERCENT{]} of the results despite their fit. We manually corrected the decisions in {[}PERCENT{]} of cases. When reporting the psychometric properties of the algorithms, we will focus on those values passed through manual inspection with those passed through the automatic rejection filter reported in parenthesis.
+We reviewed results of the CORR and MINSQ algorithms if their fit was below \(r_{st} \le .60\). \textbf{make by MINSQ, CORR} Out of {[}NUMBER{]} ERPs evaluated by the algorithms, we inspected {[}PERCENT of CORR{]} of ERPs, rejected {[}PERCENT{]} of ERPs and accepted {[}PERCENT{]} of the results despite their fit. We manually corrected the decisions in {[}PERCENT{]} of cases. When reporting the psychometric properties of the algorithms, we will focus on those values passed through manual inspection with those passed through the automatic rejection filter reported in parenthesis.
 
 \hypertarget{reliability-1}{%
 \subsection{Reliability}\label{reliability-1}}
 
-An overview of Spearman-Brown corrected split-half correlations \(r_{tt}\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had mean split-half correlations of \(\bar{r_{tt}} = [ANSWER]\) (\(\bar{r_{tt}} = [ANSWER_AUTO]\)), the MINSQ algorithm \(\bar{r_{tt}} = [ANSWER]\) (\(\bar{r_{tt}} = [ANSWER_AUTO]\)). Uninformed area latency measures presented even better mean split-correlations \(\bar{r_{tt}} = [ANSWER]\).
+An overview of Spearman-Brown corrected split-half correlations \(r_{tt}\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had mean split-half correlations of \(\bar{r_{tt}} =\) 0.89 (\(\bar{r_{tt}} =\) 0.87), the MINSQ algorithm \(\bar{r_{tt}} =\) 0.90 (\(\bar{r_{tt}} =\) 0.86). Uninformed area latency measures presented even better mean split-correlations \(\bar{r_{tt}} =\) 0.92.
 
 \hypertarget{homogeneity-1}{%
 \subsection{Homogeneity}\label{homogeneity-1}}
 
-An overview of a method's mean correlation with other methods \(r_h\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had a mean homogeneity of \(\bar{r_{h}} = [ANSWER]\) (\(\bar{r_{h}} = [ANSWER_AUTO]\)), the MINSQ algorithm \(\bar{r_{h}} = [ANSWER]\) (\(\bar{r_{h}} = [ANSWER_AUTO]\)). Uninformed area latency measures presented slightly worse mean split-correlations \(\bar{r_{h}} = [ANSWER]\).
+An overview of a method's mean correlation with other methods \(r_h\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had a homogeneity of \(\bar{r_{h}} =\) 0.81 (\(\bar{r_{h}} =\) 0.80), the MINSQ algorithm \(\bar{r_{h}} =\) 0.87 (\(\bar{r_{h}} =\) 0.86). Uninformed area latency measures presented worse homogeneities. \(\bar{r_{h}} =\) 0.78.
 
 \hypertarget{effect-size-1}{%
 \subsection{Effect size}\label{effect-size-1}}
@@ -504,7 +506,7 @@ An overview of the effect size of the age effect detect by a particular method s
 \hypertarget{correlation-with-manual-rater}{%
 \subsection{Correlation with manual rater}\label{correlation-with-manual-rater}}
 
-An overview of the correlation with latency values extracted by an expert ERP researcher {[}Sadus 2023{]} split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had mean correlations of \(\bar{r} = [ANSWER]\) (\(\bar{r} = [ANSWER_AUTO]\)), the MINSQ algorithm \(\bar{r} = [ANSWER]\) (\(\bar{r} = [ANSWER_AUTO]\)). Uninformed area latency measures had a mean correlation of \(\bar{r} = [ANSWER]\).
+An overview of the correlation with latency values extracted by an expert ERP researcher {[}Sadus 2023{]} split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had mean correlations of \(\bar{r} =\) 0.89 (\(\bar{r} =\) 0.88), the MINSQ algorithm \(\bar{r} =\) 0.91 (\(\bar{r} =\) 0.91). Uninformed area latency measures had a mean correlation of \(\bar{r} =\) 0.85.
 
 \hypertarget{influence-of-researcher-degrees-of-freedom}{%
 \subsection{Influence of researcher degrees of freedom}\label{influence-of-researcher-degrees-of-freedom}}

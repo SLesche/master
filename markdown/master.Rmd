@@ -99,6 +99,11 @@ set.seed(1234)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed) # this adds random seed to all chunks
 knitr::opts_chunk$set(autodep = TRUE)
 knitr::dep_auto()
+
+# disable all in-document warnings
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
 ```
 
 <!-- Setup -->
