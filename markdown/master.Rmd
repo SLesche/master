@@ -1,5 +1,5 @@
 ---
-title             : "An algorithm for detecting ERP components using the grand average waveform as a template"
+title             : "Automatically Extracting ERP Component Latencies Using a Template Matching Algorithm"
 shorttitle        : "Template Matching"
 
 author: 

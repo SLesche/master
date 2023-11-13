@@ -138,13 +138,13 @@
   {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
 \makeatother
 
+% \usepackage{etoolbox}
 \makeatletter
-\usepackage{etoolbox}
-\patchcmd{\maketitle}
+\patchcmd{\HyOrg@maketitle}
   {\section{\normalfont\normalsize\abstractname}}
   {\section*{\normalfont\normalsize\abstractname}}
   {}{\typeout{Failed to patch abstract.}}
-\patchcmd{\maketitle}
+\patchcmd{\HyOrg@maketitle}
   {\section{\protect\normalfont{\@title}}}
   {\section*{\protect\normalfont{\@title}}}
   {}{\typeout{Failed to patch title.}}
@@ -185,14 +185,14 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={An algorithm for detecting ERP components using the grand average waveform as a template},
+  pdftitle={Automatically Extracting ERP Component Latencies Using a Template Matching Algorithm},
   pdfauthor={Sven Lesche1},
   pdflang={en-EN},
   pdfkeywords={keyword, more keyword, crazy keyword},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{An algorithm for detecting ERP components using the grand average waveform as a template}
+\title{Automatically Extracting ERP Component Latencies Using a Template Matching Algorithm}
 \author{Sven Lesche\textsuperscript{1}}
 \date{}
 
@@ -271,7 +271,7 @@ Automatically extracting component latencies has long been a goal in ERP researc
 \hypertarget{fractional-area-latency}{%
 \subsubsection{Fractional Area Latency}\label{fractional-area-latency}}
 
-\emph{Fractional Area Latency} approaches hope to remedy some of the problems associated with \emph{peak latency} algorithms. It revolves around the area under the ERP signal in a given measurement window. The goal is finding the point in time that divides that area under the signal into a given fraction to the left and right of it. The time-point halving the area under the signal, for example, is referred to as the \emph{50\% area latency}. This approach is much less susceptible to the influence of high frequency noise, as short spikes in the signal do not have a strong impact on the area under the signal. It remains highly dependent on the measurement window {[}Luck, 2005{]}. Choosing a shorter window may result in only a part of the area of the component of interest being captured. A wider measurement window on the other hand might be influenced by surrounding components. \emph{Fractional Area} measures thus work best for investigating an isolated component {[}Luck, 2014{]}, limiting the applicability of algorithms based on this.
+\emph{Fractional Area Latency} approaches hope to remedy some of the problems associated with \emph{peak latency} algorithms. This technique revolves around the area under the ERP signal in a given measurement window. The goal is finding the point in time that divides that area under the signal into a given fraction to the left and right of it. The time-point halving the area under the signal, for example, is referred to as the \emph{50\% area latency}. This approach is much less susceptible to the influence of high frequency noise, as short spikes in the signal do not have a strong impact on the area under the signal. It remains highly dependent on the measurement window {[}Luck, 2005{]}. Choosing a shorter window may result in only a part of the area of the component of interest being captured. A wider measurement window on the other hand might be influenced by surrounding components. \emph{Fractional Area} measures thus work best for investigating an isolated component {[}Luck, 2014{]}, limiting the applicability of algorithms based on this.
 
 \hypertarget{jackknifing}{%
 \subsubsection{Jackknifing}\label{jackknifing}}
@@ -283,7 +283,7 @@ Another approach towards dealing with noisy subject-level ERPs is to try and mit
 
 {[}Kiesel 2008{]} compared a number of extraction methods for a variety of ERP components. They simulated latency differences of the visual and auditory N1, the N2pc and the P3 and frequency-related P3 and tested single-participant approaches and jackknife-approaches combined with peak latency, fractional area latency, relative criteria and baseline deviation methods on their ability to detect these effects. The most widely used technique of single-participant approaches combined with peak latency extraction proved to not be the most efficient method to detect latency effects. This becomes especially true as the signal-to-noise ratio decreases. Overall, jackknifing ERPs and using the relative criterion technique or the fractional area latency technique was shown to be the best approach across the components and datasets they analyzed.
 
-{[}Kiesel 2008{]} were concerned with extracting condition differences in ERP research. While this is important, extraction methods applied in individual differences research have to extract latencies from subject-level ERPs and produce both reliable and valid latency estimates. {[}Kiesel 2008{]} did not assess psychometric properties of latency estimates. Addressing this gap in research, {[}Sadus 2023{]} investigated the influence of different preprocessing strategies and latency extraction techniques on psychometric qualities of the latency values generated and their ability to detect an age-related effect in P3 latency. They varied the strength of the low-pass filter applied to the data, used both single-participant and jackknife approaches and extracted latencies either automatically or manually, using either a peak latency or area latency approach. Both the size of the effect and the psychometric properties, such as reliability or homogeneity of the latency values, varied between the different analysis strategies. No combination of preprocessing steps and extraction method proved best across all tasks and groups. A total of 7 out of 40 possible pipelines generated consistently desirable reliabilites (\(r_{tt} \ge .70\)), homogeneities (\(r_{h} \ge .50\)) and effect sizes (\(.03 \le \omega^2 <.80\)). All of those seven pipelines used manual extraction methods either based on peak or area latencies. While automated extraction methods would improve both efficiency and objectivity, fully automated approaches failed to generate consistently reliable and valid latency measures {[}Sadus 2023; Schubert 2022 (aus Sadus){]}. Yet, manual extraction methods are highly time-consuming and impede reproducibility. We hope to show that our algorithm can match the performance of manual extraction while providing a more efficient and objective approach for extracting individual component latency values.
+{[}Kiesel 2008{]} were concerned with extracting condition differences in ERP research. While this is important, techniques applied in individual differences research have to extract latencies from subject-level ERPs and produce both reliable and valid estimates. {[}Kiesel 2008{]} did not assess psychometric properties of latency estimates. Addressing this gap in research, {[}Sadus 2023{]} investigated the influence of different preprocessing strategies and latency extraction techniques on psychometric qualities of the latency values generated and their ability to detect an age-related effect in P3 latency. They varied the strength of the low-pass filter applied to the data, used both single-participant and jackknife approaches and extracted latencies either automatically or manually, using either a peak latency or area latency approach. Both the size of the effect and the psychometric properties, such as reliability or homogeneity of the latency values, varied between the different analysis strategies. No combination of preprocessing steps and extraction method proved best across all tasks and groups. A total of 7 out of 40 possible pipelines generated consistently desirable reliabilites (\(r_{tt} \ge .70\)), homogeneities (\(r_{h} \ge .50\)) and effect sizes (\(.03 \le \omega^2 <.80\)). All of those seven pipelines used manual extraction methods either based on peak or area latencies. While automated extraction methods would improve both efficiency and objectivity, fully automated approaches failed to generate consistently reliable and valid latency measures {[}Sadus 2023; Schubert 2022 (aus Sadus){]}. Yet, manual extraction methods are highly time-consuming and impede reproducibility. We hope to show that our algorithm can match the performance of manual extraction while providing a more efficient and objective approach for extracting individual component latency values.
 
 \hypertarget{our-algorithm}{%
 \section{Our algorithm}\label{our-algorithm}}
@@ -291,7 +291,7 @@ Another approach towards dealing with noisy subject-level ERPs is to try and mit
 \hypertarget{motivation}{%
 \subsection{Motivation}\label{motivation}}
 
-None of the previously described algorithms used in most ERP research aim to replicate human behavior and focus on generating similar decisions rather than similar decision processes.
+The shortcomings of prior algorithms may be due to none of them aiming to replicate human behavior and focus on generating similar decisions rather than similar decision processes. We propose an algorithm that more closely resembles the process expert ERP researches employ.
 
 \hypertarget{template-matching}{%
 \subsection{template matching}\label{template-matching}}
@@ -299,16 +299,16 @@ None of the previously described algorithms used in most ERP research aim to rep
 \hypertarget{introduction}{%
 \subsubsection{Introduction}\label{introduction}}
 
-The general question each ERP-researcher asks themselves when investigating ERP signals is: ``Where in this ERP signal is the component of interest?'' Most researchers have some mental representation of what the component \emph{should} look like and where it \emph{should} generally appear that helps them identify a specific component in some noisy ERP. When visually inspecting ERP signals, their goal is to identify a pattern within the signal that resembles the component of interest in shape, size and location.
+To investigate where in some noisy signal the component of interest is found, most researchers have some mental representation of what the component \emph{should} look like and where it \emph{should} generally appear. When visually inspecting ERP signals, their goal is to identify a pattern within the signal that resembles the component of interest in shape, size and location.
 
-Finding a given pattern inside a noisy signal is not a novel task. Algorithms aiming to detect the appearance of a pattern - a \emph{template} -inside audio-, video- or radio signals have been around since \textbf{HISTORY} {[}REF{]} and a large amount of research has gone into optimizing these \emph{template matching} algorithms {[}REF{]}.
+Finding a given pattern inside a noisy signal is not a novel task. Algorithms aiming to detect the appearance of a pattern - a \emph{template} -inside audio-, video- or radio signals have been around for over 50 years {[}REFS{]}. And a large amount of research has gone into optimizing these \emph{template matching} algorithms {[}REF{]}.
 
 No matter the implementation details of a particular template matching algorithm, all aim to answer the question ``Does this (shorter) template appear in my (larger) signal?''. To achieve this, a researcher needs to specify two things. First, the template they want to search the signal for. And second, the \emph{similarity measure} which quantifies how well the template fits in a given spot of the signal.
 
 \hypertarget{similarity-measures}{%
 \subsubsection{Similarity measures}\label{similarity-measures}}
 
-Specifying the template is mostly a philosophical question dependent on the specific task and type of signal. Choosing a similarity measure on the other hand is much more methodological. Across a number of papers, several different similarity measures have been proposed. These include, but are not limited to: the Sum of Absolute Differences (SAD), the Mean Square Error (MSE), the Geometric Distance, Mutual Information or Cross-Correlation (CC) {[}{[}mahalakshmi2012image{]}{]} {[}REFs; Brunelli1997, Brunelli2009, Goshtasby1984{]}. We have chosen to implement algorithms based on two of the possible measures, one minimizing the Sum of Squared Differences and one maximizing the correlation between the template and the signal. We wanted to implement both a similarity measure following a traditional distance-minimization approach and a correlational approach {[}Brunelli \& Poggiot 1997 says that these are the two common approaches; so does Goshtasby, 1984{]} in order to gauge the efficacy of these approaches when applied to our field of research.
+Specifying the template is mostly a philosophical question dependent on the specific task and type of signal. Choosing a similarity measure on the other hand is much more methodological. Across a number of papers, several different similarity measures have been proposed. They follow one of two general lines of thought {[}Brunelli \& Poggiot 1997 says that these are the two common approaches; so does Goshtasby, 1984{]}. The first type of similarity measure aims to minimizes some value reflecting the distance between template and the signal. The second type aims to maximize some form of correlation between signal and template. {[}{[}mahalakshmi2012image{]}{]} {[}REFs; Brunelli1997, Brunelli2009, Goshtasby1984{]}. We have chosen to implement algorithms based on two of the possible measures, one minimizing the Sum of Squared Differences (MINSQ) and one maximizing the correlation (CORR) between the template and the signal. We wanted to implement both a similarity measure following a traditional distance-minimization approach and a correlational approach in order to gauge the efficacy of these approaches when applied to our field of research.
 
 \hypertarget{template-generation}{%
 \subsubsection{Template generation}\label{template-generation}}
@@ -320,12 +320,12 @@ Finding an appropriate template is more challenging. Depending on the field, the
 
 There have been some attempts at using an idealized signal structure as a template to identify ocular artifacts in noisy subject-level data {[}Li 2006{]} or to predict subject behavior on a single trial level {[}William 2020{]}. However, these approaches were not concerned with estimating the timing of components, but only interested in detection of a specific signal.
 
-{[}Borst \& Anderson 2015; Anderson et al.~2016{]} developed a machine-learning approach that aims to discover cognitive processing stages on a single trial level. In a first step, their algorithms makes use of multivariate pattern analysis to detect ``bumps'' in the EEG signal representing the onset of a new cognitive state. They assumed that entry into a new state would be accompanied by a spike in all electrodes similar to a 50 ms half-sine. This 50 ms half-sine then serves as a template with which their algorithm tries to detect those ``bumps'' in activity. However, their assumptions regarding the template and the location of activity are somewhat crude generalizations made necessary by noisy single trial data. Using template matching to extract component latencies from ERPs requires a more informative template.
+{[}Borst \& Anderson 2015; Anderson et al.~2016{]} developed a machine-learning approach that aims to discover cognitive processing stages on a single trial level. In a first step, their algorithm makes use of multivariate pattern analysis to detect ``bumps'' in the EEG signal representing the onset of a new cognitive state. They assumed that entry into a new state would be accompanied by a spike in all electrodes similar to a 50 ms half-sine. This 50 ms half-sine then serves as a template with which their algorithm tries to detect those ``bumps'' in activity. However, their assumptions regarding the template and the location of activity are somewhat crude generalizations made necessary by noisy single trial data. Using template matching to extract component latencies from ERPs requires a more informative template.
 
 \hypertarget{our-solution}{%
 \subsection{our solution}\label{our-solution}}
 
-A simple approach towards designing a more informative template would be to generate an idealized component structure. Prior knowledge about the shape, size and location about the component of interest could then be made use of. One could draw up ``the perfect P3'' and attempt to use this as a template. Nonetheless, this would neglect the experiment-specific and task-specific variance in the morphology of ERP components, resulting in a template that does not optimally reflect the data. We addressed this problem by using the grand average as an experiment-specific template of the component of interest that will reflect influences of the task and sample on the morphology of the idealized ERP component. It has a higher signal-to-noise ratio than any individual subject-level ERP while still being influenced by experiment-specific changes in component morphology. Researchers can (and already often do) use the grand average to gather insight into the time window in which the component of interest occurs. The grand average and the specific window in which the component of interest occurs is used as a template and matched to subject-level ERPs.
+A simple approach towards designing a more informative template would be to generate an idealized component structure. Prior knowledge about the shape, size and location about the component of interest could then be made use of. One could draw up ``the perfect P3'' and attempt to use this as a template. Nonetheless, this would neglect the experiment-specific and task-specific variance in the morphology of ERP components, resulting in a template that does not optimally reflect the data. We addressed this problem by using the grand average as an experiment-specific template of the component of interest that will reflect influences of the task and sample on the morphology of the idealized ERP component. It has a higher signal-to-noise ratio than any individual subject-level ERP while still being influenced by experiment-specific changes in component morphology. Researchers can (and already often do) use the grand average to gather insight into the time window in which the component of interest occurs {[}I think Kiesel 2008 recommends this{]}. The grand average and the specific window in which the component of interest occurs is used as a template and matched to subject-level ERPs.
 
 \hypertarget{differences-to-other-template-matching-studies}{%
 \subsubsection{Differences to other template matching studies}\label{differences-to-other-template-matching-studies}}
@@ -337,24 +337,26 @@ To achieve this, we introduce variability into the template reflecting individua
 \hypertarget{subject-level-transformations-as-the-goal}{%
 \subsection{Subject-level transformations as the goal}\label{subject-level-transformations-as-the-goal}}
 
-We introduce variability in the template through two sources, amplitude and latency. Variability in amplitude is controlled by the parameter \(a\), variability in latency by the parameter \(b\). Amplitude of the template is varied by multiplying the whole template-signal by parameter \(a\). Latency is varied by ``stretching'' or ``squishing'' the template along the x-axis {[}See Figure?{]}. The parameter \(b\) controls the strength of this transformation. Recovering the transformation parameters \([a, b]\) that lead to the best fit between template and signal thus allows us to describe individual differences in the latency of a component through the transformation parameter \(b_i\) for the participant \(i\). In this manner, component latencies can be recovered. Researchers need to specify a time-point of the grand average denoting the latency of the component of interest. The transformation parameters resulting in the best fit of the grand average to the subject level signal are then applied to the grand average latency to recover the subject-level latency of the component.
+We introduce variability in the template through two sources, amplitude and latency. Variability in amplitude is controlled by the parameter \(a\), variability in latency by the parameter \(b\). Amplitude of the template is varied by multiplying the whole template-signal by parameter \(a\). Latency is varied by ``stretching'' or ``squishing'' the template along the x-axis {[}See Figure?{]}. The parameter \(b\) controls the strength of this transformation. Possible transformations of the template are then compared to the signal and their similarity is evaluated. Recovering the transformation parameters \([a, b]\) that lead to the best match between template and signal thus allows us to describe individual differences in the latency of a component through the transformation parameter \(b_j\) for the participant \(j\). In this manner, component latencies can be recovered. Researchers need to specify a time-point of the grand average denoting the latency of the component of interest. The optimal transformation parameters are then applied to the grand average latency to recover the subject-level latency of the component.
 
-\hypertarget{peak-or-area---based}{%
-\subsection{Peak or Area - Based?}\label{peak-or-area---based}}
+\hypertarget{why-our-algorithm-may-perform-better}{%
+\subsection{Why our algorithm may perform better}\label{why-our-algorithm-may-perform-better}}
 
-The algorithm is naive to the method used to generate the component latency of the grand average. Researchers can use any tool they choose to identify component latencies in the grand average waveform. The algorithm will find the optimal transformation parameters, apply those to the grand average's latency and return the transformed subject-level latency.
+** makes use of the structure in the signal **
+** is not as influenced by peaks \textbf{
+} measurement window only controls the size of the template, should have less of an impact \textbf{
+} the decisions are similarly understandable, it is not some ``black box'' ML algorithm, you can plot the decision and understand the reasoning **
 
-Even though the algorithm allows for the use of peak latency measures when specifying the grand average component latency, it is by no means a peak based algorithm. Approaches based on both similarity measures, Squared Sum of Differences and Cross-Correlation are not impacted by high frequency noise.
+\hypertarget{the-present-study}{%
+\subsection{The present study}\label{the-present-study}}
 
-\hypertarget{task-and-component-selection}{%
-\subsection{Task and component selection}\label{task-and-component-selection}}
+In order to compare the quality of our proposed algorithm we will reanalyze the same data analyzed by {[}Sadus 2023{]}. We can compare the psychometric properties of our algorithm to those of previously established algorithms, investigate the impact of different preprocessing steps and evaluate the correlation between latencies extract by our algorithm and those extracted manually be an expert ERP researcher.
 
-Here also need to say something about the age effect.
+In their study, {[}Sadus 2023{]} was extracted latencies of the P3 component. The P3, more specifically, the P3b, is a centroparietal positive-going component, peaking around 300 ms after stimulus onset. It is a late higher-order cognitive component {[}REFS{]} associated with {[}Processes{]}. A number of studies have demonstrated a large effect of age on the latency of the P3 across a number of tasks {[}REFs{]}. In a multiverse approach {[}Sadus 2023{]} tested several extraction methods with varying preprocessing steps in their ability to detect this age effect. They used three tasks, each measuring one of the executive functions proposed by {[}Miyake 2000{]}. To measure the functions \emph{updating}, \emph{shifting} and \emph{inhibition}, they employed an Nback, a Switching and a Flanker Task, respectively. Studying three different tasks allows us to gain insight into a larger variety of higher-order cognitive processing, improving the generalizability of our findings.
 
-\hypertarget{our-hopes}{%
-\subsection{Our hopes}\label{our-hopes}}
+Nonetheless, we will restrict our analysis to extracting P3 latencies. It usually has a broad and isolated structure with comparatively low influence of surrounding components {[}REF{]}. This makes the P3 one of the easier components for automated latency extraction approaches. After we can demonstrate proof-of-concept for P3 latency extraction, we will evaluate the algorithms ability to be extended to other ERP components.
 
-We will use the algorithm to extract latencies in the P3, a centroparietal positive-going component, peaking around 300 ms after stimulus onset. The P3 is a late higher-order cognitive component {[}REFS{]}. It is usually broad and isolated. The influence of surrounding components on the P3's morphology is comparatively low {[}REF{]}. This makes the P3 one of the easier components for automated latency extraction approaches. After we can demonstrate proof-of-concept for P3 latency extraction, we will evaluate the algorithms ability to be extended to other ERP components. We hope to show that a template matching approach using the grand average as a variable template can successfully extract P3 component latencies. Ideally, use of this algorithm will improve psychometric properties in comparison to prior algorithms, show high correlations with manually extracted data and present an objective and efficient way to extract ERP latencies.
+We hope to show that a template matching approach using the grand average as a variable template can successfully extract P3 component latencies. Ideally, use of this algorithm will improve psychometric properties in comparison to prior algorithms, show high correlations with manually extracted data and present an objective and efficient way to extract ERP latencies.
 
 \hypertarget{algorithm}{%
 \section{Algorithm}\label{algorithm}}
@@ -370,7 +372,7 @@ As these transformations also change the measurement window, we chose to use the
 Depending on the similarity measure employed, we use different functions to find the set of optimal parameters \([a_j, b_j]\) that lead to the transformation of ERP of subject \(j\) most similar to the grand average.
 
 The MINSQ algorithm minimizes the weighted sum \(S\) of squared differences \(d\) between the transformed subject signal and the grand average.
-\[S = \sum_{i = 1}^{m}\omega_{i}d_{i}^2\]
+\[S = \sum_{i = 1}^{n}\omega_{i}d_{i}^2\]
 This weighting vector \(\omega\) is computed as follows
 \[\omega_i = 1+\mathbb{1}_{[t_{start}, t_{end}]}(x_i)(10 * |\frac{y_i}{y_{max}}|)^2\]
 Where
@@ -397,11 +399,8 @@ Researchers can manually review all choices the algorithm has made in a custom-b
 \hypertarget{data}{%
 \section{Data}\label{data}}
 
-We made use of data published by {[}Sadus 2023{]}. We will compare our algorithm to the methods presented in their paper.
-
-\hypertarget{participants}{%
-\subsection{Participants}\label{participants}}
-
+The data used here were first published by {[}Sadus 2023{]} and are a subset of the data collected by {[}Löffler REF{]}.
+\#\# Participants
 The data is comprised of 30 young participants (18-21 years old, mean age = 19.37, SD age = 0.76) and 30 old participants (50-60 years old, mean age = 55.83, SD age = 2.87). This sample was part of a larger study {[}Löffler REF{]} of which the 30 youngest and 30 oldest participants were selected. All participants had normal or corrected to normal vision. None of the participants had neurological or mental disorders, used psychotropic drugs, wore a pacemaker or suffered from red-green color vision deficiency. The participants provided informed consent prior to participation and received 75€ or course credit for participation. \textbf{ethics stuff?}
 
 \hypertarget{tasks}{%
@@ -432,7 +431,7 @@ The original study {[}Löffler{]} consisted of three test sessions. The three ta
 \hypertarget{eeg-recording-and-processing}{%
 \subsection{EEG recording and processing}\label{eeg-recording-and-processing}}
 
-EEG was recorded using 32 Ag/AgCl scalp electrodes placed in the 10-20 system. Additional electrooculogram (EOG) measures were taken by two electrode placed above and below the left eye to correct for ocular artifacts. All impedances were kept below 5 kΩ. The signal was recorded with a sampling rate of 1000 Hz (band-pass 0.1 Hz - 100 Hz) and online-referenced to Cz. Following data acquisition, a low-pass filter of 16 Hz and a high-pass filter of 0.1 Hz. The raw data was down-sampled to 250 Hz. To remove artifacts we conducted an ICA on a cloned version of the dataset down-sampled to 100 Hz and passed through an additional high-pass filter of 1 Hz. Both the original down-sampled data as well as the ICA-dataset was cleaned by removing channels with unusually long flatlines, artifact-rates or line-noise. Channels removed were interpolated following this procedure and the data was re-referenced to the average across electrodes. ICA was conducted using the InfoMax algorithm and the resulting decomposition applied to the original dataset. ICs were labelled using the ICLabel Algorithm {[}Pio-Tonachini et al.~2019, aus sadus{]} and removed if the IC was less than 50\% likely to be brain activity. We then applied Butterwort low-pass filters with varying cutoff frequencies (8 Hz, 16 Hz, 32 Hz) and a roll-off of 12 dB/octave. Data was segmented into 1200ms long segments starting 200ms before stimulus onset. Segments containing artifacts were automatically detected and removed. As a last step, we conducted a baseline correction using the 200ms prior to stimulus onset.
+EEG was recorded using 32 Ag/AgCl scalp electrodes placed in the 10-20 system. Additional electrooculogram (EOG) measures were taken by two electrode placed above and below the left eye to correct for ocular artifacts. All impedances were kept below 5 kΩ. The signal was recorded with a sampling rate of 1000 Hz (band-pass 0.1 Hz - 100 Hz) and online-referenced to Cz. Following data acquisition, the raw data was down-sampled to 250 Hz. To remove artifacts we conducted an ICA on a cloned version of the dataset down-sampled to 100 Hz and passed through an additional high-pass filter of 1 Hz. Both the original down-sampled data as well as the ICA-dataset were cleaned by removing channels with unusually long flatlines, artifact-rates or line-noise. Channels removed were interpolated following this procedure and the data was re-referenced to the average across electrodes. ICA was conducted using the InfoMax algorithm and the resulting decomposition applied to the original dataset. ICs were labelled using the ICLabel Algorithm {[}Pio-Tonachini et al.~2019, aus sadus{]} and removed if the IC was less than 50\% likely to be brain activity. We then applied Butterworth low-pass filters with varying cutoff frequencies (8 Hz, 16 Hz, 32 Hz) and a roll-off of 12 dB/octave. Data was segmented into 1200ms long segments starting 200ms before stimulus onset. Segments containing artifacts were automatically detected and removed. As a last step, we conducted a baseline correction using the 200ms prior to stimulus onset.
 
 \hypertarget{erp-analysis}{%
 \subsection{ERP analysis}\label{erp-analysis}}
@@ -442,10 +441,10 @@ Analyses were conducted in MATLAB {[}Version, citation{]}. We only included corr
 \hypertarget{latency-extraction}{%
 \subsubsection{Latency extraction}\label{latency-extraction}}
 
-To evaluate the impact of the specified measurement window, we extracted latencies three separate times using either a narrow (250-600ms), medium (200-700ms) or wide (150-900ms) measurement window. We used the peak latency approach to determine the latency of the P3 in the grand averages. We applied our algorithms using both the CORR and MINSQ similarity measures to the data and obtained transformation parameters and fit values. Subject-level latencies were recovered from the respective grand average latency and the subject-specific transformation parameters.
-We also ran a traditional simple peak latency algorithm and a fractional area latency algorithm determining the 50\% area latency. This was either done in an uninformed fashion, using the measurement window specified beforehand or with an adapted measurement window, based on the transformation parameters returned by the template matching algorithms. If the CORR algorithm returns the parameter \(b = 1.1\), for example, the medium measurement window would be transformed from 200-700ms to 245-745ms.
+To evaluate the impact of the specified measurement window, we extracted latencies three separate times using either a narrow (250-600ms), medium (200-700ms) or wide (150-900ms) measurement window. We used the peak latency approach to determine the latency of the P3 in the grand averages. We applied our algorithms using both the distance-based (MINSQ) and correlation-based (CORR) similarity measures to the data and obtained transformation parameters and fit values. Subject-level latencies were recovered from the respective grand average latency and the subject-specific transformation parameters.
+We also ran a traditional simple peak latency algorithm and a fractional area latency algorithm determining the 50\% area latency. This was either done in an uninformed fashion, using the measurement window specified beforehand or with an adapted measurement window, based on the transformation parameters returned by the template matching algorithms. If the CORR algorithm returns the parameter \(b_j = 1.1\) for participant \(j\), for example, the medium measurement window of this participant would be transformed from 200-700ms to 245-745ms.
 To investigate the benefits of manually reviewing the decisions of the algorithm, we chose to review all matches that resulted in fit values \(r_{st} \le .60\). We then inspected the subject-level ERP with the matched template displayed over it and either accepted, rejected or manually determined the P3 latency of these ERPs.
-We also explored the impact of excluding all those matches with fit values \(r_{st} \le .20\).
+We also explored the impact of automatically excluding all those matches with fit values \(r_{st} \le .20\).
 
 \hypertarget{validation-techniques}{%
 \section{Validation Techniques}\label{validation-techniques}}
@@ -470,10 +469,49 @@ To investigate the effect of age on P3 latencies, we ran a repeated measures ANO
 \hypertarget{correlation-with-manual-extraction}{%
 \subsection{Correlation with manual extraction}\label{correlation-with-manual-extraction}}
 
-To quantify the extent to which an extraction method is able to replicate the benchmark of manual extraction, we correlated the latencies extracted by a particular method with those extracted by an expert researcher in the same task and filter condition.
+To quantify the extent to which an extraction method is able to replicate the benchmark of manual extraction, we correlated the latencies extracted by a particular method with those extracted by an expert researcher in the same task and filter condition
+
+\hypertarget{impact-of-filters-measurement-window}{%
+\subsection{Impact of Filters / Measurement Window}\label{impact-of-filters-measurement-window}}
+
+We also quantified the impact preprocessing steps and the choice of measurement window have on the reliability and validity of extraction methods. We ran a repeated measures ANOVA with the dependent variable being either the estimated reliability of a method or its correlation with manually extracted data and the within factors filter (8 Hz vs.~16 Hz vs.~32 Hz) and measurement window (narrow vs.~medium vs.~wide).
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
+
+All data wrangling and statistical analyses were conducted in R {[}Version, Citation{]}. We used the packages {[}packages{]}. Each of the 60 participants contributed 6 ERPs per task to the data. One ERP averaged over all trials of each of the two conditions and two more ERPs generated from an odd-even split on a trial level of that condition. These 360 ERPs each from the 3 different tasks were passed through 3 different low-pass filters and subjected to analyses with 3 separate measurement windows. We applied both the correlation-based (CORR) and distance-based (MINSQ) algorithm and either reviewed the results manually, discarded bad matches automatically or accepted the results regardless of fit. We also applied both a peak latency and area latency algorithm with either uninformed measurement windows or measurement windows transformed by the transformation parameters recovered from the CORR or MINSQ algorithm. This results in \(3 \ tasks \times 3 \ filters \times 3 \ windows \times 12 \ algorithms = 324\) different extraction pipelines
+
+\hypertarget{review-process}{%
+\subsection{Review process}\label{review-process}}
+
+We reviewed results of 54 out of these 324 pipelines. In total, we inspected {[}PERCENT{]} of ERPs, rejected {[}PERCENT{]} of ERPs and accepted {[}PERCENT{]} of the results despite their fit. We manually corrected the decisions in {[}PERCENT{]} of cases. When reporting the psychometric properties of the algorithms, we will focus on those values passed through manual inspection with those passed through the automatic rejection filter reported in parenthesis.
+
+\hypertarget{reliability-1}{%
+\subsection{Reliability}\label{reliability-1}}
+
+An overview of Spearman-Brown corrected split-half correlations \(r_{tt}\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had mean split-half correlations of \(\bar{r_{tt}} = [ANSWER]\) (\(\bar{r_{tt}} = [ANSWER_AUTO]\)), the MINSQ algorithm \(\bar{r_{tt}} = [ANSWER]\) (\(\bar{r_{tt}} = [ANSWER_AUTO]\)). Uninformed area latency measures presented even better mean split-correlations \(\bar{r_{tt}} = [ANSWER]\).
+
+\hypertarget{homogeneity-1}{%
+\subsection{Homogeneity}\label{homogeneity-1}}
+
+An overview of a method's mean correlation with other methods \(r_h\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had a mean homogeneity of \(\bar{r_{h}} = [ANSWER]\) (\(\bar{r_{h}} = [ANSWER_AUTO]\)), the MINSQ algorithm \(\bar{r_{h}} = [ANSWER]\) (\(\bar{r_{h}} = [ANSWER_AUTO]\)). Uninformed area latency measures presented slightly worse mean split-correlations \(\bar{r_{h}} = [ANSWER]\).
+
+\hypertarget{effect-size-1}{%
+\subsection{Effect size}\label{effect-size-1}}
+
+An overview of the effect size of the age effect detect by a particular method split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had a mean effect size of \(\bar{\omega^2} = [ANSWER]\) (\(\bar{\omega^2} = [ANSWER_AUTO]\)), the MINSQ algorithm \(\bar{\omega^2} = [ANSWER]\) (\(\bar{\omega^2} = [ANSWER_AUTO]\)). Uninformed area latency measures presented similar average effect sizes \(\bar{\omega^2} = [ANSWER]\).
+
+\hypertarget{correlation-with-manual-rater}{%
+\subsection{Correlation with manual rater}\label{correlation-with-manual-rater}}
+
+An overview of the correlation with latency values extracted by an expert ERP researcher {[}Sadus 2023{]} split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm \textbf{that we manually reviewed} had mean correlations of \(\bar{r} = [ANSWER]\) (\(\bar{r} = [ANSWER_AUTO]\)), the MINSQ algorithm \(\bar{r} = [ANSWER]\) (\(\bar{r} = [ANSWER_AUTO]\)). Uninformed area latency measures had a mean correlation of \(\bar{r} = [ANSWER]\).
+
+\hypertarget{influence-of-researcher-degrees-of-freedom}{%
+\subsection{Influence of researcher degrees of freedom}\label{influence-of-researcher-degrees-of-freedom}}
+
+The repeated measures ANOVA with split-half correlation of a particular method as a dependent variable and the within factors filter (8 Hz vs.~16 Hz vs.~32 Hz) and measurement window (narrow vs.~medium vs.~wide) showed an effect of filter with {[}EFFECT{]} for the CORR algorithm, {[}EFFECT{]} for the MINSQ algorithm and {[}EFFECT{]} for uninformed area latency measures. The measurement windows had an effect of {[}EFFECT{]} for the CORR algorithm, {[}EFFECT{]} for the MINSQ algorithm and {[}EFFECT{]} for uninformed area latency measures {[}See TABLE{]}.
+
+When the correlation with manually extracted latencies was used as a dependent variable, the effect of filter settings for the CORR algorithm were {[}EFFECT{]}, for the MINSQ algorithm {[}EFFECT{]} and {[}EFFECT{]} for uninformed area latency measures. The measurement windows had an effect of {[}EFFECT{]} for the CORR algorithm, {[}EFFECT{]} for the MINSQ algorithm and {[}EFFECT{]} for uninformed area latency measures {[}See TABLE{]}.
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
