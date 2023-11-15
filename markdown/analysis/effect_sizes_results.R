@@ -1,7 +1,7 @@
-library(tidyverse)
-source("./markdown/analysis/helper_functions.R")
-
-load("./markdown/analysis/data/full_analysis_data_long.rdata")
+# library(tidyverse)
+# source("./markdown/analysis/helper_functions.R")
+#
+# load("./markdown/analysis/data/full_analysis_data_long.rdata")
 
 # Check for shifts in mean latency
 run_anova <- function(data){

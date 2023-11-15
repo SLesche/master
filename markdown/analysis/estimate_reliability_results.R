@@ -1,7 +1,7 @@
-library(tidyverse)
-source("./markdown/analysis/helper_functions.R")
-
-load("./markdown/analysis/data/full_analysis_data_long.rdata")
+# library(tidyverse)
+# source("./markdown/analysis/helper_functions.R")
+#
+# load("./markdown/analysis/data/full_analysis_data_long.rdata")
 
 rel_overview <- data %>%
   filter(rater == "sven") %>%
@@ -68,3 +68,43 @@ for (i in 1:nrow(data_nested_reliability)){
   data_nested_reliability$omega_filter[i] = data_nested_reliability$omega[i][[1]][1, 2]
   data_nested_reliability$omega_window[i] = data_nested_reliability$omega[i][[1]][2, 2]
 }
+
+
+mean_reliability_task_filter <- rel_overview_long %>%
+  group_by(task, filter, window, approach, type, review) %>%
+  summarize(
+    mean = fisher_cor_mean(reliability),
+    n = n(),
+    quant_10 = quantile(reliability, 0.1),
+    quant_90 = quantile(reliability, 0.9)
+  )
+
+table_mean_reliability_task_filter <- mean_reliability_task_filter %>%
+  ungroup() %>%
+  filter(
+    approach %in% c("corr", "minsq", "uninformed")
+  ) %>%
+  mutate(
+    approach = ifelse(approach == "uninformed", paste0(type), approach),
+    window = ifelse(window == "const", "medium", window)
+  ) %>%
+  select(-type, -n, -contains("quant")) %>%
+  mutate(
+    approach = fct_relevel(approach, "corr", "minsq", "autoarea", "autopeak"),
+    window = fct_relevel(window, "narrow", "medium", "wide"),
+    review = fct_relevel(review, "none", "auto", "manual")
+  ) %>%
+  arrange(task, filter, approach, window, review) %>%
+  pivot_wider(
+    id_cols = c("task", "filter"),
+    names_from = c("approach", "window", "review"),
+    values_from = "mean"
+  ) %>%
+  flextable() %>%
+  separate_header() %>%
+  autofit() %>%
+  align(align = "center", part = "all", j = 3:26) %>%
+  merge_v(j = 1) %>%
+  # valign(j = 1, valign = "top") %>%
+  hline(i = c(3, 6)) %>%
+  apa_footer("My personal note on this table.")

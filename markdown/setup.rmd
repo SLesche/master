@@ -33,3 +33,21 @@ print_percent <- function(freq){
 }
 ```
 
+```{r}
+apa_footer <- function(data, note){
+  flextable::add_footer_lines(
+    x = data,
+    " "
+    ) %>%
+    flextable::compose(
+      # x = data,
+      i = 1,
+      j = 1,
+      part = "footer",
+      value = as_paragraph(
+        as_i("Note. "), note
+      )
+    )
+}
+```
+

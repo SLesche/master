@@ -1,5 +1,6 @@
 # Results
 ```{r}
+source("markdown/analysis/load_important_datasets.R")
 source("markdown/analysis/manual_review_results.R")
 source("markdown/analysis/estimate_reliability_results.R")
 source("markdown/analysis/homogeneity_results.R")
@@ -32,3 +33,8 @@ An overview of the correlation with latency values extracted by an expert ERP re
 The repeated measures ANOVA with split-half correlation of a particular method as a dependent variable, the between factor filter (8 Hz vs. 16 Hz vs. 32 Hz) and the within factor measurement window (narrow vs. medium vs. wide) showed no effect of filter, $\omega^2 =$ `r data_nested_reliability %>% filter(approach == "corr", review == "manual") %>% pull(omega_filter) %>% apa_num(gt1 = FALSE)`, for the CORR algorithm, no effect, $\omega^2 =$ `r data_nested_reliability %>% filter(approach == "minsq", review == "manual") %>% pull(omega_filter) %>% apa_num(gt1 = FALSE)`, for the MINSQ algorithm and no effect, $\omega^2 =$ `r data_nested_reliability %>% filter(approach == "uninformed", type == "autoarea") %>% pull(omega_filter) %>% apa_num(gt1 = FALSE)`, for uninformed area latency measures. The measurement windows had an effect of $\omega^2 =$ `r data_nested_reliability %>% filter(approach == "corr", review == "manual") %>% pull(omega_window) %>% apa_num(gt1 = FALSE)` for the CORR algorithm, $\omega^2 =$ `r data_nested_reliability %>% filter(approach == "minsq", review == "manual") %>% pull(omega_window) %>% apa_num(gt1 = FALSE)` for the MINSQ algorithm and $\omega^2 =$ `r data_nested_reliability %>% filter(approach == "uninformed", type == "autoarea") %>% pull(omega_window) %>% apa_num(gt1 = FALSE)` for uninformed area latency measures. Consult [TABLE] for a full overview.
 
 When the correlation with manually extracted latencies was used as a dependent variable, the effect of filter settings for the CORR algorithm were $\omega^2 =$ `r data_nested_cormanual %>% filter(method2_approach == "corr", method2_review == "manual") %>% pull(omega_filter) %>% apa_num(gt1 = FALSE)`, for the MINSQ algorithm $\omega^2 =$ `r data_nested_cormanual %>% filter(method2_approach == "minsq", method2_review == "manual") %>% pull(omega_filter) %>% apa_num(gt1 = FALSE)` and $\omega^2 =$ `r data_nested_cormanual %>% filter(method2_approach == "uninformed", method2_type == "autoarea") %>% pull(omega_filter) %>% apa_num(gt1 = FALSE)` for uninformed area latency measures. The measurement windows had an effect of $\omega^2 =$ `r data_nested_cormanual %>% filter(method2_approach == "corr", method2_review == "manual") %>% pull(omega_window) %>% apa_num(gt1 = FALSE)` for the CORR algorithm, $\omega^2 =$ `r data_nested_cormanual %>% filter(method2_approach == "minsq", method2_review == "manual") %>% pull(omega_window) %>% apa_num(gt1 = FALSE)` for the MINSQ algorithm and $\omega^2 =$ `r data_nested_cormanual %>% filter(method2_approach == "uninformed", method2_type == "autoarea") %>% pull(omega_window) %>% apa_num(gt1 = FALSE)` for uninformed area latency measures. Consult [TABLE] for a full overview.
+
+```{r}
+table_mean_reliability_task_filter
+```
+
