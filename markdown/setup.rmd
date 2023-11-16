@@ -12,6 +12,7 @@ library(rmarkdown)
 library(knitr)
 library(emmeans)
 library(afex)
+library(flextable)
 
 r_refs("./markdown/r-references.bib")
 
