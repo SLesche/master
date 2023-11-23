@@ -25,7 +25,7 @@ data %>%
   theme_classic()
 
 # Compare the means and standard deviations of each method within each group
-data %>%
+distribution_data <- data %>%
   filter(!(review == "none" & type == "matched"),
          !(approach == "individualmanual" & !type %in% c("area", "peak")),
          approach %in% c("corr", "minsq", "individualmanual", "uninformed")) %>%
@@ -40,15 +40,25 @@ data %>%
     iqr = IQR(latency, na.rm = TRUE)
   ) %>%
   ungroup() %>%
+  mutate(id = paste0(task, condition, group))
+
+afex::aov_ez(
+  id = "id",
+  within = c("approach"),
+  dv = "median",
+  data = distribution_data
+)
+
+
+distribution_data %>%
   mutate(combination = interaction(approach, type, review)) %>%
   ggplot(
     aes(
       x = combination,
-      y = iqr
+      y = median
     )
   )+
   geom_boxplot()+
-  facet_wrap(~interaction(task, condition), ncol = 3)+
   labs(
     x = "method"
   )+
