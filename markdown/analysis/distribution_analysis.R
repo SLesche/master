@@ -1,5 +1,4 @@
 library(tidyverse)
-library(ggcorrplot)
 source("./markdown/analysis/helper_functions.R")
 
 load("./markdown/analysis/data/full_analysis_data_long.rdata")
@@ -44,21 +43,24 @@ distribution_data <- data %>%
 
 afex::aov_ez(
   id = "id",
+  between = "task",
   within = c("approach"),
-  dv = "median",
+  dv = "sd",
   data = distribution_data
 )
 
 
 distribution_data %>%
+  filter(review != "auto") %>%
   mutate(combination = interaction(approach, type, review)) %>%
   ggplot(
     aes(
       x = combination,
-      y = median
+      y = sd
     )
   )+
   geom_boxplot()+
+  facet_wrap(~task)+
   labs(
     x = "method"
   )+
