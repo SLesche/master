@@ -21,6 +21,15 @@ data_manual_review <- data_manual_review %>%
   mutate(freq = n / n_review) %>%
   mutate(freq_reviewed = n_review/n_total)
 
+data_missing_review <- data %>%
+  filter(review %in% c("auto", "manual"), rater == "sven") %>%
+  count(approach, review, is.na(latency)) %>%
+  group_by(approach, review) %>%
+  mutate(freq = n / sum(n),
+         n_total = sum(n)) %>%
+  ungroup() %>%
+  filter(`is.na(latency)` == TRUE)
+
 data_autoreview <- data %>%
   filter(review == "auto" | review == "none", approach %in% c("minsq", "corr")) %>%
   count(approach, review, is.na(latency)) %>%
