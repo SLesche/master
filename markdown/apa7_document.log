@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.24)  25 NOV 2023 13:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.25)  26 NOV 2023 12:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -459,9 +459,67 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count304
 \@lastruleclass=\count305
 \@thisrulewidth=\dimen279
+) (c:/Users/Sven/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box62
+)
+\b@level@one@skip=\skip61
+\e@level@one@skip=\skip62
+\b@level@two@skip=\skip63
+\e@level@two@skip=\skip64
+\b@level@three@skip=\skip65
+\e@level@three@skip=\skip66
+\b@level@four@skip=\skip67
+\e@level@four@skip=\skip68
+\b@level@five@skip=\skip69
+\e@level@five@skip=\skip70
+(c:/Users/Sven/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+(c:/Users/Sven/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen280
+\captionmargin=\dimen281
+\caption@leftmargin=\dimen282
+\caption@rightmargin=\dimen283
+\caption@width=\dimen284
+\caption@indent=\dimen285
+\caption@parindent=\dimen286
+\caption@hangindent=\dimen287
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count306
+\c@continuedfloat=\count307
+Package caption Info: hyperref package is loaded.
+Package caption Info: threeparttable package is loaded.
+)
+\c@APAenum=\count308
+\@text@par@indent=\skip71
+\gr@box=\box63
+\gr@boxwidth=\skip72
+\gr@boxheight=\skip73
+(c:/Users/Sven/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2023/07/08 v1.2f Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup4
+\symboldletters=\mathgroup5
+\symboldsymbols=\mathgroup6
+Package bm Info: No bold for \OMX/lmex/m/n, using \pmb.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 149.
+)
+\c@appendix=\count309
+(c:/Users/Sven/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
+\f@nch@headwidth=\skip74
+\f@nch@O@elh=\skip75
+\f@nch@O@erh=\skip76
+\f@nch@O@olh=\skip77
+\f@nch@O@orh=\skip78
+\f@nch@O@elf=\skip79
+\f@nch@O@erf=\skip80
+\f@nch@O@olf=\skip81
+\f@nch@O@orf=\skip82
 )
 
-! LaTeX Error: File `threeparttable.sty' not found.
+! LaTeX Error: File `endfloat.sty' not found.
 
 Type X to quit or <RETURN> to proceed,
 or enter new name. (Default extension: sty)
@@ -470,13 +528,13 @@ Enter file name:
 ! Emergency stop.
 <read *> 
          
-l.333 \@ifundefined
-                   {def@man}{% BDB^^M 
+l.1373 }
+        % end of man mode (manuscript format)^^M 
 Here is how much of TeX's memory you used:
- 19512 strings out of 476226
- 373734 string characters out of 5795162
+ 21402 strings out of 476226
+ 407047 string characters out of 5795162
  1923558 words of memory out of 5000000
- 41180 multiletter control sequences out of 15000+600000
+ 43054 multiletter control sequences out of 15000+600000
  561366 words of font info for 38 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  99i,0n,107p,507b,93s stack positions out of 10000i,1000n,20000p,200000b,200000s
