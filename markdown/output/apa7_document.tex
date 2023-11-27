@@ -241,20 +241,14 @@ Two or three sentences to provide a \textbf{broader perspective}, readily compre
 \hypertarget{history-of-extraction-methods}{%
 \section{History of Extraction Methods}\label{history-of-extraction-methods}}
 
-\hypertarget{importance-of-erps}{%
-\subsection{Importance of ERPs}\label{importance-of-erps}}
+In cognitive neuroscience, the accurate extraction of latencies of event-related potentials (ERPs) stands as a crucial step in understanding the timing of neural processes that underlie cognitive functions (\protect\hyperlink{ref-luck2014introduction}{Luck, 2014}). In studies focusing on individual differences an objective, efficient, valid and reliable extraction process is paramount. Algorithms allow efficient and objective approaches to latency extraction, but often prove unreliable and invalid due to ERPs with low signal-to-noise ratios (\protect\hyperlink{ref-kiesel2008measurement}{Kiesel et al., 2008}; \protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}; \protect\hyperlink{ref-schubert2023robust}{Schubert et al., 2023}; \protect\hyperlink{ref-clayson2023noise}{\textbf{clayson2023noise?}}). To deal with this issue, researchers often forgo algorithms and manually inspect each ERP, identifying patterns reflecting the component of interest by hand (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}). Manual extraction is a labor-intensive and time-consuming endeavor, improving reliability and validity at the cost of objectivity and efficiency. This paper introduces a novel algorithm for the automatic extraction of ERP latencies using template matching. We aim to show that our algorithm improves on existing approaches and enables more efficient, objective, reliable and valid extraction of ERP latencies.
 
-In cognitive neuroscience, the accurate extraction of latencies of event-related potentials (ERPs) stands as a crucial step in understanding the timing of neural processes underlying cognitive functions {[}REFs mental chronometry, usecases{]}. In studies focusing on individual differences it is paramount to objectively, reliably and efficiently extract ERP latencies. Algorithms allow efficient and objective approaches to latency extraction, but often prove difficult due to ERPs with low signal-to-noise ratios (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}; \protect\hyperlink{ref-schubert2022robust}{\textbf{schubert2022robust?}}). To deal with this issue, researchers often forgo algorithms and manually inspect each ERP, identifying patterns reflecting the component of interest by hand (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}). Manual extraction is a labor-intensive and time-consuming endeavor, often fraught with subjectivity. This paper introduces a novel algorithm for the automatic extraction of ERP latencies using template matching. We aim to show that our algorithm improves on existing approaches and enables more efficient, objective, reliable and valid extraction of ERP latencies.
+\hypertarget{peak-latency-algorithms}{%
+\subsection{Peak Latency Algorithms}\label{peak-latency-algorithms}}
 
-\hypertarget{prior-algorithms}{%
-\subsection{Prior Algorithms}\label{prior-algorithms}}
+Automatically extracting component latencies has long been a goal in ERP research. \emph{Peak latency} algorithms present the earliest attempt at automating the latency extraction process. The peak latency approach involves finding the point in time within a set measurement window that displays the largest voltage deflection in the appropriate direction. This approach remains the most commonly used way of latency extraction to-date (\protect\hyperlink{ref-kiesel2008measurement}{Kiesel et al., 2008}; \protect\hyperlink{ref-liesefeld2018estimating}{Liesefeld, 2018}), partially due to the ease of its implementation and low computational requirements (\protect\hyperlink{ref-donchin1978multivariate}{Donchin \& Heffley, 1978}). However, ease of implementation is accompanied by several drawbacks.
 
-\hypertarget{peak-latency}{%
-\subsubsection{Peak Latency}\label{peak-latency}}
-
-Automatically extracting component latencies has long been a goal in ERP research. \emph{Peak latency} algorithms present the earliest attempt at automating the latency extraction process {[}REF{]}. The peak latency approach involves finding the point in time within a set measurement window that displays the largest voltage deflection in the appropriate direction. This approach remains the most commonly used way of latency extraction to-date {[}REFS{]}, partially due to the ease of its implementation and low computational requirements. \textbf{something about historical ease of use} \textbf{Luck, 2014, p.~286 cites Donchin \& Heffley, 1978 as historical example}. However, ease of implementation is accompanied by several drawbacks.
-
-Firstly, peak latency approaches are blind to the general structure within the ERP signal. They locate the point in time with the largest voltage deflection within the measurement window. The ``true'' maximum signal may lay just outside of the measurement window, resulting in the algorithm picking an outside edge of the window, even though the signal increases in amplitude just following that time-point. {[}REF; Luck 2014 mentions this I think{]} have modified the simple \emph{peak latency} algorithm to only consider maxima inside the measurement window which are also larger than the surrounding data-points. A spike just on the edge of the measurement window will not meet these criteria. This approach protects against the influence of noise or surrounding components on the edges of the measurement window, but remains vulnerable to high frequency noise inducing peaks inside the measurement window.
+Firstly, peak latency approaches are blind to the general structure within the ERP signal. They locate the point in time with the largest voltage deflection within the measurement window. The ``true'' maximum signal may lay just outside of the measurement window, resulting in the algorithm picking an outside edge of the window, even though the signal increases in amplitude just following that time-point. The simple \emph{peak latency} algorithm can be extended to only consider maxima inside the measurement window which are also larger than the surrounding data-points (\protect\hyperlink{ref-luck2014introduction}{Luck, 2014}). A spike just on the edge of the measurement window will not meet these criteria. This approach protects against the influence of noise or surrounding components on the edges of the measurement window, but remains vulnerable to high frequency noise inducing peaks inside the measurement window.
 
 Due to high frequency noise, the maximum voltage deflection may not reflect the true point in time at which the process underlying the component reaches its maximum. Rather it may be the result of high frequency noise inducing a spike in the signal, independent of any cognitive process. This is problematic especially in later ERP components, as the broader measurement window most commonly applied increases the likelihood of high frequency noise inducing the maximum voltage deflection (\protect\hyperlink{ref-clayson2013noise}{Clayson et al., 2013}).
 
@@ -262,13 +256,13 @@ The sensitivity of the peak latency approach to the size of the measurement wind
 
 Lastly, as Luck (\protect\hyperlink{ref-luck2014introduction}{2014}) so aptly states: \emph{There is nothing special about the point at which the voltage reaches a local maximum}. The largest deflection does not inherently relate to any physiological or psychological process and may not even reflect the true maximum of the component of interest. Luck (\protect\hyperlink{ref-luck2005ten}{2005}) visually demonstrates how peak latency may be a result of the overlap of multiple components and not related to any single component.
 
-\hypertarget{fractional-area-latency}{%
-\subsubsection{Fractional Area Latency}\label{fractional-area-latency}}
+\hypertarget{fractional-area-latency-algorithms}{%
+\subsection{Fractional Area Latency Algorithms}\label{fractional-area-latency-algorithms}}
 
-\emph{Fractional Area Latency} approaches hope to remedy some of the problems associated with peak latency algorithms {[}REFs to Luck, original FAL approach?{]}. This technique revolves around the area under the ERP signal in a given measurement window. The goal is to find the point in time that divides that area under the signal into a given fraction to the left and right of it. The time-point halving the area under the signal, for example, is referred to as the \emph{50\% area latency}. This approach is much less susceptible to the influence of high frequency noise, as short spikes in the signal do not have a strong impact on the area under the signal {[}MORE REFS{]} (\protect\hyperlink{ref-liesefeld2018estimating}{Liesefeld, 2018}). Area latency approaches remain highly dependent on the measurement window (\protect\hyperlink{ref-luck2014introduction}{Luck, 2014}). Choosing a shorter window may result in only a part of the area of the component of interest being captured. A wider measurement window on the other hand might be influenced by surrounding components. \emph{Fractional Area} measures thus work best for investigating an isolated component (\protect\hyperlink{ref-luck2014introduction}{Luck, 2014}), limiting the applicability of area latency algorithms.
+\emph{Fractional Area Latency} approaches hope to remedy some of the problems associated with peak latency algorithms. This technique revolves around the area under the ERP signal in a given measurement window. The goal is to find the point in time that divides that area under the signal into a given fraction to the left and right of it. The time-point halving the area under the signal, for example, is referred to as the \emph{50\% area latency}. This approach is much less susceptible to the influence of high frequency noise, as short spikes in the signal do not have a strong impact on the area under the signal (\protect\hyperlink{ref-liesefeld2018estimating}{Liesefeld, 2018}). Area latency approaches remain highly dependent on the measurement window (\protect\hyperlink{ref-luck2014introduction}{Luck, 2014}). Choosing a shorter window may result in only a part of the area of the component of interest being captured. A wider measurement window on the other hand might be influenced by surrounding components. \emph{Fractional Area} measures thus work best for investigating an isolated component (\protect\hyperlink{ref-luck2014introduction}{Luck, 2014}), limiting the applicability of area latency algorithms.
 
 \hypertarget{jackknifing}{%
-\subsubsection{Jackknifing}\label{jackknifing}}
+\subsection{Jackknifing}\label{jackknifing}}
 
 Another approach towards dealing with noisy subject-level ERPs is to try and mitigate that noise by averaging multiple subject-level ERPs. This technique is referred to as \emph{jackknifing} (\protect\hyperlink{ref-miller1998jackknife}{Miller et al., 1998}). It uses the grand average of \(N\) subject-level ERPs and generates \(N\) sub-grand averages by removing one of the subject-level ERPs. This averaging procedure results in \(N\) ERPs with higher signal-to-noise ratios. Both \emph{peak} and \emph{area} based measures can then be applied to the jackknifed data to extract latencies. As any two jackknifed signals share \(\frac{N-2}{N} * 100\) percent of the subject-level signals that are averaged with each other, each jackknifed sub-average is quite similar to all others. This artificially decreases the error variance, which needs to be corrected for when testing for differences between groups (\protect\hyperlink{ref-ulrich2001using}{Ulrich \& Miller, 2001}). Because latencies extracted from jackknifed ERPs are based on averaged waveforms, they can not readily be associated with any single subject, preventing this method from generating individual-level latency estimates needed for individual differences research. This problem was addressed by (\protect\hyperlink{ref-smulders2010simplifying}{Smulders, 2010}) who introduced a transformation able to generate individual-level latency estimates.
 
@@ -279,16 +273,13 @@ Kiesel et al. (\protect\hyperlink{ref-kiesel2008measurement}{2008}) applied thes
 
 Kiesel et al. (\protect\hyperlink{ref-kiesel2008measurement}{2008}) were concerned with extracting condition differences in ERP research. While this is important, techniques applied in individual differences research have to extract latencies from subject-level ERPs and produce both reliable and valid estimates. Kiesel et al. (\protect\hyperlink{ref-kiesel2008measurement}{2008}) did not assess psychometric properties of latency estimates. Addressing this gap in research, Sadus et al. (\protect\hyperlink{ref-sadus2023multiverse}{2023}) investigated the influence of different preprocessing strategies and latency extraction techniques on psychometric properties of the latency values generated as well as the ability to detect an age-related effect in P3 latency. They varied the strength of the low-pass filter applied to the data, used both single-participant and jackknife approaches and extracted latencies either automatically or manually, using either a peak latency or area latency approach. Both the size of the effect and the psychometric properties, such as reliability or homogeneity of the latency values, varied between the different analysis strategies. No combination of preprocessing steps and extraction method proved best across all tasks and groups. Only 7 out of 40 possible pipelines generated consistently desirable reliabilities (\(r_{tt} \ge .70\)), homogeneities (\(r_{h} \ge .50\)) and effect sizes (\(.03 \le \omega^2 <.80\)). All of those seven pipelines used manual extraction methods either based on peak or area latencies. While automated extraction methods would improve both efficiency and objectivity, fully automated approaches failed to generate consistently reliable and valid latency measures (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}; \protect\hyperlink{ref-schubert2023robust}{Schubert et al., 2023}). Yet, manual extraction methods are highly time-consuming and impede reproducibility. We hope to show that our algorithm can match the performance of manual extraction while providing a more efficient and objective approach for extracting individual component latency values.
 
-\hypertarget{our-algorithm}{%
-\section{Our algorithm}\label{our-algorithm}}
-
-\hypertarget{motivation}{%
-\subsection{Motivation}\label{motivation}}
+\hypertarget{template-matching}{%
+\section{Template Matching}\label{template-matching}}
 
 The shortcomings of prior algorithms may be due to none of them aiming to replicate human behavior and rather focusing on generating similar decisions, not similar decision processes. Our proposed algorithm more closely resembles the process expert ERP researches employ.
 
-\hypertarget{template-matching}{%
-\subsection{template matching}\label{template-matching}}
+\hypertarget{template-matching-1}{%
+\subsection{template matching}\label{template-matching-1}}
 
 \hypertarget{introduction}{%
 \subsubsection{Introduction}\label{introduction}}
@@ -349,9 +340,9 @@ This algorithm aims to address some of the issues faced by other algorithms. It 
 
 In order to compare the quality of our proposed algorithm we will reanalyze the same data analyzed by Sadus et al. (\protect\hyperlink{ref-sadus2023multiverse}{2023}). We compare the psychometric properties of our algorithm to those of previously established algorithms, investigate the impact of different preprocessing steps and evaluate the correlation between latencies extracted by our algorithm and those extracted manually by an expert ERP researcher.
 
-In their study, Sadus et al. (\protect\hyperlink{ref-sadus2023multiverse}{2023}) extracted latencies of the P3b component, henceforth simply referred to as P3. The P3 is a centro-parietal positive-going component, peaking around 300 ms after stimulus onset. It is a late higher-order cognitive component {[}REFS{]} associated with {[}Processes{]}. A number of studies have demonstrated a large effect of age on the latency of the P3 across a number of tasks {[}REFs{]} with older participants displaying systematically later P3 peaks than their younger counterparts. In a multiverse approach Sadus et al. (\protect\hyperlink{ref-sadus2023multiverse}{2023}) tested several extraction methods with varying preprocessing steps in their ability to detect this age effect. They used three tasks, each measuring one of the executive functions proposed by Miyake et al. (\protect\hyperlink{ref-miyake2000unity}{2000}). To measure the functions \emph{updating}, \emph{shifting} and \emph{inhibition}, they employed an Nback, a Switching and a Flanker Task, respectively. Studying three different tasks allows us to gain insight into a larger variety of higher-order cognitive processing, improving the generalizability of our findings.
+In their study, Sadus et al. (\protect\hyperlink{ref-sadus2023multiverse}{2023}) extracted latencies of the P3b component, henceforth simply referred to as P3. The P3 is a centro-parietal positive-going component, peaking around 300 ms after stimulus onset. It is a late higher-order cognitive component associated with higher-order cognitive processes (\protect\hyperlink{ref-donchin1981surprise}{Donchin, 1981}; \protect\hyperlink{ref-duncan1981young}{Duncan-Johnson, 1981}; \protect\hyperlink{ref-mccarthy1981metric}{McCarthy \& Donchin, 1981}; \protect\hyperlink{ref-polich2007updating}{Polich, 2007}, \protect\hyperlink{ref-polich2012neuropsychology}{2012}; \protect\hyperlink{ref-verleger2020effects}{Verleger, 2020}). A number of studies have demonstrated a large effect of age on the latency of the P3 across a number of tasks with older participants displaying systematically later P3 peaks than their younger counterparts (\protect\hyperlink{ref-friedman2012components}{Friedman, 2011}; \protect\hyperlink{ref-scrivano2022behavioral}{Scrivano \& Kieffaber, 2022}). In a multiverse approach Sadus et al. (\protect\hyperlink{ref-sadus2023multiverse}{2023}) tested several extraction methods with varying preprocessing steps in their ability to detect this age effect. They used three tasks, each measuring one of the executive functions proposed by Miyake et al. (\protect\hyperlink{ref-miyake2000unity}{2000}). To measure the functions \emph{updating}, \emph{shifting} and \emph{inhibition}, they employed an Nback, a Switching and a Flanker Task, respectively. Studying three different tasks allows us to gain insight into a larger variety of higher-order cognitive processing, improving the generalizability of our findings.
 
-Nonetheless, we will restrict our analysis to extracting P3 latencies. The P3 usually has a broad and isolated structure with comparatively low influence of surrounding components {[}REF{]}. This makes the P3 one of the easier components for automated latency extraction approaches. After we can demonstrate proof-of-concept for P3 latency extraction, we will evaluate the algorithms ability to be extended to other ERP components.
+Nonetheless, we will restrict our analysis to extracting P3 latencies. The P3 usually has a broad and isolated structure with comparatively low influence of surrounding components {[}REF - kathrin?{]}. This makes the P3 one of the easier components for automated latency extraction approaches. After we can demonstrate proof-of-concept for P3 latency extraction, we will evaluate the algorithms ability to be extended to other ERP components.
 
 We hope to show that a template matching approach using the grand average as a variable template can successfully extract P3 component latencies. Ideally, use of this algorithm will improve psychometric properties in comparison to prior algorithms, show high correlations with manually extracted data and present an objective and efficient way to extract ERP latencies.
 
@@ -361,7 +352,7 @@ We hope to show that a template matching approach using the grand average as a v
 \hypertarget{implementation-in-matlab-with-details}{%
 \subsection{Implementation in Matlab with details}\label{implementation-in-matlab-with-details}}
 
-We implemented the algorithm in MATLAB (Version 2022b) (\protect\hyperlink{ref-matlab2022b}{Inc., 2022}). The researcher specifies the name and polarity of the component of interest as well as the measurement window. This window is used to extract the template. In order to transform the template, we use MATLABs Curve Fitting Toolbox (\protect\hyperlink{ref-matlab2022b}{Inc., 2022}) to generate \emph{sum of sines} functions that fit to the data with \(R^2 \ge 0.999\). We then add an amplitude parameter \(a\) to the overall function in order to allow for scaling of the amplitude of the template and a frequency parameter \(b\) to all frequency terms in the sum of sines function to allow for ``squishing'' or ``stretching'' the template along the x-Axis. The resulting variable template is described by a function \(f(x, a, b)\) with \(n\) sine terms and their respective amplitude \(A_i\), frequency \(f_i\) and phase \(\phi_i\).
+We implemented the algorithm in MATLAB (Version 2022b) (\protect\hyperlink{ref-matlab2022b}{The Math Works, 2022}). The researcher specifies the name and polarity of the component of interest as well as the measurement window. This window is used to extract the template. In order to transform the template, we use MATLABs Curve Fitting Toolbox (\protect\hyperlink{ref-matlab2022b}{The Math Works, 2022}) to generate \emph{sum of sines} functions that fit to the data with \(R^2 \ge 0.999\). We then add an amplitude parameter \(a\) to the overall function in order to allow for scaling of the amplitude of the template and a frequency parameter \(b\) to all frequency terms in the sum of sines function to allow for ``squishing'' or ``stretching'' the template along the x-Axis. The resulting variable template is described by a function \(f(x, a, b)\) with \(n\) sine terms and their respective amplitude \(A_i\), frequency \(f_i\) and phase \(\phi_i\).
 
 \[f(x, a, b) = \sum_{i = 1}^{n} a\cdot(A_isin(bf_ix + \phi_i)\]
 As these transformations also change the measurement window, we chose to use the subject-level ERP as a template and keep the grand average untransformed as a signal. This reverse matching approach is only an implementation detail and does not affect any decisions made by the algorithm.
@@ -422,7 +413,7 @@ The data is comprised of 30 young participants (18-21 years old, mean age = 19.3
 \hypertarget{tasks}{%
 \subsection{Tasks}\label{tasks}}
 
-Participants completed a set of 3 tasks: a Flanker Task, an Nback Task and a Switching Task. These tasks each measure one of the executive functions proposed by Miyake et al. (\protect\hyperlink{ref-miyake2000unity}{2000}). Löffler et al. (\protect\hyperlink{ref-loffler2022common}{2022}) programmed all tasks in MATLAB {[}REF{]} using the software package Psychtoolbox (Version 3-0.13) (\protect\hyperlink{ref-brainard1997psychophysics}{Brainard \& Vision, 1997}; \protect\hyperlink{ref-kleiner2007psychtoolbox}{Kleiner et al., 2007}; \protect\hyperlink{ref-pelli1997videotoolbox}{Pelli \& Vision, 1997}). Stimuli were presented centrally on a black background. We instructed participants to respond as quickly and accurately as possible.
+Participants completed a set of 3 tasks: a Flanker Task, an Nback Task and a Switching Task. These tasks each measure one of the executive functions proposed by Miyake et al. (\protect\hyperlink{ref-miyake2000unity}{2000}). Löffler et al. (\protect\hyperlink{ref-loffler2022common}{2022}) programmed all tasks in MATLAB (\protect\hyperlink{ref-matlab2022b}{The Math Works, 2022}) using the software package Psychtoolbox (Version 3-0.13) (\protect\hyperlink{ref-brainard1997psychophysics}{Brainard \& Vision, 1997}; \protect\hyperlink{ref-kleiner2007psychtoolbox}{Kleiner et al., 2007}; \protect\hyperlink{ref-pelli1997videotoolbox}{Pelli \& Vision, 1997}). Stimuli were presented centrally on a black background. We instructed participants to respond as quickly and accurately as possible.
 
 \hypertarget{flanker-task}{%
 \subsubsection{Flanker Task}\label{flanker-task}}
@@ -447,12 +438,12 @@ The original study consisted of three test sessions. The three tasks the present
 \hypertarget{eeg-recording-and-processing}{%
 \subsection{EEG recording and processing}\label{eeg-recording-and-processing}}
 
-EEG was recorded using 32 Ag/AgCl scalp electrodes placed in the 10-20 system {[}yes, this the system we use?{]}. Additional electrooculogram (EOG) measures were taken by two electrode placed above and below the left eye to correct for ocular artifacts. All impedances were kept below 5 kΩ. The signal was recorded with a sampling rate of 1000 Hz (band-pass 0.1 Hz - 100 Hz) and online-referenced to Cz. Following data acquisition, the raw data was down-sampled to 250 Hz. To remove artifacts we conducted an ICA on a cloned version of the dataset down-sampled to 100 Hz and passed through an additional high-pass filter of 1 Hz. Both the original down-sampled data as well as the ICA-dataset were cleaned by removing channels with unusually long flatlines, artifact-rates or line-noise. Channels removed were interpolated following this procedure and the data was re-referenced to the average across electrodes. ICA was conducted using the InfoMax algorithm and the resulting decomposition applied to the original dataset. ICs were labelled using the ICLabel Algorithm (\protect\hyperlink{ref-pion2019iclabel}{Pion-Tonachini et al., 2019}) and removed if the IC was less than 50\% likely to be brain activity. We then applied Butterworth low-pass filters with varying cut-off frequencies (8 Hz, 16 Hz, 32 Hz) and a roll-off of 12 dB/octave. Data was segmented into 1200ms long segments starting 200ms before stimulus onset. Segments containing artifacts were automatically detected and removed. As a last step, we conducted a baseline correction using the 200ms prior to stimulus onset.
+EEG was recorded using 32 equidistant Ag/AgCl scalp electrodes. Additional electrooculogram (EOG) measures were taken by two electrode placed above and below the left eye to correct for ocular artifacts. All impedances were kept below 5 kΩ. The signal was recorded with a sampling rate of 1000 Hz (band-pass 0.1 Hz - 100 Hz) and online-referenced to Cz. Following data acquisition, the raw data was down-sampled to 250 Hz. To remove artifacts we conducted an ICA on a cloned version of the dataset down-sampled to 100 Hz and passed through an additional high-pass filter of 1 Hz. Both the original down-sampled data as well as the ICA-dataset were cleaned by removing channels with unusually long flatlines, artifact-rates or line-noise. Channels removed were interpolated following this procedure and the data was re-referenced to the average across electrodes. ICA was conducted using the InfoMax algorithm and the resulting decomposition applied to the original dataset. ICs were labelled using the ICLabel Algorithm (\protect\hyperlink{ref-pion2019iclabel}{Pion-Tonachini et al., 2019}) and removed if the IC was less than 50\% likely to be brain activity. We then applied Butterworth low-pass filters with varying cut-off frequencies (8 Hz, 16 Hz, 32 Hz) and a roll-off of 12 dB/octave. Data was segmented into 1200ms long segments starting 200ms before stimulus onset. Segments containing artifacts were automatically detected and removed. As a last step, we conducted a baseline correction using the 200ms prior to stimulus onset.
 
 \hypertarget{erp-analysis}{%
 \subsection{ERP analysis}\label{erp-analysis}}
 
-Analyses were conducted in MATLAB {[}Version, citation{]}. We only included correct trials into analysis. We investigated the ERPs containing the P3 at the electrode Pz, similar to previous literature {[}REFS{]}.
+ERP analyses were conducted in MATLAB (Version 2022b) (\protect\hyperlink{ref-matlab2022b}{The Math Works, 2022}). We only included correct trials into analysis. We investigated the P3 at the electrode Pz, following existing literature (\protect\hyperlink{ref-polich2012neuropsychology}{Polich, 2012}; \protect\hyperlink{ref-verleger2020effects}{Verleger, 2020}).
 
 \hypertarget{latency-extraction}{%
 \subsubsection{Latency extraction}\label{latency-extraction}}
@@ -467,30 +458,13 @@ In our dataset, each of the 60 participants contributed 6 ERPs per task to the d
 \hypertarget{validation-techniques}{%
 \section{Validation Techniques}\label{validation-techniques}}
 
-We investigated the impact of latency extraction method on several psychometric properties as well as the effect size of the age effect. We also compared the methods in their correlation with manually extracted latencies, which can be seen as a benchmark for proper latency extraction (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}).
+We investigated the impact of latency extraction method on several measures of psychometric quality. We estimated reliability \(r_{tt}\) by computing Spearman-Brown corrected split-half correlations of ERPs generated from an odd-even split at the trial level. We assessed the validity of our algorithm through measures of homogeneity, the effect sizes of the age effect and the correlation of latencies extracted by our algorithm with latencies extracted by an expert ERP researcher, which constitute a benchmark for proper latency extraction (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}).
 
-\hypertarget{reliability}{%
-\subsection{Reliability}\label{reliability}}
-
-We estimated reliability \(r_{tt}\) by computing Spearman-Brown corrected split-half correlations of ERPs generated from an odd-even split at the trial level.
-
-\hypertarget{homogeneity}{%
-\subsection{Homogeneity}\label{homogeneity}}
-
-To compute a methods homogeneity \(r_h\), we calculated its correlation with all other methods and took the mean of the Fisher-Z transformed correlation coefficients. Correlation coefficients of 1 cannot be transformed. Thus, we set all correlations \(r = 1.00\) to \(r = .99\). The mean correlation with other methods indicates the extent to which a particular method reflects the total of all other measures.
-
-\hypertarget{effect-size}{%
-\subsection{Effect size?}\label{effect-size}}
+To compute a methods homogeneity \(r_h\), we calculated its correlation with all other methods and took the mean of the Fisher-Z transformed correlation coefficients. Correlation coefficients of 1 cannot be transformed. Thus, we set all correlations \(r = 1.00\) to \(r = .99\). The mean correlation with other methods indicates the extent to which a particular method reflects the total of all other measures (\protect\hyperlink{ref-kline1986handbook}{Kline, 1986}).
 
 To investigate the effect of age on P3 latencies, we ran a repeated measures ANOVA with the between factor age (young vs.~old) and the within factor task (Flanker, Nback, Switching).
 
-\hypertarget{correlation-with-manual-extraction}{%
-\subsection{Correlation with manual extraction}\label{correlation-with-manual-extraction}}
-
 We quantified the extent to which an extraction method is able to replicate the benchmark of manual extraction by correlating the latencies extracted by a particular method with those extracted by an expert researcher in the same task and filter condition.
-
-\hypertarget{impact-of-filters-measurement-window}{%
-\subsection{Impact of Filters / Measurement Window}\label{impact-of-filters-measurement-window}}
 
 We also quantified the impact preprocessing steps and the choice of measurement window have on the reliability and validity of extraction methods. We ran a repeated measures ANOVA with the dependent variable being either the estimated reliability of a method or its correlation with manually extracted data and the between factor filter (8 Hz vs.~16 Hz vs.~32 Hz) and the within factor measurement window (narrow vs.~medium vs.~wide).
 
@@ -506,18 +480,18 @@ We reviewed results of the CORR and MINSQ algorithms if their fit was below \(r_
 
 When reporting the psychometric properties of the algorithms, we will focus on those values passed through manual inspection. Values that were gained from a pipeline ending with the automatic rejection filter are reported in parenthesis. Properties of uninspected pipelines can be found in the respective tables in the appendix.
 
-\hypertarget{reliability-1}{%
-\subsection{Reliability}\label{reliability-1}}
+\hypertarget{reliability}{%
+\subsection{Reliability}\label{reliability}}
 
 An overview of Spearman-Brown corrected split-half correlations \(r_{tt}\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm had mean split-half correlations of \(\overline{r_{tt}} =\) .89 for manually reviewed latencies (\(\overline{r_{tt}} =\) .87 for automatically reviewed latencies), the MINSQ algorithm \(\overline{r_{tt}} =\) .90 (\(\overline{r_{tt}} =\) .86). Area latency measures presented mean split-half correlations of \(\overline{r_{tt}} =\) .92. Peak latency measures had mean split-half correlations of \(\overline{r_{tt}} =\) .81. The average split-half correlation for values extracted by an expert ERP researcher was \(\overline{r_{tt}} = .92\) for area latency measures and \(\overline{r_{tt}} = .93\) for peak latency measures (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}).
 
-\hypertarget{homogeneity-1}{%
-\subsection{Homogeneity}\label{homogeneity-1}}
+\hypertarget{homogeneity}{%
+\subsection{Homogeneity}\label{homogeneity}}
 
 An overview of a method's mean correlation with other methods \(r_h\) split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm had a homogeneity of \(\overline{r_{h}} =\) .81 (\(\overline{r_{h}} =\) .80), the MINSQ algorithm \(\overline{r_{h}} =\) .87 (\(\overline{r_{h}} =\) .86). The homogeneity of area latency measures was \(\overline{r_{h}} =\) .78, and \(\overline{r_{h}} =\) .71 for peak latency measures.
 
-\hypertarget{effect-size-1}{%
-\subsection{Effect size}\label{effect-size-1}}
+\hypertarget{effect-size}{%
+\subsection{Effect size}\label{effect-size}}
 
 An overview of the effect size of the age effect detected by a particular method split by task, measurement window and filter setting can be found in {[}TABLE{]}. Across tasks, measurement windows and filter settings the CORR algorithm had a mean effect size of \(\overline{\omega^2} =\) .18 (\(\overline{\omega^2} =\) .18), the MINSQ algorithm \(\overline{\omega^2} =\) .23 (\(\overline{\omega^2} =\) .23). Area latency measures presented average effect sizes of \(\overline{\omega^2} =\) .15, peak latency measures \(\overline{\omega^2} =\) .08. The average effect size for values extracted by an expert ERP researcher was \(\overline{\omega^2} = .18\) for area latency measures and \(\overline{\omega^2} = .17\) for peak latency measures (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}).
 
@@ -541,15 +515,15 @@ When the correlation with manually extracted latencies was used as a dependent v
 
 Our newly proposed pattern matching algorithms displayed consistently good psychometric properties and showed an improved ability to replicate human extraction behavior over previously established approaches like peak latency or area latency algorithms. Manual extraction has so far proven superior to algorithmic approaches (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}) but presents a time- and resource-intensive process. Our algorithm based on minimizing the weighted squared distance between transformed template and signal (MINSQ) correlated to \(\overline{r} =\) .91 with manually extracted ERP latencies across tasks and preprocessing steps. This indicates that our algorithm was able to replicate manual extraction almost perfectly while presenting a more objective and efficient approach to latency extraction. Our algorithms were also more robust to the impact of different low-pass filters and measurement windows than previous algorithms. Application of our algorithm would increase both replicability and scalability as well as significantly reduce the time and resources researchers need to spend on latency extraction.
 
-\hypertarget{reliability-2}{%
-\subsubsection{Reliability}\label{reliability-2}}
+\hypertarget{reliability-1}{%
+\subsubsection{Reliability}\label{reliability-1}}
 
 A key comparison to evaluate the effectiveness of our algorithm was to test if it is better than already established, simpler algorithms.
 
 Regarding the reliability of extracted latencies across tasks and preprocessing steps, our algorithms did not prove superior to the area latency approach. Both the MINSQ and CORR approaches had slightly lower Spearman-Brown corrected split-half correlations. However, the differences in reliability are quite small and only carry low practical implications. If the researcher uses latent-variable approaches in their analysis of ERP latencies, for example, slightly lower reliabilites don't influence the quality of results much {[}REF{]}.
 
-\hypertarget{homogeneity-2}{%
-\subsubsection{Homogeneity}\label{homogeneity-2}}
+\hypertarget{homogeneity-1}{%
+\subsubsection{Homogeneity}\label{homogeneity-1}}
 
 Latency values extracted by the MINSQ algorithm proved to have the highest average correlation with all other extraction methods across tasks and preprocessing steps (\(\overline{r_{h}} =\) .87). This indicates that this approach best reflects the total of all other measures. The CORR algorithm also proved superior to previously established extraction methods.
 
@@ -666,20 +640,32 @@ Brunelli, R., \& Poggiot, T. (1997). Template matching: {Matched} spatial filter
 \leavevmode\vadjust pre{\hypertarget{ref-clayson2013noise}{}}%
 Clayson, P. E., Baldwin, S. A., \& Larson, M. J. (2013). How does noise affect amplitude and latency measurement of event-related potentials ({ERPs})? {A} methodological critique and simulation study. \emph{Psychophysiology}, \emph{50}(2), 174--186. \url{https://doi.org/10.1111/psyp.12001}
 
+\leavevmode\vadjust pre{\hypertarget{ref-donchin1981surprise}{}}%
+Donchin, E. (1981). Surprise!\ldots{} surprise? \emph{Psychophysiology}, \emph{18}(5), 493--513.
+
+\leavevmode\vadjust pre{\hypertarget{ref-donchin1978multivariate}{}}%
+Donchin, E., \& Heffley, E. F. (1978). \emph{Multivariate analysis of event-related potential data: {A} tutorial review}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-duncan1981young}{}}%
+Duncan-Johnson, C. C. (1981). Young psychophysiologist award address, 1980: {P300} latency: A new metric of information processing. \emph{Psychophysiology}, \emph{18}(3), 207--215.
+
 \leavevmode\vadjust pre{\hypertarget{ref-eriksen1974effects}{}}%
 Eriksen, B. A., \& Eriksen, C. W. (1974). Effects of noise letters upon the identification of a target letter in a nonsearch task. \emph{Perception \& Psychophysics}, \emph{16}(1), 143--149. \url{https://doi.org/10.3758/BF03203267}
 
+\leavevmode\vadjust pre{\hypertarget{ref-friedman2012components}{}}%
+Friedman, D. (2011). The components of aging. In \emph{The oxford handbook of event-related potential components}. Oxford University Press. \url{https://doi.org/10.1093/oxfordhb/9780195374148.013.0243}
+
 \leavevmode\vadjust pre{\hypertarget{ref-goshtasby1984two}{}}%
 Goshtasby, A., Gage, S. H., \& Bartholic, J. F. (1984). A two-stage cross correlation approach to template matching. \emph{IEEE Transactions on Pattern Analysis and Machine Intelligence}, \emph{3}, 374--378.
-
-\leavevmode\vadjust pre{\hypertarget{ref-matlab2022b}{}}%
-Inc., T. M. (2022). \emph{{MATLAB} version: 9.13.0 (r2022b)}. The MathWorks Inc. \url{https://www.mathworks.com}
 
 \leavevmode\vadjust pre{\hypertarget{ref-kiesel2008measurement}{}}%
 Kiesel, A., Miller, J., Jolicœur, P., \& Brisson, B. (2008). Measurement of {ERP} latency differences: {A} comparison of single-participant and jackknife-based scoring methods. \emph{Psychophysiology}, \emph{45}(2), 250--274.
 
 \leavevmode\vadjust pre{\hypertarget{ref-kleiner2007psychtoolbox}{}}%
 Kleiner, M., Brainard, D., \& Pelli, D. (2007). \emph{What's new in psychtoolbox-3?}
+
+\leavevmode\vadjust pre{\hypertarget{ref-kline1986handbook}{}}%
+Kline, P. (1986). \emph{A handbook of test construction: {Introduction} to psychometric design. {New} {York}: {Methuen}}. Inc.
 
 \leavevmode\vadjust pre{\hypertarget{ref-lewis1995fast}{}}%
 Lewis, J. P. (1995). Fast template matching. \emph{Vision Interface}, \emph{95}, 15--19.
@@ -705,6 +691,9 @@ Luck, S. J. (2014). \emph{An introduction to the event-related potential techniq
 \leavevmode\vadjust pre{\hypertarget{ref-mahalakshmi2012image}{}}%
 Mahalakshmi, T., Muthaiah, R., \& Swaminathan, P. (2012). Image processing. \emph{Research Journal of Applied Sciences, Engineering and Technology}, \emph{4}(24), 5469--5473.
 
+\leavevmode\vadjust pre{\hypertarget{ref-mccarthy1981metric}{}}%
+McCarthy, G., \& Donchin, E. (1981). A metric for thought: A comparison of {P300} latency and reaction time. \emph{Science (New York, N.Y.)}, \emph{211}(4477), 77--80.
+
 \leavevmode\vadjust pre{\hypertarget{ref-miller1998jackknife}{}}%
 Miller, J., Patterson, T., \& Ulrich, R. (1998). Jackknife-based method for measuring {LRP} onset latency differences. \emph{Psychophysiology}, \emph{35}(1), 99--115. \url{https://doi.org/10.1111/1469-8986.3510099}
 
@@ -717,6 +706,12 @@ Pelli, D. G., \& Vision, S. (1997). The {VideoToolbox} software for visual psych
 \leavevmode\vadjust pre{\hypertarget{ref-pion2019iclabel}{}}%
 Pion-Tonachini, L., Kreutz-Delgado, K., \& Makeig, S. (2019). {ICLabel}: {An} automated electroencephalographic independent component classifier, dataset, and website. \emph{NeuroImage}, \emph{198}, 181--197.
 
+\leavevmode\vadjust pre{\hypertarget{ref-polich2007updating}{}}%
+Polich, J. (2007). Updating {P300}: An integrative theory of {P3a} and {P3b}. \emph{Clinical Neurophysiology}, \emph{118}(10), 2128--2148.
+
+\leavevmode\vadjust pre{\hypertarget{ref-polich2012neuropsychology}{}}%
+Polich, J. (2012). Neuropsychology of {P300}. \emph{The Oxford Handbook of Event-Related Potential Components}, 159--188.
+
 \leavevmode\vadjust pre{\hypertarget{ref-sadus2023multiverse}{}}%
 Sadus, K., Schubert, A.-L., Löffler, C., \& Hagemann, D. (2023). \emph{A multiverse study for extracting differences in {P3} latencies between young and old adults}.
 
@@ -726,11 +721,20 @@ Scharinger, C., Soutschek, A., Schubert, T., \& Gerjets, P. (2015). When flanker
 \leavevmode\vadjust pre{\hypertarget{ref-schubert2023robust}{}}%
 Schubert, A.-L., Löffler, C., Hagemann, D., \& Sadus, K. (2023). How robust is the relationship between neural processing speed and cognitive abilities? \emph{Psychophysiology}, \emph{60}(2), e14165.
 
+\leavevmode\vadjust pre{\hypertarget{ref-scrivano2022behavioral}{}}%
+Scrivano, R. M., \& Kieffaber, P. D. (2022). Behavioral and electrophysiological correlates of {Simon} and flanker conflict interference in younger and older adults. \emph{Aging, Neuropsychology, and Cognition}, \emph{29}(2), 318--348.
+
 \leavevmode\vadjust pre{\hypertarget{ref-smulders2010simplifying}{}}%
 Smulders, F. T. Y. (2010). Simplifying jackknifing of {ERPs} and getting more out of it: {Retrieving} estimates of participants' latencies. \emph{Psychophysiology}, \emph{47}(2), 387--392. \url{https://doi.org/10.1111/j.1469-8986.2009.00934.x}
 
+\leavevmode\vadjust pre{\hypertarget{ref-matlab2022b}{}}%
+The Math Works, Inc. (2022). \emph{{MATLAB} version: 9.13.0 (r2022b)}. The MathWorks Inc. \url{https://www.mathworks.com}
+
 \leavevmode\vadjust pre{\hypertarget{ref-ulrich2001using}{}}%
 Ulrich, R., \& Miller, J. (2001). Using the jackknife-based scoring method for measuring {LRP} onset effects in factorial designs. \emph{Psychophysiology}, \emph{38}(5), 816--827.
+
+\leavevmode\vadjust pre{\hypertarget{ref-verleger2020effects}{}}%
+Verleger, R. (2020). Effects of relevance and response frequency on {P3b} amplitudes: {Review} of findings and comparison of hypotheses about the process reflected by {P3b}. \emph{Psychophysiology}, \emph{57}(7), e13542.
 
 \leavevmode\vadjust pre{\hypertarget{ref-william2020erp}{}}%
 William, F., Aygun, R., \& Zhu, F. (2020). {ERP} template matching for {EEG} single trial classification. \emph{2020 {IEEE} International Conference on Bioinformatics and Biomedicine ({BIBM})}, 2876--2883.
