@@ -34,7 +34,15 @@ Both algorithms then return the transformation parameters $[a_j, b_j]$ that resu
 $$ l_j = l_{GA} * b_j $$
 
 ## Review methods
-Researchers can manually review all choices the algorithm has made in a custom-built user interface [See figure]. For both algorithms, we used the correlation between transformed template and signal as a fit-index. This can be used to only review those cases where the correlation between template and signal dips below a certain value, indicating low similarity between matched template and signal. We will investigate the additional benefits a manual review process provides over accepting the choices as-is or only automatically discarding those matches with correlations $r_{st} \le .20$.
+Researchers can manually review all choices the algorithm has made in a custom-built user interface (see Figure \@ref(fig:review-gui-example)). For both algorithms, we used the correlation between transformed template and signal as a fit-index. This can be used to only review those cases where the correlation between template and signal dips below a certain value, indicating low similarity between matched template and signal. We will investigate the additional benefits a manual review process provides over accepting the choices as-is or only automatically discarding those matches with correlations $r_{st} \le .20$.
+
+(ref:review-gui-example) User Interface for Manual Review Process
+```{r review-gui-example, out.width="75%", fig.cap=paste("(ref:review-gui-example)")}
+knitr::include_graphics(
+  "images/review_gui_example.png"
+)
+```
+
 
 # Data
 The data used here were first published by @sadus2023multiverse and are a subset of the data collected by @loffler2022common.

@@ -49,7 +49,7 @@ wordcount         : "X"
 
 bibliography      : ["r-references.bib", "template_matching.bib"] # put your ref files here
 
-floatsintext      : yes # for pics in text
+floatsintext      : no # for pics in text
 linenumbers       : no
 draft             : no
 mask              : no
