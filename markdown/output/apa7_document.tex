@@ -238,9 +238,6 @@ Two or three sentences to provide a \textbf{broader perspective}, readily compre
 \begin{document}
 \maketitle
 
-\hypertarget{history-of-extraction-methods}{%
-\section{History of Extraction Methods}\label{history-of-extraction-methods}}
-
 In cognitive neuroscience, the accurate extraction of latencies of event-related potentials (ERPs) stands as a crucial step in understanding the timing of neural processes that underlie cognitive functions (\protect\hyperlink{ref-luck2014introduction}{Luck, 2014}). In studies focusing on individual differences an objective, efficient, valid and reliable extraction process is paramount. Algorithms allow efficient and objective approaches to latency extraction, but often prove unreliable and invalid due to ERPs with low signal-to-noise ratios (\protect\hyperlink{ref-kiesel2008measurement}{Kiesel et al., 2008}; \protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}; \protect\hyperlink{ref-schubert2023robust}{Schubert et al., 2023}; \protect\hyperlink{ref-clayson2023noise}{\textbf{clayson2023noise?}}). To deal with this issue, researchers often forgo algorithms and manually inspect each ERP, identifying patterns reflecting the component of interest by hand (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}). Manual extraction is a labor-intensive and time-consuming endeavor, improving reliability and validity at the cost of objectivity and efficiency. This paper introduces a novel algorithm for the automatic extraction of ERP latencies using template matching. We aim to show that our algorithm improves on existing approaches and enables more efficient, objective, reliable and valid extraction of ERP latencies.
 
 \hypertarget{peak-latency-algorithms}{%
@@ -274,17 +271,9 @@ Kiesel et al. (\protect\hyperlink{ref-kiesel2008measurement}{2008}) applied thes
 Kiesel et al. (\protect\hyperlink{ref-kiesel2008measurement}{2008}) were concerned with extracting condition differences in ERP research. While this is important, techniques applied in individual differences research have to extract latencies from subject-level ERPs and produce both reliable and valid estimates. Kiesel et al. (\protect\hyperlink{ref-kiesel2008measurement}{2008}) did not assess psychometric properties of latency estimates. Addressing this gap in research, Sadus et al. (\protect\hyperlink{ref-sadus2023multiverse}{2023}) investigated the influence of different preprocessing strategies and latency extraction techniques on psychometric properties of the latency values generated as well as the ability to detect an age-related effect in P3 latency. They varied the strength of the low-pass filter applied to the data, used both single-participant and jackknife approaches and extracted latencies either automatically or manually, using either a peak latency or area latency approach. Both the size of the effect and the psychometric properties, such as reliability or homogeneity of the latency values, varied between the different analysis strategies. No combination of preprocessing steps and extraction method proved best across all tasks and groups. Only 7 out of 40 possible pipelines generated consistently desirable reliabilities (\(r_{tt} \ge .70\)), homogeneities (\(r_{h} \ge .50\)) and effect sizes (\(.03 \le \omega^2 <.80\)). All of those seven pipelines used manual extraction methods either based on peak or area latencies. While automated extraction methods would improve both efficiency and objectivity, fully automated approaches failed to generate consistently reliable and valid latency measures (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}; \protect\hyperlink{ref-schubert2023robust}{Schubert et al., 2023}). Yet, manual extraction methods are highly time-consuming and impede reproducibility. We hope to show that our algorithm can match the performance of manual extraction while providing a more efficient and objective approach for extracting individual component latency values.
 
 \hypertarget{template-matching}{%
-\section{Template Matching}\label{template-matching}}
+\subsection{Template Matching}\label{template-matching}}
 
-The shortcomings of prior algorithms may be due to none of them aiming to replicate human behavior and rather focusing on generating similar decisions, not similar decision processes. Our proposed algorithm more closely resembles the process expert ERP researches employ.
-
-\hypertarget{template-matching-1}{%
-\subsection{template matching}\label{template-matching-1}}
-
-\hypertarget{introduction}{%
-\subsubsection{Introduction}\label{introduction}}
-
-During latency extraction, most researchers have some mental representation of what the component \emph{should} look like and where it \emph{should} generally appear. When visually inspecting ERP signals, their goal is to identify a pattern within the signal that resembles the component of interest in shape, size and location.
+The shortcomings of prior algorithms may be due to none of them aiming to replicate human behavior and rather focusing on generating similar decisions, not similar decision processes. Our proposed algorithm more closely resembles the process expert ERP researches employ. During latency extraction, most researchers have some mental representation of what the component \emph{should} look like and where it \emph{should} generally appear. When visually inspecting ERP signals, their goal is to identify a pattern within the signal that resembles the component of interest in shape, size and location.
 
 Finding a given pattern inside a noisy signal is not a novel task. Algorithms aiming to detect the appearance of a pattern, a \emph{template}, inside audio-, video- or radio signals have been around for over 50 years, and a large amount of research has gone into optimizing these \emph{template matching} algorithms (\protect\hyperlink{ref-briechle2001template}{Briechle \& Hanebeck, 2001}; \protect\hyperlink{ref-brunelli2009template}{Brunelli, 2009}; \protect\hyperlink{ref-lewis1995fast}{Lewis, 1995}; \protect\hyperlink{ref-mahalakshmi2012image}{Mahalakshmi et al., 2012}).
 
@@ -300,27 +289,24 @@ Specifying the template is mostly a philosophical question dependent on the spec
 
 Finding an appropriate template is sometimes more challenging. Depending on the field, the template to search for is easily specified. If you are looking to extract a particular audio-signal from a recording or some specific object in an image you can easily use that object as a template. The difficulty increases if it is not exactly certain what template you are looking for. Recent research in image processing has attempted to use template matching to process faces (\protect\hyperlink{ref-brunelli2009template}{Brunelli, 2009}). You cannot just use ``the ideal set of eyes'' to identify a face. Each person comes with their own set of eyes, different from all others in some quantifiable way. A similar issue accompanies attempts of template matching approaches in ERP research. The variance in ERP signals introduced by the task or the sample of participants hinders a successful implementation of template matching algorithms using only one idealized template over all types of studies. Finding a template that reflects the influence of the task or the sample, equivalent to finding the person who's eyes you are looking for, will significantly improve performance.
 
-\hypertarget{prior-attempts}{%
-\subsection{Prior attempts}\label{prior-attempts}}
+\hypertarget{prior-template-matching-algorithms}{%
+\subsection{Prior template matching algorithms}\label{prior-template-matching-algorithms}}
 
 There have been some attempts at using an idealized signal structure as a template to identify ocular artifacts in noisy subject-level data (\protect\hyperlink{ref-li2006automatic}{Li et al., 2006}) or to predict subject behavior on a single trial level (\protect\hyperlink{ref-william2020erp}{William et al., 2020}). These studies were able to successfully implement template matching algorithms. However, they were not concerned with estimating the timing of components, but only interested in detection of a specific signal.
 
 Borst and Anderson (\protect\hyperlink{ref-borst2015discovery}{2015}) and Anderson et al. (\protect\hyperlink{ref-anderson2016discovery}{2016}) developed a machine-learning approach that aims to discover cognitive processing stages on a single trial level. In a first step, their algorithm makes use of multivariate pattern analysis to detect ``bumps'' in the EEG signal representing the onset of a new cognitive state. They assumed that entry into a new state would be accompanied by a bump in all electrodes similar to a 50 ms half-sine. This 50 ms half-sine then serves as a template with which their algorithm tries to detect those ``bumps'' in activity. However, their assumptions regarding the template and the location of activity are somewhat crude generalizations made necessary by noisy single trial data. Using template matching to extract component latencies from ERPs requires a more informative template.
 
-\hypertarget{our-solution}{%
-\subsection{our solution}\label{our-solution}}
+\hypertarget{using-the-grand-average-as-a-template}{%
+\subsection{Using the grand average as a template}\label{using-the-grand-average-as-a-template}}
 
 A simple approach towards designing a more informative template would be to generate an idealized component structure. Prior knowledge about the shape, size and location about the component of interest could then be made use of. One could draw up ``the perfect P3'' and attempt to use this as a template. This would neglect the experiment-specific and task-specific variance in the morphology of ERP components, resulting in a template that does not optimally reflect the data. We addressed this problem by using the grand average as an experiment-specific template of the component of interest that will reflect influences of the task and sample on the morphology of the idealized ERP component. We use the grand average and the specific window in which the component of interest occurs as a template to match to subject-level ERPs. The grand average lends itself as a template because it has a higher signal-to-noise ratio than any individual subject-level ERP while still being influenced by experiment-specific changes in component morphology. It is by definition the mean of all subject-level ERPs and thus minimizes the sum of squared deviations between each subject-level ERP and itself. Thus, across all subjects, it is the best approximation for each subject-level ERP. Researchers can (and already often do) use the grand average to gather insight into the time window in which the component of interest occurs (\protect\hyperlink{ref-kiesel2008measurement}{Kiesel et al., 2008}).
-
-\hypertarget{differences-to-other-template-matching-studies}{%
-\subsubsection{Differences to other template matching studies}\label{differences-to-other-template-matching-studies}}
 
 The goal of our algorithm is to quantify individual differences in the latency of ERP components, not only the presence of a particular ERP component. This is similar to facial recognition not only detecting the presence of eyes, but also determining the person the eyes belong to. We do not only aim to detect the presence of a component, but also aim to measure individual differences in shape, size and location of the component.
 
 To achieve this, we introduce variability into the template reflecting individual differences in the morphology of the component. This transformation generates versions of the grand average as a template with different amplitudes and locations of the component of interest. Crudely, each transformation reflects the idealized component if it had higher vs.~lower overall amplitudes and earlier vs.~later latencies of the component of interest. We can simulate how the template would look like if the component had any given latency. Determining which transformation of the template best fits a given subject-level ERP will allow us to investigate individual differences.
 
-\hypertarget{subject-level-transformations-as-the-goal}{%
-\subsection{Subject-level transformations as the goal}\label{subject-level-transformations-as-the-goal}}
+\hypertarget{mapping-individual-differences}{%
+\subsection{Mapping individual differences}\label{mapping-individual-differences}}
 
 We introduce variability in the template through two sources, amplitude and latency. Variability in amplitude is controlled by the parameter \(a\), variability in latency by the parameter \(b\). Amplitude of the template is varied by multiplying the whole template-signal by parameter \(a\). Latency is varied by ``stretching'' or ``squishing'' the template along the x-axis (see Figure \ref{fig:b-scale-example}). The parameter \(b\) controls the strength of this transformation. Possible transformations of the template are then compared to the signal and their similarity is evaluated. Recovering the transformation parameters \([a, b]\) that lead to the best match between template and signal thus allows us to describe individual differences in the latency of a component. To recover latencies of the component of interest from the optimal transformation parameter, researchers need to specify a time-point of the grand average denoting the latency of the component of interest. The optimal transformation parameters are then applied to the grand average latency to recover the subject-level latency of the component.
 
@@ -346,11 +332,8 @@ Nonetheless, we will restrict our analysis to extracting P3 latencies. The P3 us
 
 We hope to show that a template matching approach using the grand average as a variable template can successfully extract P3 component latencies. Ideally, use of this algorithm will improve psychometric properties in comparison to prior algorithms, show high correlations with manually extracted data and present an objective and efficient way to extract ERP latencies.
 
-\hypertarget{algorithm}{%
-\section{Algorithm}\label{algorithm}}
-
-\hypertarget{implementation-in-matlab-with-details}{%
-\subsection{Implementation in Matlab with details}\label{implementation-in-matlab-with-details}}
+\hypertarget{implementation}{%
+\section{Implementation}\label{implementation}}
 
 We implemented the algorithm in MATLAB (Version 2022b) (\protect\hyperlink{ref-matlab2022b}{The Math Works, 2022}). The researcher specifies the name and polarity of the component of interest as well as the measurement window. This window is used to extract the template. In order to transform the template, we use MATLABs Curve Fitting Toolbox (\protect\hyperlink{ref-matlab2022b}{The Math Works, 2022}) to generate \emph{sum of sines} functions that fit to the data with \(R^2 \ge 0.999\). We then add an amplitude parameter \(a\) to the overall function in order to allow for scaling of the amplitude of the template and a frequency parameter \(b\) to all frequency terms in the sum of sines function to allow for ``squishing'' or ``stretching'' the template along the x-Axis. The resulting variable template is described by a function \(f(x, a, b)\) with \(n\) sine terms and their respective amplitude \(A_i\), frequency \(f_i\) and phase \(\phi_i\).
 
@@ -360,7 +343,7 @@ As these transformations also change the measurement window, we chose to use the
 Depending on the similarity measure employed, we use different functions to find the set of optimal parameters \([a_j, b_j]\) that lead to the optimal transformation for a given subject \(j\).
 
 \hypertarget{minsq}{%
-\subsubsection{MINSQ}\label{minsq}}
+\subsection{MINSQ}\label{minsq}}
 
 The MINSQ algorithm minimizes the weighted sum \(S\) of squared differences \(d\) between the transformed subject signal and the grand average.
 \[S = \sum_{i = 1}^{n}\omega_{i}d_{i}^2\]
@@ -378,7 +361,7 @@ In cases where the subject-level ERP only has signal with deflections opposite o
 Should the algorithm again converge on a solution with \(a_j \le 0\), the latency value is set to NA.
 
 \hypertarget{corr}{%
-\subsubsection{CORR}\label{corr}}
+\subsection{CORR}\label{corr}}
 
 The CORR algorithm optimizes the parameters to produce the maximum correlation \(r_{st}\) between the transformed subject-level signal \(s\) and the grand average \(t\) for values in the measurement window.
 \[r_{st} = \frac{\sum(s_i - \bar{s})(t_{i} - \bar{t})}{\sqrt{\sum(s_i - \bar{s})^2(t_{i} - \bar{t})^2}}\]
@@ -400,8 +383,8 @@ Researchers can manually review all choices the algorithm has made in a custom-b
 \includegraphics[width=0.75\linewidth]{images/review_gui_example} \caption{User Interface for Manual Review Process}\label{fig:review-gui-example}
 \end{figure}
 
-\hypertarget{data}{%
-\section{Data}\label{data}}
+\hypertarget{method}{%
+\section{Method}\label{method}}
 
 The data used here were first published by Sadus et al. (\protect\hyperlink{ref-sadus2023multiverse}{2023}) and are a subset of the data collected by Löffler et al. (\protect\hyperlink{ref-loffler2022common}{2022}).
 
@@ -456,7 +439,7 @@ We also explored the impact of automatically excluding all those matches with fi
 In our dataset, each of the 60 participants contributed 6 ERPs per task to the data. One ERP averaged over all trials of each of the two conditions and two more ERPs generated from an odd-even split on a trial level of that condition. These 360 ERPs each from the 3 different tasks were passed through 3 different low-pass filters and subjected to analyses with 3 separate measurement windows. We applied both the correlation-based (CORR) and distance-based (MINSQ) algorithm and either reviewed the results manually, discarded bad matches automatically or accepted the results regardless of fit. We also applied both a peak latency and area latency algorithm. This results in 3 tasks \(\times\) 3 filters \(\times\) 3 windows \(\times\) \((3 + 3 + 2)\) algorithms = 216 different extraction pipelines.
 
 \hypertarget{validation-techniques}{%
-\section{Validation Techniques}\label{validation-techniques}}
+\subsection{Validation Techniques}\label{validation-techniques}}
 
 We investigated the impact of latency extraction method on several measures of psychometric quality. We estimated reliability \(r_{tt}\) by computing Spearman-Brown corrected split-half correlations of ERPs generated from an odd-even split at the trial level. We assessed the validity of our algorithm through measures of homogeneity, the effect sizes of the age effect and the correlation of latencies extracted by our algorithm with latencies extracted by an expert ERP researcher, which constitute a benchmark for proper latency extraction (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}).
 
@@ -510,64 +493,35 @@ When the correlation with manually extracted latencies was used as a dependent v
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
 
-\hypertarget{what-we-found}{%
-\subsection{What we found}\label{what-we-found}}
-
-Our newly proposed pattern matching algorithms displayed consistently good psychometric properties and showed an improved ability to replicate human extraction behavior over previously established approaches like peak latency or area latency algorithms. Manual extraction has so far proven superior to algorithmic approaches (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}) but presents a time- and resource-intensive process. Our algorithm based on minimizing the weighted squared distance between transformed template and signal (MINSQ) correlated to \(\overline{r} =\) .91 with manually extracted ERP latencies across tasks and preprocessing steps. This indicates that our algorithm was able to replicate manual extraction almost perfectly while presenting a more objective and efficient approach to latency extraction. Our algorithms were also more robust to the impact of different low-pass filters and measurement windows than previous algorithms. Application of our algorithm would increase both replicability and scalability as well as significantly reduce the time and resources researchers need to spend on latency extraction.
-
-\hypertarget{reliability-1}{%
-\subsubsection{Reliability}\label{reliability-1}}
-
-A key comparison to evaluate the effectiveness of our algorithm was to test if it is better than already established, simpler algorithms.
+Our newly proposed pattern matching algorithms displayed consistently good psychometric properties and showed an improved ability to replicate human extraction behavior over previously established approaches like peak latency or area latency algorithms. Manual extraction has so far proven superior to algorithmic approaches (\protect\hyperlink{ref-sadus2023multiverse}{Sadus et al., 2023}) but presents a time- and resource-intensive process. Our algorithm based on minimizing the weighted squared distance between transformed template and signal (MINSQ) correlated to \(\overline{r} =\) .91 with manually extracted ERP latencies across tasks and preprocessing steps. This indicates that our algorithm was able to replicate manual extraction almost perfectly while presenting a more objective and efficient approach to latency extraction. Our algorithms were also more robust to the impact of different low-pass filters and measurement windows than previous algorithms. Application of our algorithm would increase both replicability and scalability as well as significantly reduce the time and resources researchers need to spend on latency extraction. Because previous algorithms have been proposed, a key comparison was evaluate the effectiveness of our algorithm against already established, potentially simpler algorithms.
 
 Regarding the reliability of extracted latencies across tasks and preprocessing steps, our algorithms did not prove superior to the area latency approach. Both the MINSQ and CORR approaches had slightly lower Spearman-Brown corrected split-half correlations. However, the differences in reliability are quite small and only carry low practical implications. If the researcher uses latent-variable approaches in their analysis of ERP latencies, for example, slightly lower reliabilites don't influence the quality of results much {[}REF{]}.
 
-\hypertarget{homogeneity-1}{%
-\subsubsection{Homogeneity}\label{homogeneity-1}}
-
 Latency values extracted by the MINSQ algorithm proved to have the highest average correlation with all other extraction methods across tasks and preprocessing steps (\(\overline{r_{h}} =\) .87). This indicates that this approach best reflects the total of all other measures. The CORR algorithm also proved superior to previously established extraction methods.
-
-\hypertarget{validity}{%
-\subsubsection{Validity}\label{validity}}
 
 Sadus et al. (\protect\hyperlink{ref-sadus2023multiverse}{2023}) showed that manually extracting latency values is the best approach to ensure good psychometric properties and high power to detect experimental effects. The ability of an algorithm to extract latency values correlating highly with those extracted by an expert ERP-researcher was therefore of high importance to us.
 Again, our algorithms proved to have a superior ability to replicate human behavior compared to previous approaches. The MINSQ algorithm, after manual inspection, had a mean correlation of \(\overline{r} =\) .91 with manually extracted latencies across tasks and preprocessing steps. Considering the reliabilites of the two algorithms, \(r_{tt|minsq} =\) .90 and \(r_{tt|manual} = .93\), this correlation exceeds the theoretically maximal correlation between their true-score values \(r_{max} = \sqrt{r_{tt|minsq} \cdot r_{tt|manual}}\) {[}REF{]}. This indicates that some amount of their measurement error covaries. We suspect that this is due to the high conceptual similarity between template matching and manual extraction. Errors in the generation of the template or errors related to the matching procedure may be similar for human researchers and the algorithm.
 
 The CORR algorithm also outperformed previously established approaches in the ability to replicate human behavior, correlating very highly with manually extracted latencies (\(\overline{r} =\) .89). Area latency measures also correlate highly with manually extracted data (\(\overline{r} =\) .85) but failed to match the performance of our new algorithms.
 
-\hypertarget{robustness-of-method}{%
-\subsubsection{Robustness of method}\label{robustness-of-method}}
-
 Ideally, the quality of an algorithm extracting ERP latencies is largely independent of choices made by the researcher during preprocessing. To evaluate this, we conducted ANOVAs with either the split-half correlation as an estimate for reliability or the correlation of a particular method with manually extracted latencies as an estimate of validity as the dependent variable. The filter setting (8 Hz vs.~16 Hz vs.~32 Hz) and the measurement window (narrow vs.~medium vs.~wide) were entered as independent variables. The filter setting used did not have an impact on any of the two dependent measures for any algorithm. The measurement window impacted the reliability of peak latency and area latency the most, only the reliability of the MINSQ algorithm was not impacted by the choice of measurement window. The impact of the measurement window on the correlation with manually extracted latencies was again greatest for peak latency and area latency and much lower for the CORR and MINSQ algorithms. Overall, our new algorithms proved to be more robust to influences of the measurement window. This is likely due to the lower conceptual influence of the measurement window in our algorithms. While the measurement window directly impacts the values of each subject-level ERP entered into analysis in prior algorithms, it only determines the size of the template used in our algorithms.
-
-\hypertarget{objectivity}{%
-\subsubsection{Objectivity}\label{objectivity}}
 
 Any algorithmic approach to ERP latency extraction will be more objective than manually extracting ERP latencies. So we cannot crown any particular algorithm as more or less objective. The completely autonomous versions of peak latency, area latency or our algorithm with automatic rejection of bad fits are all equally objective. One strength of our approach is the ability for the researcher to inspect a subset of the ERPs based on the fit statistic of the matching procedure. This does introduce some subjectivity into the data.
 
-\hypertarget{efficiency}{%
-\subsubsection{Efficiency}\label{efficiency}}
-
 However, this ability of our algorithms to generate a fit statistic indicating the degree of certainty with which the match was made is a great strength of our new algorithm. Depending on the size of their data and the degree of certainty to which researchers want to manually inspect their data, one may choose any cut-off value for the fit statistic and inspect none, a subset or all of the ERPs and the choices made by the algorithm by hand. This feature is not present in any of the previous algorithms.
 
-\hypertarget{differences-minsq---corr}{%
-\subsection{Differences MINSQ - CORR}\label{differences-minsq---corr}}
+\hypertarget{comparing-minsq-and-corr}{%
+\subsection{Comparing MINSQ and CORR}\label{comparing-minsq-and-corr}}
 
 We chose to test out two different approaches to quantifying the degree of similarity between template and signal. One minimizing the weighted squared difference and one maximizing the correlation between the two. Both showed improvements over previous algorithms and we can recommend that both approaches be studied further. We did observe some differences between the two approaches in both procedural factors as well as outcome measures.
 
-\hypertarget{procedurally}{%
-\subsubsection{Procedurally}\label{procedurally}}
-
 Procedurally, the largest difference between the two approaches is the optimization algorithm underlying them. Due to the invariance of the correlation of two vectors to scaling in amplitude of one vector, we can reduce the number of free parameters optimized during the CORR approach to one. This allows us to use a more exhaustive optimization algorithm that will find the global optimum in some bounded parameter space without the possibility of converging on some local optimum. This is not the case for the multivariate optimization function needed for the MINSQ approach. Here, we initialize the optimization process at several different starting points and check for convergence on a common solution indicating that this solution represents the true global optimum. This is not ideal and could be improved in the future by implementing a more suitable optimization algorithm or improving on the one currently used.
 
-The MINSQ algorithm may also converge on solutions where \(a_j \le 0\) if the subject level signal is largely of a polarity opposite to that of the component of interest {[}See Figure?{]}. Although we did extend the variability of the template by a parameter vertically shifting the template to account for these cases, sometimes even the extended version will converge on solutions with non-sensible parameter values. This leads to missing values and unreliable fit statistics in those cases. In our data, this happened for 7.13 \% of ERP signals. A large portion of these cases may be considered \emph{unindentifiable} even by an expert researcher due to particularly low signal-to-noise ratios. However, some cases where the component can be identified by a human researcher or the CORR algorithm may be classified as missing by the MINSQ algorithm. We will try to implement some additional measures aiming to reduce the number of cases where the MINSQ algorithm fails to converge on a valid solution in future work.
+The MINSQ algorithm may also converge on solutions where \(a_j \le 0\) if the subject level signal is largely of a polarity opposite to that of the component of interest {[}See Figure?{]}. Although we did extend the variability of the template by a parameter vertically shifting the template to account for these cases, sometimes even the extended version will converge on solutions with non-sensible parameter values. This leads to missing values and unreliable fit statistics in those cases. In our data, this happened for 7.13 \% of ERP signals. A large proportion of these cases may be considered \emph{unidentifiable} even by an expert researcher due to particularly low signal-to-noise ratios. However, some cases where the component can be identified by a human researcher or the CORR algorithm may be classified as missing by the MINSQ algorithm. We will try to implement some additional measures aiming to reduce the number of cases where the MINSQ algorithm fails to converge on a valid solution in future work.
 
 This leads to the difference in the number of cases classified as missing by the MINSQ and CORR algorithms. While 2.52 \% of cases were set to NA after manual inspection of the CORR algorithm (2.09 \% after automatic inspection), 7.42 \% of cases were set to NA in the MINSQ algorithm following inspection (8.56 \% after automatic inspection). This tradeoff between better properties of the MINSQ algorithm accompanied by more missing values must be taken into account when selecting which algorithm to use. Depending on the number of participants available and the means of analysis missing values may be detrimental, leading to the CORR algorithm being the preferable choice.
 
 The weighting vector used in the MINSQ algorithm represents another difference between the two algorithms. We used it to reflect the increased emphasis a human researcher places on those parts of the signal with the highest amplitude and signal appearing in the measurement window where the component of interest is expected to occur. The particular shape of the weighting function is somewhat arbitrary, but general aspects were chosen to reflect a few key considerations. For example, the maximum-normalization conducted before weights are calculated ensures that the weighting function is scale-invariant. Furthermore, we added larger weights to values inside the measurement window without completely discarding the impact of values outside the measurement window. We also chose to square the normalized amplitude in order to reflect a non-linear relationship between amplitude and importance. The exact shape of this weighting function may be argued and optimized further.
-
-\hypertarget{results-1}{%
-\subsubsection{Results}\label{results-1}}
 
 Regarding outcome measures, the MINSQ algorithm dominates the CORR algorithm in almost all indices inspected. It has better reliability, homogeneity, validity and is more robust to the impact of measurement windows. This provides evidence towards the argument that the MINSQ algorithm presents the better choice if one is limited to the application of just one algorithm.
 
@@ -588,9 +542,6 @@ Our template matching algorithm is limited by the type of transformation we empl
 We also observed issues the template matching algorithms face for certain ERP-morphologies during manual inspection. They struggle especially with classifying subject-level ERPs containing two distinct peaks {[}See figure{]}. Both algorithms will return a match that may even fit quite well, but minor differences in the size of the two peaks can lead to inconsistencies across conditions. The algorithm may choose the first peak in one and the second peak in the other condition. This problem is not unique to our algorithm, other algorithms face the same challenge. Human researchers can inspect all different ERPs belonging to the same subject and introduce some stability into the extraction method. Algorithms don't typically allow for the use of information of a previous ERP in the extraction procedure of the current ERP. During manual inspection of the choices of our algorithm, this can be compensated for by the human researcher.
 
 We only inspected one cut-off value for manual inspection and one for automatic rejection. These values were based on our experience in working with the algorithm but this only provides limited insight into the impact of the cut-off value. Choosing a more conservative automatic rejection criterion may improve reliability and validity even further but come at a cost of a larger amount of missing values.
-
-\hypertarget{the-present-study-1}{%
-\subsubsection{The present study}\label{the-present-study-1}}
 
 The generalizability of our findings is limited by the data we analyzed here. We inspected a limited sample of participants, narrow range of tasks and only one ERP component. Depending on the component of interest, the effectiveness of different algorithms can vary (\protect\hyperlink{ref-kiesel2008measurement}{Kiesel et al., 2008}). We suspect that the effectiveness of all algorithms will decline when attempting to extract earlier components. The P3 is a broad, high-amplitude and isolated component. This renders it ideal for algorithmic approaches, as the influence of surrounding components is comparatively low and the measurement window quite easily specified. Especially area latency approaches should diminish in quality due to the less isolated component structure of earlier components (\protect\hyperlink{ref-luck2014introduction}{Luck, 2014}). We therefore expect that benefits of our new algorithm will increase in earlier components.
 

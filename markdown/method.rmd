@@ -1,5 +1,4 @@
-# Algorithm
-## Implementation in Matlab with details
+# Implementation
 We implemented the algorithm in MATLAB (Version 2022b) [@matlab2022b]. The researcher specifies the name and polarity of the component of interest as well as the measurement window. This window is used to extract the template. In order to transform the template, we use MATLABs Curve Fitting Toolbox [@matlab2022b] to generate _sum of sines_ functions that fit to the data with $R^2 \ge 0.999$. We then add an amplitude parameter $a$ to the overall function in order to allow for scaling of the amplitude of the template and a frequency parameter $b$ to all frequency terms in the sum of sines function to allow for "squishing" or "stretching" the template along the x-Axis. The resulting variable template is described by a function $f(x, a, b)$ with $n$ sine terms and their respective amplitude $A_i$, frequency $f_i$ and phase $\phi_i$.
 
 $$f(x, a, b) = \sum_{i = 1}^{n} a\cdot(A_isin(bf_ix + \phi_i)$$
@@ -7,7 +6,7 @@ As these transformations also change the measurement window, we chose to use the
 
 Depending on the similarity measure employed, we use different functions to find the set of optimal parameters $[a_j, b_j]$ that lead to the optimal transformation for a given subject $j$. 
 
-### MINSQ
+## MINSQ
 The MINSQ algorithm minimizes the weighted sum $S$ of squared differences $d$ between the transformed subject signal and the grand average. 
 $$S = \sum_{i = 1}^{n}\omega_{i}d_{i}^2$$
 This weighting vector $\omega$ is computed as follows
@@ -23,7 +22,7 @@ In cases where the subject-level ERP only has signal with deflections opposite o
 $$f(x, a,b, d) = d +\sum_{i = 1}^{n} a*(A_isin(b*f_ix + \phi_i)$$ 
 Should the algorithm again converge on a solution with $a_j \le 0$, the latency value is set to NA.
 
-### CORR
+## CORR
 The CORR algorithm optimizes the parameters to produce the maximum correlation $r_{st}$ between the transformed subject-level signal $s$ and the grand average $t$ for values in the measurement window. 
 $$r_{st} = \frac{\sum(s_i - \bar{s})(t_{i} - \bar{t})}{\sqrt{\sum(s_i - \bar{s})^2(t_{i} - \bar{t})^2}}$$
 $t$ represents the vector of values of the transformed subject ERP that are in the measurement window, $s$ the vector of values of the grand average that are in the measurement window. As the correlation-coefficient is independent of translation and scaling, varying the parameter $a_j$ will not impact the correlation $r_{st}$. We therefore just set $a_j = 1$ and only optimize $b_j$.
@@ -44,7 +43,7 @@ knitr::include_graphics(
 ```
 
 
-# Data
+# Method
 The data used here were first published by @sadus2023multiverse and are a subset of the data collected by @loffler2022common.
 
 ## Participants
@@ -79,7 +78,7 @@ We also explored the impact of automatically excluding all those matches with fi
 
 In our dataset, each of the 60 participants contributed 6 ERPs per task to the data. One ERP averaged over all trials of each of the two conditions and two more ERPs generated from an odd-even split on a trial level of that condition. These 360 ERPs each from the 3 different tasks were passed through 3 different low-pass filters and subjected to analyses with 3 separate measurement windows. We applied both the correlation-based (CORR) and distance-based (MINSQ) algorithm and either reviewed the results manually, discarded bad matches automatically or accepted the results regardless of fit. We also applied both a peak latency and area latency algorithm. This results in 3 tasks $\times$ 3 filters $\times$ 3 windows $\times$ $(3 + 3 + 2)$ algorithms = 216 different extraction pipelines.
 
-# Validation Techniques
+## Validation Techniques
 We investigated the impact of latency extraction method on several measures of psychometric quality. We estimated reliability $r_{tt}$ by computing Spearman-Brown corrected split-half correlations of ERPs generated from an odd-even split at the trial level. We assessed the validity of our algorithm through measures of homogeneity, the effect sizes of the age effect and the correlation of latencies extracted by our algorithm with latencies extracted by an expert ERP researcher, which constitute a benchmark for proper latency extraction [@sadus2023multiverse].
 
 To compute a methods homogeneity $r_h$, we calculated its correlation with all other methods and took the mean of the Fisher-Z transformed correlation coefficients. Correlation coefficients of 1 cannot be transformed. Thus, we set all correlations $r = 1.00$ to $r = .99$. The mean correlation with other methods indicates the extent to which a particular method reflects the total of all other measures [@kline1986handbook].
