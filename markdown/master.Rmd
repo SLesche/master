@@ -81,7 +81,14 @@ header-includes:
     \usepackage{hhline}
   - |
     \setlength{\parskip}{0pt}
-
+  - |
+    % This is for using the flextable package
+    \usepackage{colortbl}
+    % Flextable just forgets these two
+    \newlength{\Oldarrayrulewidth}
+    \newlength{\Oldtabcolsep}
+    % This one is placed inside a table environment, so need to call it earlier
+    \providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
 csl               : "`r system.file('rmd', 'apa7.csl', package = 'papaja')`"
 documentclass     : "apa7"
 output            : papaja::apa6_pdf

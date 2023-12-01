@@ -184,7 +184,13 @@
 
 \setlength{\parskip}{0pt}
 
-\usepackage{pdflscape}
+% This is for using the flextable package
+\usepackage{colortbl}
+% Flextable just forgets these two
+\newlength{\Oldarrayrulewidth}
+\newlength{\Oldtabcolsep}
+% This one is placed inside a table environment, so need to call it earlier
+\providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
 
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
@@ -528,7 +534,7 @@ We chose to test out two different approaches to quantifying the degree of simil
 
 Procedurally, the largest difference between the two approaches is the optimization algorithm underlying them. Due to the invariance of the correlation of two vectors to scaling in amplitude of one vector, we can reduce the number of free parameters optimized during the CORR approach to one. This allows us to use a more exhaustive optimization algorithm that will find the global optimum in some bounded parameter space without the possibility of converging on a local optimum. This is not the case for the multivariate optimization function needed for the MINSQ approach. Here, we initialize the optimization process at several different starting points and check for convergence on a common solution indicating that this solution represents the true global optimum. This is not ideal and could be improved in the future by implementing a more suitable optimization algorithm or improving on the one currently used.
 
-The MINSQ algorithm may also converge on solutions where \(a_j \le 0\) if the subject level signal is largely of a polarity opposite to that of the component of interest {[}see Figure \ref{fig:only-negative-e}{]}. Although we did extend the variability of the template by a parameter vertically shifting the template to account for these cases, sometimes even the extended version will converge on solutions with non-sensible parameter values. This leads to missing values and unreliable fit statistics in those cases. In our data, this happened for 7.13 \% of ERP signals. A large proportion of these cases may be considered \emph{unidentifiable} even by an expert researcher due to particularly low signal-to-noise ratios. However, few cases where the component can be identified by a human researcher or the CORR algorithm may be classified as missing by the MINSQ algorithm. We will implement additional measures aiming to reduce the number of cases where the MINSQ algorithm fails to converge on a valid solution in future work.
+The MINSQ algorithm may also converge on solutions where \(a_j \le 0\) if the subject level signal is largely of a polarity opposite to that of the component of interest {[}see Figure \ref{fig:only-negative-example}{]}. Although we did extend the variability of the template by a parameter vertically shifting the template to account for these cases, sometimes even the extended version will converge on solutions with non-sensible parameter values. This leads to missing values and unreliable fit statistics in those cases. In our data, this happened for 7.13 \% of ERP signals. A large proportion of these cases may be considered \emph{unidentifiable} even by an expert researcher due to particularly low signal-to-noise ratios. However, few cases where the component can be identified by a human researcher or the CORR algorithm may be classified as missing by the MINSQ algorithm. We will implement additional measures aiming to reduce the number of cases where the MINSQ algorithm fails to converge on a valid solution in future work.
 
 
 
@@ -762,6 +768,354 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 \hypertarget{algorithm-quality}{%
 \section{Algorithm Quality}\label{algorithm-quality}}
+
+
+
+\global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
+
+\global\setlength{\Oldtabcolsep}{\tabcolsep}
+
+\setlength{\tabcolsep}{0pt}
+
+\renewcommand*{\arraystretch}{1.5}
+
+\begin{table}
+
+\providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
+
+\begin{longtable}[l]{cccccccccc}
+
+\caption{Reliability of different algorithms - Flanker Task}\label{tab:tab-mean-reliability-flanker}\\
+
+\ascline{1.5pt}{666666}{1-10}
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{corr}}} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{minsq}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autoarea}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autopeak}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{filter}}}}} & \multicolumn{1}{>{}l}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedright \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{window}}}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} \\
+
+\ascline{1.5pt}{666666}{1-10}\endfirsthead \caption[]{Reliability of different algorithms - Flanker Task}\label{tab:tab-mean-reliability-flanker}\\
+
+\ascline{1.5pt}{666666}{1-10}
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{corr}}} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{minsq}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autoarea}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autopeak}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{filter}}}}} & \multicolumn{1}{>{}l}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedright \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{window}}}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} \\
+
+\ascline{1.5pt}{666666}{1-10}\endhead
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{narrow}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.91}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{medium}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.87}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.87}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.84}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[c]{-3}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{8}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{wide}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.94}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.94}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.82}}} \\
+
+\ascline{1pt}{666666}{1-10}
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{narrow}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.94}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.94}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.90}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.90}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.85}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{medium}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.81}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[c]{-3}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{16}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{wide}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.87}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.94}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.81}}} \\
+
+\ascline{1pt}{666666}{1-10}
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{narrow}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.84}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{medium}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[c]{-3}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{32}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{wide}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.94}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.96}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.91}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.91}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.97}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.94}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.63}}} \\
+
+\ascline{1.5pt}{666666}{1-10}
+
+
+
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+
+
+
+
+
+\end{longtable}
+
+\end{table}
+
+\arrayrulecolor[HTML]{000000}
+
+\global\setlength{\arrayrulewidth}{\Oldarrayrulewidth}
+
+\global\setlength{\tabcolsep}{\Oldtabcolsep}
+
+\renewcommand*{\arraystretch}{1}
+
+
+
+\global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
+
+\global\setlength{\Oldtabcolsep}{\tabcolsep}
+
+\setlength{\tabcolsep}{0pt}
+
+\renewcommand*{\arraystretch}{1.5}
+
+\begin{table}
+
+\providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
+
+\begin{longtable}[l]{cccccccccc}
+
+\caption{Reliability of different algorithms - Nback Task}\label{tab:tab-mean-reliability-nback}\\
+
+\ascline{1.5pt}{666666}{1-10}
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{corr}}} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{minsq}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autoarea}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autopeak}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{filter}}}}} & \multicolumn{1}{>{}l}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedright \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{window}}}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} \\
+
+\ascline{1.5pt}{666666}{1-10}\endfirsthead \caption[]{Reliability of different algorithms - Nback Task}\label{tab:tab-mean-reliability-nback}\\
+
+\ascline{1.5pt}{666666}{1-10}
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{corr}}} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{minsq}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autoarea}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autopeak}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{filter}}}}} & \multicolumn{1}{>{}l}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedright \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{window}}}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} \\
+
+\ascline{1.5pt}{666666}{1-10}\endhead
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{narrow}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.81}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.83}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.82}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.91}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{medium}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.82}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.83}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.75}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.76}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.89}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.79}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[c]{-3}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{8}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{wide}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.65}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.69}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.90}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.90}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.64}}} \\
+
+\ascline{1pt}{666666}{1-10}
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{narrow}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.75}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.75}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.76}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.84}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.87}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.76}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{medium}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.78}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.78}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.81}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.76}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[c]{-3}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{16}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{wide}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.66}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.74}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.75}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.87}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.91}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.69}}} \\
+
+\ascline{1pt}{666666}{1-10}
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{narrow}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.75}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.77}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.85}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.78}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.84}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.76}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{medium}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.64}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.71}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.71}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.69}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.69}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[c]{-3}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{32}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{wide}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.54}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.61}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.76}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.82}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.85}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.68}}} \\
+
+\ascline{1.5pt}{666666}{1-10}
+
+
+
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+
+
+
+
+
+\end{longtable}
+
+\end{table}
+
+\arrayrulecolor[HTML]{000000}
+
+\global\setlength{\arrayrulewidth}{\Oldarrayrulewidth}
+
+\global\setlength{\tabcolsep}{\Oldtabcolsep}
+
+\renewcommand*{\arraystretch}{1}
+
+
+
+\global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
+
+\global\setlength{\Oldtabcolsep}{\tabcolsep}
+
+\setlength{\tabcolsep}{0pt}
+
+\renewcommand*{\arraystretch}{1.5}
+
+\begin{table}
+
+\providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
+
+\begin{longtable}[l]{cccccccccc}
+
+\caption{Reliability of different algorithms - Switching Task}\label{tab:tab-mean-reliability-switching}\\
+
+\ascline{1.5pt}{666666}{1-10}
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{corr}}} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{minsq}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autoarea}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autopeak}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{filter}}}}} & \multicolumn{1}{>{}l}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedright \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{window}}}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} \\
+
+\ascline{1.5pt}{666666}{1-10}\endfirsthead \caption[]{Reliability of different algorithms - Switching Task}\label{tab:tab-mean-reliability-switching}\\
+
+\ascline{1.5pt}{666666}{1-10}
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{corr}}} & \multicolumn{3}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{minsq}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autoarea}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{autopeak}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{filter}}}}} & \multicolumn{1}{>{}l}{\multirow[b]{-2}{*}{\parbox{0.75in}{\raggedright \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{window}}}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{auto}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{manual}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{none}}} \\
+
+\ascline{1.5pt}{666666}{1-10}\endhead
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{narrow}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.70}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.82}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.79}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.65}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.71}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.84}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.94}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.90}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{medium}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.76}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.84}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.90}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.91}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.89}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[c]{-3}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{8}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{wide}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.65}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.69}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.66}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.71}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.72}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.84}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.81}}} \\
+
+\ascline{1pt}{666666}{1-10}
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{narrow}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.61}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.77}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.40}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.70}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.95}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.84}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{medium}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.89}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.94}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.93}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.89}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.91}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[c]{-3}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{16}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{wide}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.65}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.67}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.66}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.81}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.81}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.81}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.88}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.82}}} \\
+
+\ascline{1pt}{666666}{1-10}
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{narrow}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.76}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.87}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.63}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.82}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.80}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.89}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{medium}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.85}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.91}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.90}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.78}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.82}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.77}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.92}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} \\
+
+
+
+
+
+\multicolumn{1}{>{}r}{\multirow[c]{-3}{*}{\parbox{0.75in}{\raggedleft \textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{32}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{wide}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.68}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.73}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.72}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.65}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.64}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.63}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.86}}} & \multicolumn{1}{>{}c}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{0.83}}} \\
+
+\ascline{1.5pt}{666666}{1-10}
+
+
+
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+
+
+
+
+
+\end{longtable}
+
+\end{table}
+
+\arrayrulecolor[HTML]{000000}
+
+\global\setlength{\arrayrulewidth}{\Oldarrayrulewidth}
+
+\global\setlength{\tabcolsep}{\Oldtabcolsep}
+
+\renewcommand*{\arraystretch}{1}
 
 \hypertarget{correlation-matrices}{%
 \section{Correlation Matrices}\label{correlation-matrices}}

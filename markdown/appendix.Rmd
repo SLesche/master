@@ -1,7 +1,20 @@
 # Algorithm Quality
-```{r tab-mean-reliability}
-# table_mean_reliability_task_filter
+(ref:tab-mean-reliability-flanker) Reliability of different algorithms - Flanker Task
+```{r tab-mean-reliability-flanker, tab.cap=paste("(ref:tab-mean-reliability-flanker)")}
+knit_print(table_mean_reliability_flanker)
 ```
 
-# Correlation Matrices
+(ref:tab-mean-reliability-nback) Reliability of different algorithms - Nback Task
 
+```{r tab-mean-reliability-nback, tab.cap=paste("(ref:tab-mean-reliability-nback)")}
+knit_print(table_mean_reliability_nback)
+```
+
+(ref:tab-mean-reliability-switching) Reliability of different algorithms - Switching Task
+
+```{r tab-mean-reliability-switching, tab.cap=paste("(ref:tab-mean-reliability-switching)")}
+knit_print(table_mean_reliability_switching)
+```
+
+
+# Correlation Matrices

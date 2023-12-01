@@ -79,7 +79,7 @@ mean_reliability_task_filter <- rel_overview_long %>%
     quant_90 = quantile(reliability, 0.9)
   )
 
-table_mean_reliability_task_filter <- mean_reliability_task_filter %>%
+table_mean_reliability_flanker <- mean_reliability_task_filter %>%
   ungroup() %>%
   filter(
     approach %in% c("corr", "minsq", "uninformed")
@@ -96,15 +96,96 @@ table_mean_reliability_task_filter <- mean_reliability_task_filter %>%
   ) %>%
   arrange(task, filter, approach, window, review) %>%
   pivot_wider(
-    id_cols = c("task", "filter"),
-    names_from = c("approach", "window", "review"),
+    id_cols = c("task", "filter", "window"),
+    names_from = c("approach", "review"),
     values_from = "mean"
   ) %>%
+  arrange(task, filter, window) %>%
+  filter(task == "flanker") %>%
+  select(-task) %>%
   flextable() %>%
+  colformat_double(j = -1, digits = 2) %>%
   separate_header() %>%
-  autofit() %>%
-  align(align = "center", part = "all", j = 3:26) %>%
+  align(align = "center", part = "all", j = -c(1:2)) %>%
   merge_v(j = 1) %>%
   # valign(j = 1, valign = "top") %>%
   hline(i = c(3, 6)) %>%
-  apa_footer("My personal note on this table.")
+  apa_footer("My personal note on this table.") %>%
+  line_spacing(space = 0.5, part = "all") %>%
+  # set_caption("Reliability - Nback Task") %>%
+  set_table_properties(layout = "autofit", width = 0.75)
+
+
+table_mean_reliability_nback <- mean_reliability_task_filter %>%
+  ungroup() %>%
+  filter(
+    approach %in% c("corr", "minsq", "uninformed")
+  ) %>%
+  mutate(
+    approach = ifelse(approach == "uninformed", paste0(type), approach),
+    window = ifelse(window == "const", "medium", window)
+  ) %>%
+  select(-type, -n, -contains("quant")) %>%
+  mutate(
+    approach = fct_relevel(approach, "corr", "minsq", "autoarea", "autopeak"),
+    window = fct_relevel(window, "narrow", "medium", "wide"),
+    review = fct_relevel(review, "none", "auto", "manual")
+  ) %>%
+  arrange(task, filter, approach, window, review) %>%
+  pivot_wider(
+    id_cols = c("task", "filter", "window"),
+    names_from = c("approach", "review"),
+    values_from = "mean"
+  ) %>%
+  arrange(task, filter, window) %>%
+  filter(task == "nback") %>%
+  select(-task) %>%
+  flextable() %>%
+  colformat_double(j = -1, digits = 2) %>%
+  separate_header() %>%
+  align(align = "center", part = "all", j = -c(1:2)) %>%
+  merge_v(j = 1) %>%
+  # valign(j = 1, valign = "top") %>%
+  hline(i = c(3, 6)) %>%
+  apa_footer("My personal note on this table.") %>%
+  line_spacing(space = 0.5, part = "all") %>%
+  # set_caption("Reliability - Nback Task") %>%
+  set_table_properties(layout = "autofit", width = 0.75)
+
+
+table_mean_reliability_switching <- mean_reliability_task_filter %>%
+  ungroup() %>%
+  filter(
+    approach %in% c("corr", "minsq", "uninformed")
+  ) %>%
+  mutate(
+    approach = ifelse(approach == "uninformed", paste0(type), approach),
+    window = ifelse(window == "const", "medium", window)
+  ) %>%
+  select(-type, -n, -contains("quant")) %>%
+  mutate(
+    approach = fct_relevel(approach, "corr", "minsq", "autoarea", "autopeak"),
+    window = fct_relevel(window, "narrow", "medium", "wide"),
+    review = fct_relevel(review, "none", "auto", "manual")
+  ) %>%
+  arrange(task, filter, approach, window, review) %>%
+  pivot_wider(
+    id_cols = c("task", "filter", "window"),
+    names_from = c("approach", "review"),
+    values_from = "mean"
+  ) %>%
+  arrange(task, filter, window) %>%
+  filter(task == "switching") %>%
+  select(-task) %>%
+  flextable() %>%
+  colformat_double(j = -1, digits = 2) %>%
+  separate_header() %>%
+  align(align = "center", part = "all", j = -c(1:2)) %>%
+  merge_v(j = 1) %>%
+  # valign(j = 1, valign = "top") %>%
+  hline(i = c(3, 6)) %>%
+  apa_footer("My personal note on this table.") %>%
+  line_spacing(space = 0.5, part = "all") %>%
+  # set_caption("Reliability - Switching Task") %>%
+  set_table_properties(layout = "autofit", width = 0.75)
+
