@@ -1,6 +1,7 @@
-# Talking about appendices
-First-level headers create appendix-sections labelled A-Z. You can print tables here as well and refer to them in your main part. They will receive a prefix to their Table/Figure Number based on the appendix section they are in.
+# Algorithm Quality
+```{r tab-mean-reliability}
+# table_mean_reliability_task_filter
+```
 
+# Correlation Matrices
 
-# Another section
-this creates another appendix section

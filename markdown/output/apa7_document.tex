@@ -184,6 +184,8 @@
 
 \setlength{\parskip}{0pt}
 
+\usepackage{pdflscape}
+
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -526,7 +528,13 @@ We chose to test out two different approaches to quantifying the degree of simil
 
 Procedurally, the largest difference between the two approaches is the optimization algorithm underlying them. Due to the invariance of the correlation of two vectors to scaling in amplitude of one vector, we can reduce the number of free parameters optimized during the CORR approach to one. This allows us to use a more exhaustive optimization algorithm that will find the global optimum in some bounded parameter space without the possibility of converging on a local optimum. This is not the case for the multivariate optimization function needed for the MINSQ approach. Here, we initialize the optimization process at several different starting points and check for convergence on a common solution indicating that this solution represents the true global optimum. This is not ideal and could be improved in the future by implementing a more suitable optimization algorithm or improving on the one currently used.
 
-The MINSQ algorithm may also converge on solutions where \(a_j \le 0\) if the subject level signal is largely of a polarity opposite to that of the component of interest {[}See Figure?{]}. Although we did extend the variability of the template by a parameter vertically shifting the template to account for these cases, sometimes even the extended version will converge on solutions with non-sensible parameter values. This leads to missing values and unreliable fit statistics in those cases. In our data, this happened for 7.13 \% of ERP signals. A large proportion of these cases may be considered \emph{unidentifiable} even by an expert researcher due to particularly low signal-to-noise ratios. However, few cases where the component can be identified by a human researcher or the CORR algorithm may be classified as missing by the MINSQ algorithm. We will implement additional measures aiming to reduce the number of cases where the MINSQ algorithm fails to converge on a valid solution in future work.
+The MINSQ algorithm may also converge on solutions where \(a_j \le 0\) if the subject level signal is largely of a polarity opposite to that of the component of interest {[}see Figure \ref{fig:only-negative-e}{]}. Although we did extend the variability of the template by a parameter vertically shifting the template to account for these cases, sometimes even the extended version will converge on solutions with non-sensible parameter values. This leads to missing values and unreliable fit statistics in those cases. In our data, this happened for 7.13 \% of ERP signals. A large proportion of these cases may be considered \emph{unidentifiable} even by an expert researcher due to particularly low signal-to-noise ratios. However, few cases where the component can be identified by a human researcher or the CORR algorithm may be classified as missing by the MINSQ algorithm. We will implement additional measures aiming to reduce the number of cases where the MINSQ algorithm fails to converge on a valid solution in future work.
+
+
+
+\begin{figure}
+\includegraphics[width=0.75\linewidth]{images/only_negative_signal_example} \caption{Subject ERP with no positive-going signal}\label{fig:only-negative-example}
+\end{figure}
 
 This leads to the difference in the number of cases classified as missing by the MINSQ and CORR algorithms. While 2.52 \% of cases were set to NA after manual inspection of the CORR algorithm (2.09 \% after automatic inspection), 7.42 \% of cases were set to NA in the MINSQ algorithm following inspection (8.56 \% after automatic inspection). This tradeoff between better properties of the MINSQ algorithm accompanied by more missing values must be taken into account when selecting which algorithm to use. Depending on the number of participants available and the means of analysis, missing values may be detrimental, leading to the CORR algorithm being the preferable choice.
 
@@ -549,8 +557,6 @@ Recently, Luck et al. (\protect\hyperlink{ref-luck2021standardized}{2021}) intro
 \subsection{Limitations}\label{limitations}}
 
 Our template matching algorithm is limited by the type of transformation we employ to introduce variability mapping individual differences. For example, we chose not to implement a parameter shifting the entire template along the x-axis. Thus, in our algorithm the only way latency can be shifted is by also scaling the entire component. Later peaks thus necessitate broader components. This could be changed by introducing a parameter shifting the template without scaling it. However, this would also move the amplitude at 0 ms to some other time-point. As the origin is of special importance in ERP research, we decided against this shifting parameter. It is the only fix-point resulting from the averaging and baselining procedures. Thus, we chose not to disturb this property. Future work may investigate the impact the introduction of this additional parameter in template transformations has on the template matching algorithm. We also limited the algorithm to linear transformations of the template but could easily extend it to include non-linear scaling as well. Non-linear scaling would enable the template transformations to capture the effect of some participants not displaying speed differences in early components (low scaling), but showing slow late components (higher scaling).
-
-We observed issues of the template matching algorithms for certain ERP-morphologies during manual inspection. They struggle especially with classifying subject-level ERPs containing two distinct peaks {[}See figure{]}. Both algorithms will return a match that may even fit quite well, but minor differences in the size of the two peaks can lead to inconsistencies across conditions. The algorithm may choose the first peak in one and the second peak in the other condition. This problem is not unique to our algorithm, other algorithms face the same challenge. Human researchers can inspect all different ERPs belonging to the same subject and introduce some stability into the extraction method. Algorithms don't typically allow for the use of information of a previous ERP in the extraction procedure of the current ERP. During manual inspection of the choices of our algorithm, this can be compensated for by the human researcher.
 
 We only inspected one cut-off value for manual inspection and one for automatic rejection. These values were based on our experience in working with the algorithm, but this only provides limited insight into the impact of the cut-off value. Choosing a more conservative automatic rejection criterion may improve reliability and validity even further but come at a cost of a larger amount of missing values.
 
@@ -754,15 +760,11 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 \appendix}
 
 
-\hypertarget{talking-about-appendices}{%
-\section{Talking about appendices}\label{talking-about-appendices}}
+\hypertarget{algorithm-quality}{%
+\section{Algorithm Quality}\label{algorithm-quality}}
 
-First-level headers create appendix-sections labelled A-Z. You can print tables here as well and refer to them in your main part. They will receive a prefix to their Table/Figure Number based on the appendix section they are in.
-
-\hypertarget{another-section}{%
-\section{Another section}\label{another-section}}
-
-this creates another appendix section
+\hypertarget{correlation-matrices}{%
+\section{Correlation Matrices}\label{correlation-matrices}}
 
 
 \end{document}
