@@ -1,7 +1,6 @@
-## Algorithm Quality
-### Reliability
+# Algorithm Quality
 (ref:tab-mean-reliability-flanker) Reliability of different algorithms - Flanker Task
-```{r tab-mean-reliability-flanker, tab.cap=paste("(ref:tab-mean-reliability-flanker)")}
+```{r tab-mean-reliability-flanker, tab.cap=paste("(ref:tab-mean-reliability-flanker)"), tab.pos = "h", out.width="75%"}
 knit_print(table_mean_reliability_flanker)
 ```
 
@@ -17,56 +16,47 @@ knit_print(table_mean_reliability_nback)
 knit_print(table_mean_reliability_switching)
 ```
 
-### Homogeneity
 (ref:tab-mean-homogeneity-flanker) Homogeneity of different algorithms - Flanker Task
 ```{r tab-mean-homogeneity-flanker, tab.cap=paste("(ref:tab-mean-homogeneity-flanker)")}
 knit_print(table_mean_homogeneity_flanker)
 ```
 
 (ref:tab-mean-homogeneity-nback) Homogeneity of different algorithms - Nback Task
-
 ```{r tab-mean-homogeneity-nback, tab.cap=paste("(ref:tab-mean-homogeneity-nback)")}
 knit_print(table_mean_homogeneity_nback)
 ```
 
 (ref:tab-mean-homogeneity-switching) Homogeneity of different algorithms - Switching Task
-
 ```{r tab-mean-homogeneity-switching, tab.cap=paste("(ref:tab-mean-homogeneity-switching)")}
 knit_print(table_mean_homogeneity_switching)
 ```
 
-### Correlation with manually extracted latencies
 (ref:tab-mean-manualcor-flanker) Correlation with manually extracted latencies - Flanker Task
 ```{r tab-mean-manualcor-flanker, tab.cap=paste("(ref:tab-mean-manualcor-flanker)")}
 knit_print(table_mean_manualcor_flanker)
 ```
 
 (ref:tab-mean-manualcor-nback) Correlation with manually extracted latencies - Nback Task
-
 ```{r tab-mean-manualcor-nback, tab.cap=paste("(ref:tab-mean-manualcor-nback)")}
 knit_print(table_mean_manualcor_nback)
 ```
 
 (ref:tab-mean-manualcor-switching) Correlation with manually extracted latencies - Switching Task
-
 ```{r tab-mean-manualcor-switching, tab.cap=paste("(ref:tab-mean-manualcor-switching)")}
 knit_print(table_mean_manualcor_switching)
 ```
 
-### Effect sizes
 (ref:tab-mean-effsize-flanker) Effect size for the age effect - Flanker Task
 ```{r tab-mean-effsize-flanker, tab.cap=paste("(ref:tab-mean-effsize-flanker)")}
 knit_print(table_mean_effsize_flanker)
 ```
 
 (ref:tab-mean-effsize-nback) Effect size for the age effect - Nback Task
-
 ```{r tab-mean-effsize-nback, tab.cap=paste("(ref:tab-mean-effsize-nback)")}
 knit_print(table_mean_effsize_nback)
 ```
 
 (ref:tab-mean-effsize-switching) Effect size for the age effect - Switching Task
-
 ```{r tab-mean-effsize-switching, tab.cap=paste("(ref:tab-mean-effsize-switching)")}
 knit_print(table_mean_effsize_switching)
 ```
