@@ -467,7 +467,7 @@ We also quantified the impact preprocessing steps and the choice of measurement 
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
-All data wrangling and statistical analyses were conducted using R {[}Version 4.1.3; R Core Team (\protect\hyperlink{ref-R-base}{2022}){]}\footnote{We, furthermore, used the R-packages \emph{afex} (Version 1.3.0; \protect\hyperlink{ref-R-afex}{Singmann et al., 2023}), \emph{emmeans} (Version 1.8.9; \protect\hyperlink{ref-R-emmeans}{Lenth, 2023}), \emph{knitr} (Version 1.45; \protect\hyperlink{ref-R-knitr}{Xie, 2015}), \emph{papaja} (Version 0.1.1.9001; \protect\hyperlink{ref-R-papaja}{Aust \& Barth, 2022}), \emph{rmarkdown} (Version 2.25; \protect\hyperlink{ref-R-rmarkdown_a}{Xie et al., 2018}, \protect\hyperlink{ref-R-rmarkdown_b}{2020}), and \emph{tidyverse} (Version 2.0.0; \protect\hyperlink{ref-R-tidyverse}{Wickham et al., 2019}).}.
+All data wrangling and statistical analyses were conducted using R {[}Version 4.1.3; R Core Team (\protect\hyperlink{ref-R-base}{2022}){]}\footnote{We, furthermore, used the R-packages \emph{afex} (Version 1.3.0; \protect\hyperlink{ref-R-afex}{Singmann et al., 2023}), \emph{emmeans} (Version 1.8.5; \protect\hyperlink{ref-R-emmeans}{Lenth, 2023}), \emph{flextable} (Version 0.9.4; \protect\hyperlink{ref-R-flextable}{Gohel \& Skintzos, 2023}), \emph{knitr} (Version 1.41; \protect\hyperlink{ref-R-knitr}{Xie, 2015}), \emph{papaja} (Version 0.1.1; \protect\hyperlink{ref-R-papaja}{Aust \& Barth, 2022}), \emph{rmarkdown} (Version 2.20; \protect\hyperlink{ref-R-rmarkdown_a}{Xie et al., 2018}, \protect\hyperlink{ref-R-rmarkdown_b}{2020}), and \emph{tidyverse} (Version 1.3.2; \protect\hyperlink{ref-R-tidyverse}{Wickham et al., 2019}).}.
 
 \hypertarget{review-process}{%
 \subsection{Review process}\label{review-process}}
@@ -634,6 +634,9 @@ Eriksen, B. A., \& Eriksen, C. W. (1974). Effects of noise letters upon the iden
 
 \leavevmode\vadjust pre{\hypertarget{ref-friedman2012components}{}}%
 Friedman, D. (2011). The components of aging. In \emph{The oxford handbook of event-related potential components}. Oxford University Press. \url{https://doi.org/10.1093/oxfordhb/9780195374148.013.0243}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-flextable}{}}%
+Gohel, D., \& Skintzos, P. (2023). \emph{Flextable: Functions for tabular reporting}. \url{https://CRAN.R-project.org/package=flextable}
 
 \leavevmode\vadjust pre{\hypertarget{ref-goshtasby1984two}{}}%
 Goshtasby, A., Gage, S. H., \& Bartholic, J. F. (1984). A two-stage cross correlation approach to template matching. \emph{IEEE Transactions on Pattern Analysis and Machine Intelligence}, \emph{3}, 374--378.
@@ -867,7 +870,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ Spearman-Brown\ corrected\ split-half\ correlation\ of\ a\ particular\ extraction\ method;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -983,7 +986,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ mean\ correlation\ of\ latency\ values\ extracted\ by\ a\ certain\ algorithm\ with\ latencies\ extracted\ by\ an\ expert\ ERP\ researcher;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ manual\ =\ expert\ researcher\ either\ used\ peak\ or\ area\ as\ their\ guideline;\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ Spearman-Brown\ corrected\ split-half\ correlation\ of\ a\ particular\ extraction\ method;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -1099,7 +1102,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ mean\ correlation\ of\ latency\ values\ extracted\ by\ a\ certain\ algorithm\ with\ latencies\ extracted\ by\ an\ expert\ ERP\ researcher;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ manual\ =\ expert\ researcher\ either\ used\ peak\ or\ area\ as\ their\ guideline;\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ Spearman-Brown\ corrected\ split-half\ correlation\ of\ a\ particular\ extraction\ method;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -1215,7 +1218,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ average\ correlation\ of\ a\ particular\ extraction\ method\ with\ other\ extraction\ methods;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -1331,7 +1334,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ average\ correlation\ of\ a\ particular\ extraction\ method\ with\ other\ extraction\ methods;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -1447,7 +1450,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ average\ correlation\ of\ a\ particular\ extraction\ method\ with\ other\ extraction\ methods;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -1787,7 +1790,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{11}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ manual\ =\ expert\ researcher\ either\ used\ peak\ or\ area\ as\ their\ guideline;\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
+\multicolumn{11}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ mean\ correlation\ of\ latency\ values\ extracted\ by\ a\ certain\ algorithm\ with\ latencies\ extracted\ by\ an\ expert\ ERP\ researcher;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ manual\ =\ expert\ researcher\ either\ used\ peak\ or\ area\ as\ their\ guideline;\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -1957,7 +1960,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{11}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ manual\ =\ expert\ researcher\ either\ used\ peak\ or\ area\ as\ their\ guideline;\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
+\multicolumn{11}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ mean\ correlation\ of\ latency\ values\ extracted\ by\ a\ certain\ algorithm\ with\ latencies\ extracted\ by\ an\ expert\ ERP\ researcher;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ manual\ =\ expert\ researcher\ either\ used\ peak\ or\ area\ as\ their\ guideline;\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -2073,7 +2076,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ effect-size\ (partial\ omega-squared)\ of\ the\ age\ effect;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -2189,7 +2192,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ effect-size\ (partial\ omega-squared)\ of\ the\ age\ effect;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 
@@ -2305,7 +2308,7 @@ Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown cookbook}. Chapm
 
 
 
-\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{My\ personal\ note\ on\ this\ table.}}} \\
+\multicolumn{10}{>{}l}{\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{\textit{Note.\ }}}\textcolor[HTML]{000000}{\fontsize{11}{6}\selectfont{Values\ represent\ the\ effect-size\ (partial\ omega-squared)\ of\ the\ age\ effect;\ corr\ =\ CORR-based\ algorithm;\ minsq\ =\ MINSQ-based\ algorithm;\ autoarea\ =\ Area\ latency\ algorithm;\ autopeak\ =\ Peak\ latency\ algorithm;\ results\ of\ the\ algorithms\ either\ not\ reviewed\ (none),\ automatically\ reviewed\ based\ on\ the\ fit\ statistic\ (auto),\ or\ reviewed\ manually\ (manual);\ filter\ =\ low-pass\ filter\ used\ in\ preprocessing\ (in\ Hz);\ window\ =\ measurement\ window\ used\ for\ latency\ extraction\ (narrow\ =\ 250\ -\ 600\ ms;\ medium\ =\ 200\ -\ 700\ ms;\ wide\ =\ 150\ -\ 900ms)}}} \\
 
 
 

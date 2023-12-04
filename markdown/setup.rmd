@@ -18,7 +18,7 @@ r_refs("./markdown/r-references.bib")
 
 r_citations <- cite_r(
   file = "./markdown/r-references.bib",
-  pkgs = c("papaja", "tidyverse", "knitr", "rmarkdown", "emmeans", "afex"),
+  pkgs = c("papaja", "tidyverse", "knitr", "rmarkdown", "emmeans", "flextable", "afex"),
   omit = FALSE,
   footnote = TRUE
   )

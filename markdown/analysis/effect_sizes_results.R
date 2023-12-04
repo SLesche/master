@@ -52,7 +52,9 @@ mean_effsize_fullinfo <- data_nested_effsize %>%
     n = n(),
     n_failures = sum(failure)
   )
-
+footer_text_effsize <- c(
+  "Values represent the effect-size (partial omega-squared) of the age effect; corr = CORR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
+)
 table_mean_effsize_flanker <- mean_effsize_fullinfo %>%
   ungroup() %>%
   filter(
@@ -85,7 +87,7 @@ table_mean_effsize_flanker <- mean_effsize_fullinfo %>%
   merge_v(j = 1) %>%
   # valign(j = 1, valign = "top") %>%
   hline(i = c(3, 6)) %>%
-  apa_footer("My personal note on this table.") %>%
+  apa_footer(footer_text_effsize) %>%
   line_spacing(space = 0.5, part = "all") %>%
   # set_caption("Reliability - Nback Task") %>%
   set_table_properties(layout = "autofit", width = 0.75)
@@ -122,7 +124,7 @@ table_mean_effsize_switching <- mean_effsize_fullinfo %>%
   merge_v(j = 1) %>%
   # valign(j = 1, valign = "top") %>%
   hline(i = c(3, 6)) %>%
-  apa_footer("My personal note on this table.") %>%
+  apa_footer(footer_text_effsize) %>%
   line_spacing(space = 0.5, part = "all") %>%
   # set_caption("Reliability - Nback Task") %>%
   set_table_properties(layout = "autofit", width = 0.75)
@@ -159,7 +161,7 @@ table_mean_effsize_nback <- mean_effsize_fullinfo %>%
   merge_v(j = 1) %>%
   # valign(j = 1, valign = "top") %>%
   hline(i = c(3, 6)) %>%
-  apa_footer("My personal note on this table.") %>%
+  apa_footer(footer_text_effsize) %>%
   line_spacing(space = 0.5, part = "all") %>%
   # set_caption("Reliability - Nback Task") %>%
   set_table_properties(layout = "autofit", width = 0.75)

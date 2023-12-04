@@ -39,6 +39,10 @@ mean_homogeneity_full_info <- double_full_cors %>%
     "review" = method1_review
   )
 
+footer_text_homogeneity <- c(
+  "Values represent the average correlation of a particular extraction method with other extraction methods; corr = CORR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
+)
+
 table_mean_homogeneity_flanker <- mean_homogeneity_full_info %>%
   ungroup() %>%
   filter(
@@ -71,7 +75,7 @@ table_mean_homogeneity_flanker <- mean_homogeneity_full_info %>%
   merge_v(j = 1) %>%
   # valign(j = 1, valign = "top") %>%
   hline(i = c(3, 6)) %>%
-  apa_footer("My personal note on this table.") %>%
+  apa_footer(footer_text_homogeneity) %>%
   line_spacing(space = 0.5, part = "all") %>%
   # set_caption("Reliability - Nback Task") %>%
   set_table_properties(layout = "autofit", width = 0.75)
@@ -108,7 +112,7 @@ table_mean_homogeneity_nback <- mean_homogeneity_full_info %>%
   merge_v(j = 1) %>%
   # valign(j = 1, valign = "top") %>%
   hline(i = c(3, 6)) %>%
-  apa_footer("My personal note on this table.") %>%
+  apa_footer(footer_text_homogeneity) %>%
   line_spacing(space = 0.5, part = "all") %>%
   # set_caption("Reliability - Nback Task") %>%
   set_table_properties(layout = "autofit", width = 0.75)
@@ -146,7 +150,7 @@ table_mean_homogeneity_switching <- mean_homogeneity_full_info %>%
   merge_v(j = 1) %>%
   # valign(j = 1, valign = "top") %>%
   hline(i = c(3, 6)) %>%
-  apa_footer("My personal note on this table.") %>%
+  apa_footer(footer_text_homogeneity) %>%
   line_spacing(space = 0.5, part = "all") %>%
   # set_caption("Reliability - Nback Task") %>%
   set_table_properties(layout = "autofit", width = 0.75)
