@@ -25,27 +25,17 @@ affiliation:
   # add a second id using this syntax
 
 authornote: |
-  Author Notes go here.
+  This work represents the author’s master-thesis. It was completed in R-Markdown with the code for data preparation, analysis and communication integrated into the scripts. All code needed to replicate this work can be found at: https://github.com/SLesche/master.
 
 abstract: |
-  One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
-  
-  Two to three sentences of **more detailed background**, comprehensible  to scientists in related disciplines.
-  
-  One sentence clearly stating the **general problem** being addressed by  this particular study.
-  
-  One sentence summarizing the main result (with the words "**here we show**" or their equivalent).
-  
-  Two or three sentences explaining what the **main result** reveals in direct comparison to what was thought to be the case previously, or how the  main result adds to previous knowledge.
-  
-  One or two sentences to put the results into a more **general context**.
-  
-  Two or three sentences to provide a **broader perspective**, readily comprehensible to a scientist in any discipline.
-  
-  <!-- https://tinyurl.com/ybremelq -->
-  
-keywords          : "keyword, more keyword, crazy keyword"
-wordcount         : "X"
+  Extraction of the latency of event-related potentials (ERPs) of the EEG allows insight into the timing of cognitive processes.
+  This work introduces a novel algorithm for latency extraction based on detecting a component using a template. Our algorithm uses the grand average to generate an experiment-specific template of the component of interest and then match transformations of that template to subject-level ERPs. This transformation allows us to quantify individual differences in latency.
+  We compared our algorithm to peak latency and area latency approaches using the same data as Sadus et al. (2023), extracting P3 latencies. 
+  Our algorithm displayed superior psychometric properties and correlated very highly with latency values extracted manually by an expert ERP researcher. It was also more robust to the impact of measurement windows and preprocessing steps. Our algorithm provides a fit statistic for each extraction, indicating the degree of certainty and allowing researchers to automatically discard or manually review choices the algorithm has made.
+  While manual review improved our algorithm, it was able to generate reliable latency values that correlate very highly with decisions made manually by an expert even in a fully automatic fashion.
+  Application of this template matching algorithm improves psychometric qualities and provides a more objective, efficient and robust way to extract latencies of ERP components.
+
+keywords          : "event-related potentials, latency extraction, P3, template matching"
 
 bibliography      : ["r-references.bib", "template_matching.bib"] # put your ref files here
 
