@@ -31,43 +31,43 @@ rel_overview_long <- rel_overview %>%
 mean_reliability_overall <- rel_overview_long %>%
   group_by(approach, type, review) %>%
   summarize(
-    mean = fisher_cor_mean(reliability),
+    mean = mean(reliability),
     n = n(),
     quant_10 = quantile(reliability, 0.1),
     quant_90 = quantile(reliability, 0.9)
   )
 
-data_nested_reliability <- rel_overview_long %>%
-  mutate(id = factor(paste0(task, filter))) %>%
-  nest(.by = c("approach", "type", "review")) %>%
-  mutate(
-    aov = map(
-      data,
-      ~afex::aov_ez(
-        id = "id",
-        dv = "reliability",
-        between = c("filter"),
-        within = c("window"),
-        data = .
-      )
-    )
-  )
-
-data_nested_reliability <- data_nested_reliability %>%
-  mutate(
-    omega = map(
-      aov,
-      ~effectsize::effectsize(.[[1]], ci = 0.95, type = "omega")
-    )
-  )
-
-data_nested_reliability$omega_filter = NA
-data_nested_reliability$omega_window = NA
-
-for (i in 1:nrow(data_nested_reliability)){
-  data_nested_reliability$omega_filter[i] = data_nested_reliability$omega[i][[1]][1, 2]
-  data_nested_reliability$omega_window[i] = data_nested_reliability$omega[i][[1]][2, 2]
-}
+# data_nested_reliability <- rel_overview_long %>%
+#   mutate(id = factor(paste0(task, filter))) %>%
+#   nest(.by = c("approach", "type", "review")) %>%
+#   mutate(
+#     aov = map(
+#       data,
+#       ~afex::aov_ez(
+#         id = "id",
+#         dv = "reliability",
+#         between = c("filter"),
+#         within = c("window"),
+#         data = .
+#       )
+#     )
+#   )
+#
+# data_nested_reliability <- data_nested_reliability %>%
+#   mutate(
+#     omega = map(
+#       aov,
+#       ~effectsize::effectsize(.[[1]], ci = 0.95, type = "omega")
+#     )
+#   )
+#
+# data_nested_reliability$omega_filter = NA
+# data_nested_reliability$omega_window = NA
+#
+# for (i in 1:nrow(data_nested_reliability)){
+#   data_nested_reliability$omega_filter[i] = data_nested_reliability$omega[i][[1]][1, 2]
+#   data_nested_reliability$omega_window[i] = data_nested_reliability$omega[i][[1]][2, 2]
+# }
 
 footer_text_reliability <- c(
   "Values represent the Spearman-Brown corrected split-half correlation of a particular extraction method; corr = CORR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
