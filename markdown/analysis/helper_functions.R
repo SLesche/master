@@ -1,6 +1,6 @@
 spearman_brown_double <- function(rel){
   corrected_rel = c()
-  
+
   for (i in seq_along(rel)){
     if (is.na(rel[i])){
       corrected_rel[i] = NA
@@ -10,8 +10,8 @@ spearman_brown_double <- function(rel){
       corrected_rel[i] = -1*(2*abs(rel[i])) / (1 + abs(rel[i]))
     }
   }
-  
-  
+
+
   return(corrected_rel)
 }
 
@@ -35,7 +35,7 @@ get_homogeneity <- function(corr_matrix){
     homogeneity$name[i] = rownames(corr_matrix)[i]
     homogeneity$value[i] = fisher_cor_mean(corr_matrix[, i][-i])
   }
-  
+
   return(homogeneity)
 }
 
@@ -43,24 +43,49 @@ get_homogeneity <- function(corr_matrix){
 turn_cormatrix_into_vector <- function(cormat){
   colnames = colnames(cormat)
   rownames = rownames(cormat)
-  
+
   cormat[!upper.tri(cormat)] = NA
   size = length(colnames)
-  
+
   vector = vector(mode = "numeric", length = size*size)
   vector_names = vector(mode = "character", length = size*size)
-  
+
   for (col in seq_along(colnames)){
     for (row in seq_along(rownames)){
       vector[(col-1)*size + row] = cormat[row, col]
       vector_names[(col-1)*size + row] = paste0(colnames[col], "___", rownames[row])
     }
   }
-  
+
   data = t(data.frame(vector))
   colnames(data) = vector_names
   data = t(as.data.frame(data[, colSums(is.na(data)) == 0]))
   rownames(data) = c()
   data = data.table::transpose(as.data.frame(data), keep.names = "vars")
   return(data)
+}
+
+custom_icc <- function(vec_1, vec_2){
+  icc = irr::icc(data.frame(vec_1, vec_2), model = "twoway", type = "agreement")$value
+  return(icc)
+}
+
+compute_icc_mat <- function(dataframe){
+  colnames = colnames(dataframe)
+  n_vecs = ncol(dataframe)
+  icc_mat = matrix(0, n_vecs, n_vecs)
+
+  for (icol in seq_along(colnames)){
+    vec_1 = dataframe[, colnames[icol]]
+    for (jcol in seq_along(colnames)){
+      vec_2 = dataframe[, colnames[jcol]]
+      icc = custom_icc(vec_1, vec_2)
+      icc_mat[icol, jcol] = icc
+    }
+  }
+
+  rownames(icc_mat) = colnames
+  colnames(icc_mat) = colnames
+
+  return(icc_mat)
 }
