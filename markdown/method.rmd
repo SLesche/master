@@ -1,15 +1,15 @@
 # Implementation
 I implemented the algorithm in MATLAB (Version 2022b) [@matlab2022b]. The user of the algorithm needs to specify the name and polarity of the component of interest and importantly, the measurement window. This window is used to extract the template. In order to transform the template, I use MATLABs Curve Fitting Toolbox [@matlab2022b] to generate _sum of sines_ functions that fit to the data with $R^2 \ge 0.999$. I then add an amplitude parameter $a$ to the overall function in order to allow for scaling of the amplitude of the template and a frequency parameter $b$ to all frequency terms in the sum of sines function to allow for "squishing" or "stretching" the template along the x-Axis. The resulting variable template is described by a function $f(x, a, b)$ with $n$ sine terms and their respective amplitude $A_i$, frequency $f_i$ and phase $\phi_i$.
 
-$$f(x, a, b) = a\sum_{i = 1}^{n} (A_isin(bf_ix + \phi_i).$$
+$$f(x, a, b) = a\sum_{i = 1}^{n} A_isin(bf_ix + \phi_i.$$
 As these transformations also change the measurement window, I chose to use the subject-level ERP as a template and keep the grand average untransformed as a signal. This reverse matching approach is only an implementation detail and does not affect any decisions made by the algorithm.
 
 Depending on the similarity measure, I use different functions to find the set of optimal parameters $[a_j, b_j]$ that lead to the optimal transformation for a given subject $j$. 
 
 ## MINSQ
 The MINSQ algorithm minimizes the weighted sum $S$ of squared differences $d$ between the transformed subject signal and the grand average. 
-$$S = \sum_{i = 1}^{n}\omega_{i}d_{i}^2$$
-The weighting vector $\omega$ that we use to place emphasis on those time-points of the signal specified by the researcher beforehand is computed as follows
+$$S = \sum_{i = 1}^{n}\omega_{i}d_{i}^2.$$
+The weighting vector $\omega$ that we use to place emphasis on those time-points of the signal specified by the researcher beforehand is computed as follows:
 $$\omega_i = 1+\mathbb{1}_{[t_{start}, t_{end}]}(x_i)(10 \cdot |\frac{y_i}{y_{max}}|)^2,$$
 where 
 $$\mathbb{1}_{[t_{start}, t_{end}]}(x_i) = \begin{cases} 1, & \text{if $t_{start} \le x_i \le t_{end}$} \\ 0, & \text{otherwise}\end{cases}.$$
@@ -20,7 +20,7 @@ The resulting weighting vector $\omega$ places more emphasis on fitting the temp
 I use MATLABs _fit_ function to find optimal parameters $[a_j, b_j]$ with upper and lower bounds such that $a_j \in [0, 50]; b_j \in [0.5, 3]$. As this function may be prone to converging on local minima, I initialize 5 different start points. The algorithm selects the solution with the best correlation between transformed template and signal that multiple start points converged on is selected.
 
 In cases where the subject-level ERP only has signal with deflections opposite of the deflection of the component of interest, it may occur that the parameter $a_j \le 0$. In these cases, I attempt to re-match the signal with an added parameter $d$ shifting the entire template up or down. 
-$$f(x, a,b, d) = d +\sum_{i = 1}^{n} a*(A_isin(b*f_ix + \phi_i)$$ 
+$$f(x, a,b, d) = d +a\sum_{i = 1}^{n} A_isin(b*f_ix + \phi_i).$$ 
 Should the algorithm again converge on a solution with $a_j \le 0$, the latency value is set to NA.
 
 ## MAXCOR
