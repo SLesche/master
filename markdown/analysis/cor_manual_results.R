@@ -81,7 +81,31 @@ mean_manualcor_full_info <- double_full_icc %>%
     quant_90 = quantile(correlation, 0.9)
   )
 
+
+cutoff <- 0.8
 footer_text_cormanual <- c("Values represent the intraclass-correlation of latency values extracted by a certain algorithm with latencies extracted by an expert ERP researcher; corr = CORR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); manual = expert researcher either used peak or area as their guideline; filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)")
+
+make_flextable_validity <- function(data, cutoff){
+  ncol = ncol(data)
+  color_mat = ifelse(data[, 4:ncol] > cutoff, "forestgreen", "darkorange")
+  flextable = data %>%
+    flextable() %>%
+    colformat_double(j = -c(1:3), digits = 2) %>%
+    separate_header() %>%
+    align(align = "center", part = "all", j = -c(1:2)) %>%
+    merge_v(j = 1) %>%
+    # valign(j = 1, valign = "top") %>%
+    hline(i = c(9)) %>%
+    color(
+      j = 4:ncol,
+      color = color_mat
+    ) %>%
+    apa_footer(footer_text_cormanual) %>%
+    line_spacing(space = 0.5, part = "all") %>%
+    # set_caption("Reliability - Nback Task") %>%
+    set_table_properties(layout = "autofit", width = 0.75)
+  return(flextable)
+}
 
 table_mean_manualcor_flanker <- mean_manualcor_full_info %>%
   ungroup() %>%
@@ -115,17 +139,8 @@ table_mean_manualcor_flanker <- mean_manualcor_full_info %>%
   rename(
     "manual" = "manual_type"
   ) %>%
-  flextable() %>%
-  colformat_double(j = -c(1:3), digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(9)) %>%
-  apa_footer(footer_text_cormanual) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_validity(cutoff = cutoff)
+
 
 table_mean_manualcor_switching <- mean_manualcor_full_info %>%
   ungroup() %>%
@@ -159,17 +174,7 @@ table_mean_manualcor_switching <- mean_manualcor_full_info %>%
   rename(
     "manual" = "manual_type"
   ) %>%
-  flextable() %>%
-  colformat_double(j = -c(1:3), digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(9)) %>%
-  apa_footer(footer_text_cormanual) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_validity(cutoff = cutoff)
 
 table_mean_manualcor_nback <- mean_manualcor_full_info %>%
   ungroup() %>%
@@ -203,14 +208,4 @@ table_mean_manualcor_nback <- mean_manualcor_full_info %>%
   rename(
     "manual" = "manual_type"
   ) %>%
-  flextable() %>%
-  colformat_double(j = -c(1:3), digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(9)) %>%
-  apa_footer(footer_text_cormanual) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_validity(cutoff = cutoff)

@@ -64,4 +64,4 @@ colnames(full_cors_flipped) <- colnames_full_cors_flipped
 
 double_full_icc <- rbind(full_cors, full_cors_flipped)
 
-save(double_full_cors, file = "./markdown/analysis/data/double_full_icc.rdata")
+save(double_full_icc, file = "./markdown/analysis/data/double_full_icc.rdata")

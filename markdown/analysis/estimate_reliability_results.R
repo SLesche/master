@@ -69,6 +69,7 @@ mean_reliability_overall <- rel_overview_long %>%
 #   data_nested_reliability$omega_window[i] = data_nested_reliability$omega[i][[1]][2, 2]
 # }
 
+cutoff <- 0.8
 footer_text_reliability <- c(
   "Values represent the Spearman-Brown corrected split-half correlation of a particular extraction method; corr = CORR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
 )
@@ -81,6 +82,29 @@ mean_reliability_task_filter <- rel_overview_long %>%
     quant_10 = quantile(reliability, 0.1),
     quant_90 = quantile(reliability, 0.9)
   )
+
+make_flextable_reliability <- function(data, cutoff){
+  ncol = ncol(data)
+  color_mat = ifelse(data[, 3:ncol] > cutoff, "forestgreen", "darkorange")
+  flextable = data %>%
+    flextable() %>%
+    colformat_double(j = -1, digits = 2) %>%
+    separate_header() %>%
+    align(align = "center", part = "all", j = -c(1:2)) %>%
+    align(align = "left", part = "all", j = c(1:2)) %>%
+    merge_v(j = 1) %>%
+    # valign(j = 1, valign = "top") %>%
+    hline(i = c(3, 6)) %>%
+    color(
+      j = 3:ncol,
+      color = color_mat
+    ) %>%
+    apa_footer(footer_text_reliability) %>%
+    line_spacing(space = 0.5, part = "all") %>%
+    # set_caption("Reliability - Nback Task") %>%
+    set_table_properties(layout = "autofit", width = 0.75)
+  return(flextable)
+}
 
 table_mean_reliability_flanker <- mean_reliability_task_filter %>%
   ungroup() %>%
@@ -106,18 +130,7 @@ table_mean_reliability_flanker <- mean_reliability_task_filter %>%
   arrange(task, filter, window) %>%
   filter(task == "flanker") %>%
   select(-task) %>%
-  flextable() %>%
-  colformat_double(j = -1, digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  align(align = "left", part = "all", j = c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(3, 6)) %>%
-  apa_footer(footer_text_reliability) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_reliability(cutoff = cutoff)
 
 
 table_mean_reliability_nback <- mean_reliability_task_filter %>%
@@ -144,18 +157,7 @@ table_mean_reliability_nback <- mean_reliability_task_filter %>%
   arrange(task, filter, window) %>%
   filter(task == "nback") %>%
   select(-task) %>%
-  flextable() %>%
-  colformat_double(j = -1, digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  align(align = "left", part = "all", j = c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(3, 6)) %>%
-  apa_footer(footer_text_reliability) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_reliability(cutoff = cutoff)
 
 
 table_mean_reliability_switching <- mean_reliability_task_filter %>%
@@ -182,16 +184,5 @@ table_mean_reliability_switching <- mean_reliability_task_filter %>%
   arrange(task, filter, window) %>%
   filter(task == "switching") %>%
   select(-task) %>%
-  flextable() %>%
-  colformat_double(j = -1, digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  align(align = "left", part = "all", j = c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(3, 6)) %>%
-  apa_footer(footer_text_reliability) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Switching Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_reliability(cutoff = cutoff)
 

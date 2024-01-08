@@ -52,9 +52,32 @@ mean_effsize_fullinfo <- data_nested_effsize %>%
     n = n(),
     n_failures = sum(failure)
   )
+
+cutoff <- 0.03
 footer_text_effsize <- c(
   "Values represent the effect-size (partial omega-squared) of the age effect; corr = CORR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
 )
+make_flextable_effsize <- function(data, cutoff){
+  ncol = ncol(data)
+  color_mat = ifelse(data[, 3:ncol] > cutoff & data[, 3:ncol] < 0.8, "forestgreen", "darkorange")
+  flextable = data %>%
+    flextable() %>%
+    colformat_double(j = -1, digits = 2) %>%
+    separate_header() %>%
+    align(align = "center", part = "all", j = -c(1:2)) %>%
+    merge_v(j = 1) %>%
+    # valign(j = 1, valign = "top") %>%
+    hline(i = c(3, 6)) %>%
+    color(
+      j = 3:ncol,
+      color = color_mat
+    ) %>%
+    apa_footer(footer_text_effsize) %>%
+    line_spacing(space = 0.5, part = "all") %>%
+    # set_caption("Reliability - Nback Task") %>%
+    set_table_properties(layout = "autofit", width = 0.75)
+  return(flextable)
+}
 table_mean_effsize_flanker <- mean_effsize_fullinfo %>%
   ungroup() %>%
   filter(
@@ -80,17 +103,7 @@ table_mean_effsize_flanker <- mean_effsize_fullinfo %>%
   arrange(task, filter, window) %>%
   filter(task == "flanker") %>%
   select(-task) %>%
-  flextable() %>%
-  colformat_double(j = -1, digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(3, 6)) %>%
-  apa_footer(footer_text_effsize) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_effsize(cutoff = cutoff)
 
 table_mean_effsize_switching <- mean_effsize_fullinfo %>%
   ungroup() %>%
@@ -117,17 +130,7 @@ table_mean_effsize_switching <- mean_effsize_fullinfo %>%
   arrange(task, filter, window) %>%
   filter(task == "switching") %>%
   select(-task) %>%
-  flextable() %>%
-  colformat_double(j = -1, digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(3, 6)) %>%
-  apa_footer(footer_text_effsize) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_effsize(cutoff = cutoff)
 
 table_mean_effsize_nback <- mean_effsize_fullinfo %>%
   ungroup() %>%
@@ -154,14 +157,4 @@ table_mean_effsize_nback <- mean_effsize_fullinfo %>%
   arrange(task, filter, window) %>%
   filter(task == "nback") %>%
   select(-task) %>%
-  flextable() %>%
-  colformat_double(j = -1, digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(3, 6)) %>%
-  apa_footer(footer_text_effsize) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_effsize(cutoff = cutoff)

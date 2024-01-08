@@ -39,9 +39,34 @@ mean_homogeneity_full_info <- double_full_cors %>%
     "review" = method1_review
   )
 
+cutoff <- 0.8
+
 footer_text_homogeneity <- c(
   "Values represent the average correlation of a particular extraction method with other extraction methods; corr = CORR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
 )
+
+make_flextable_homogeneity <- function(data, cutoff){
+  ncol = ncol(data)
+  color_mat = ifelse(data[, 3:ncol] > cutoff, "forestgreen", "darkorange")
+  flextable = data %>%
+    flextable() %>%
+    colformat_double(j = -1, digits = 2) %>%
+    separate_header() %>%
+    align(align = "center", part = "all", j = -c(1:2)) %>%
+    merge_v(j = 1) %>%
+    # valign(j = 1, valign = "top") %>%
+    hline(i = c(3, 6)) %>%
+    color(
+      j = 3:ncol,
+      color = color_mat
+    ) %>%
+    apa_footer(footer_text_homogeneity) %>%
+    line_spacing(space = 0.5, part = "all") %>%
+    # set_caption("Reliability - Nback Task") %>%
+    set_table_properties(layout = "autofit", width = 0.75)
+
+  return(flextable)
+}
 
 table_mean_homogeneity_flanker <- mean_homogeneity_full_info %>%
   ungroup() %>%
@@ -68,17 +93,7 @@ table_mean_homogeneity_flanker <- mean_homogeneity_full_info %>%
   arrange(task, filter, window) %>%
   filter(task == "flanker") %>%
   select(-task) %>%
-  flextable() %>%
-  colformat_double(j = -1, digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(3, 6)) %>%
-  apa_footer(footer_text_homogeneity) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_homogeneity(cutoff = cutoff)
 
 table_mean_homogeneity_nback <- mean_homogeneity_full_info %>%
   ungroup() %>%
@@ -105,17 +120,8 @@ table_mean_homogeneity_nback <- mean_homogeneity_full_info %>%
   arrange(task, filter, window) %>%
   filter(task == "nback") %>%
   select(-task) %>%
-  flextable() %>%
-  colformat_double(j = -1, digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(3, 6)) %>%
-  apa_footer(footer_text_homogeneity) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_homogeneity(cutoff = cutoff)
+
 
 
 table_mean_homogeneity_switching <- mean_homogeneity_full_info %>%
@@ -143,14 +149,4 @@ table_mean_homogeneity_switching <- mean_homogeneity_full_info %>%
   arrange(task, filter, window) %>%
   filter(task == "switching") %>%
   select(-task) %>%
-  flextable() %>%
-  colformat_double(j = -1, digits = 2) %>%
-  separate_header() %>%
-  align(align = "center", part = "all", j = -c(1:2)) %>%
-  merge_v(j = 1) %>%
-  # valign(j = 1, valign = "top") %>%
-  hline(i = c(3, 6)) %>%
-  apa_footer(footer_text_homogeneity) %>%
-  line_spacing(space = 0.5, part = "all") %>%
-  # set_caption("Reliability - Nback Task") %>%
-  set_table_properties(layout = "autofit", width = 0.75)
+  make_flextable_homogeneity(cutoff = cutoff)
