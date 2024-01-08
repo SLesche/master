@@ -83,7 +83,7 @@ mean_manualcor_full_info <- double_full_icc %>%
 
 
 cutoff <- 0.8
-footer_text_cormanual <- c("Values represent the intraclass-correlation of latency values extracted by a certain algorithm with latencies extracted by an expert ERP researcher; corr = CORR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); manual = expert researcher either used peak or area as their guideline; filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)")
+footer_text_cormanual <- c("Values represent the intraclass-correlation of latency values extracted by a certain algorithm with latencies extracted by an expert ERP researcher; maxcor = MAXCOR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); manual = expert researcher either used peak or area as their guideline; filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)")
 
 make_flextable_validity <- function(data, cutoff){
   ncol = ncol(data)
@@ -107,105 +107,53 @@ make_flextable_validity <- function(data, cutoff){
   return(flextable)
 }
 
+prepare_data_validity <- function(data, chosen_task){
+  prep = data %>%
+    ungroup() %>%
+    mutate(
+      method2_approach = ifelse(method2_approach == "uninformed", paste0(method2_type), method2_approach),
+      method2_window = ifelse(method2_window == "const", "medium", method2_window)
+    ) %>%
+    select(-method2_type, -n, -contains("quant")) %>%
+    mutate(method2_approach = ifelse(method2_approach == "corr", "maxcor", method2_approach)) %>%
+    mutate(
+      method2_approach = fct_relevel(method2_approach, "maxcor", "minsq", "autoarea", "autopeak"),
+      method2_window = fct_relevel(method2_window, "narrow", "medium", "wide"),
+      method2_review = fct_relevel(method2_review, "none", "auto", "manual"),
+      method2_filter = as.numeric(method2_filter)
+    ) %>%
+    rename(
+      "filter" = method2_filter,
+      "manual_type" = method1_type,
+      "window" = method2_window,
+      "approach" = method2_approach,
+      "review" = method2_review
+    ) %>%
+    arrange(task, manual_type, filter, approach, window, review) %>%
+    pivot_wider(
+      id_cols = c("task", "manual_type", "filter", "window"),
+      names_from = c("approach", "review"),
+      values_from = "mean"
+    ) %>%
+    arrange(task, manual_type, filter, window) %>%
+    filter(task == chosen_task) %>%
+    select(-task) %>%
+    rename(
+      "manual" = "manual_type"
+    )
+
+  return(prep)
+}
+
 table_mean_manualcor_flanker <- mean_manualcor_full_info %>%
-  ungroup() %>%
-  mutate(
-    method2_approach = ifelse(method2_approach == "uninformed", paste0(method2_type), method2_approach),
-    method2_window = ifelse(method2_window == "const", "medium", method2_window)
-  ) %>%
-  select(-method2_type, -n, -contains("quant")) %>%
-  mutate(
-    method2_approach = fct_relevel(method2_approach, "corr", "minsq", "autoarea", "autopeak"),
-    method2_window = fct_relevel(method2_window, "narrow", "medium", "wide"),
-    method2_review = fct_relevel(method2_review, "none", "auto", "manual"),
-    method2_filter = as.numeric(method2_filter)
-  ) %>%
-  rename(
-    "filter" = method2_filter,
-    "manual_type" = method1_type,
-    "window" = method2_window,
-    "approach" = method2_approach,
-    "review" = method2_review
-  ) %>%
-  arrange(task, manual_type, filter, approach, window, review) %>%
-  pivot_wider(
-    id_cols = c("task", "manual_type", "filter", "window"),
-    names_from = c("approach", "review"),
-    values_from = "mean"
-  ) %>%
-  arrange(task, manual_type, filter, window) %>%
-  filter(task == "flanker") %>%
-  select(-task) %>%
-  rename(
-    "manual" = "manual_type"
-  ) %>%
+  prepare_data_validity(chosen_task = "flanker") %>%
   make_flextable_validity(cutoff = cutoff)
 
 
 table_mean_manualcor_switching <- mean_manualcor_full_info %>%
-  ungroup() %>%
-  mutate(
-    method2_approach = ifelse(method2_approach == "uninformed", paste0(method2_type), method2_approach),
-    method2_window = ifelse(method2_window == "const", "medium", method2_window)
-  ) %>%
-  select(-method2_type, -n, -contains("quant")) %>%
-  mutate(
-    method2_approach = fct_relevel(method2_approach, "corr", "minsq", "autoarea", "autopeak"),
-    method2_window = fct_relevel(method2_window, "narrow", "medium", "wide"),
-    method2_review = fct_relevel(method2_review, "none", "auto", "manual"),
-    method2_filter = as.numeric(method2_filter)
-  ) %>%
-  rename(
-    "filter" = method2_filter,
-    "manual_type" = method1_type,
-    "window" = method2_window,
-    "approach" = method2_approach,
-    "review" = method2_review
-  ) %>%
-  arrange(task, manual_type, filter, approach, window, review) %>%
-  pivot_wider(
-    id_cols = c("task", "manual_type", "filter", "window"),
-    names_from = c("approach", "review"),
-    values_from = "mean"
-  ) %>%
-  arrange(task, manual_type, filter, window) %>%
-  filter(task == "switching") %>%
-  select(-task) %>%
-  rename(
-    "manual" = "manual_type"
-  ) %>%
+  prepare_data_validity(chosen_task = "switching") %>%
   make_flextable_validity(cutoff = cutoff)
 
 table_mean_manualcor_nback <- mean_manualcor_full_info %>%
-  ungroup() %>%
-  mutate(
-    method2_approach = ifelse(method2_approach == "uninformed", paste0(method2_type), method2_approach),
-    method2_window = ifelse(method2_window == "const", "medium", method2_window)
-  ) %>%
-  select(-method2_type, -n, -contains("quant")) %>%
-  mutate(
-    method2_approach = fct_relevel(method2_approach, "corr", "minsq", "autoarea", "autopeak"),
-    method2_window = fct_relevel(method2_window, "narrow", "medium", "wide"),
-    method2_review = fct_relevel(method2_review, "none", "auto", "manual"),
-    method2_filter = as.numeric(method2_filter)
-  ) %>%
-  rename(
-    "filter" = method2_filter,
-    "manual_type" = method1_type,
-    "window" = method2_window,
-    "approach" = method2_approach,
-    "review" = method2_review
-  ) %>%
-  arrange(task, manual_type, filter, approach, window, review) %>%
-  pivot_wider(
-    id_cols = c("task", "manual_type", "filter", "window"),
-    names_from = c("approach", "review"),
-    values_from = "mean"
-  ) %>%
-  arrange(task, manual_type, filter, window) %>%
-  filter(task == "nback") %>%
-  select(-task) %>%
-  rename(
-    "manual" = "manual_type"
-  ) %>%
+  prepare_data_validity(chosen_task = "nback") %>%
   make_flextable_validity(cutoff = cutoff)

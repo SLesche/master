@@ -71,7 +71,7 @@ mean_reliability_overall <- rel_overview_long %>%
 
 cutoff <- 0.8
 footer_text_reliability <- c(
-  "Values represent the Spearman-Brown corrected split-half correlation of a particular extraction method; corr = CORR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
+  "Values represent the Spearman-Brown corrected split-half correlation of a particular extraction method; maxcor = MAXCOR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
 )
 
 mean_reliability_task_filter <- rel_overview_long %>%
@@ -106,83 +106,46 @@ make_flextable_reliability <- function(data, cutoff){
   return(flextable)
 }
 
+prepare_data_reliability <- function(data, chosen_task){
+  prep = data %>%
+    ungroup() %>%
+    filter(
+      approach %in% c("corr", "minsq", "uninformed")
+    ) %>%
+    mutate(
+      approach = ifelse(approach == "uninformed", paste0(type), approach),
+      window = ifelse(window == "const", "medium", window)
+    ) %>%
+    select(-type, -n, -contains("quant")) %>%
+    mutate(approach = ifelse(approach == "corr", "maxcor", approach)) %>%
+    mutate(
+      approach = fct_relevel(approach, "maxcor", "minsq", "autoarea", "autopeak"),
+      window = fct_relevel(window, "narrow", "medium", "wide"),
+      review = fct_relevel(review, "none", "auto", "manual")
+    ) %>%
+    arrange(task, filter, approach, window, review) %>%
+    pivot_wider(
+      id_cols = c("task", "filter", "window"),
+      names_from = c("approach", "review"),
+      values_from = "mean"
+    ) %>%
+    arrange(task, filter, window) %>%
+    filter(task == chosen_task) %>%
+    select(-task)
+
+  return(prep)
+}
 table_mean_reliability_flanker <- mean_reliability_task_filter %>%
-  ungroup() %>%
-  filter(
-    approach %in% c("corr", "minsq", "uninformed")
-  ) %>%
-  mutate(
-    approach = ifelse(approach == "uninformed", paste0(type), approach),
-    window = ifelse(window == "const", "medium", window)
-  ) %>%
-  select(-type, -n, -contains("quant")) %>%
-  mutate(
-    approach = fct_relevel(approach, "corr", "minsq", "autoarea", "autopeak"),
-    window = fct_relevel(window, "narrow", "medium", "wide"),
-    review = fct_relevel(review, "none", "auto", "manual")
-  ) %>%
-  arrange(task, filter, approach, window, review) %>%
-  pivot_wider(
-    id_cols = c("task", "filter", "window"),
-    names_from = c("approach", "review"),
-    values_from = "mean"
-  ) %>%
-  arrange(task, filter, window) %>%
-  filter(task == "flanker") %>%
-  select(-task) %>%
+  prepare_data_reliability(chosen_task = "flanker") %>%
   make_flextable_reliability(cutoff = cutoff)
 
 
 table_mean_reliability_nback <- mean_reliability_task_filter %>%
-  ungroup() %>%
-  filter(
-    approach %in% c("corr", "minsq", "uninformed")
-  ) %>%
-  mutate(
-    approach = ifelse(approach == "uninformed", paste0(type), approach),
-    window = ifelse(window == "const", "medium", window)
-  ) %>%
-  select(-type, -n, -contains("quant")) %>%
-  mutate(
-    approach = fct_relevel(approach, "corr", "minsq", "autoarea", "autopeak"),
-    window = fct_relevel(window, "narrow", "medium", "wide"),
-    review = fct_relevel(review, "none", "auto", "manual")
-  ) %>%
-  arrange(task, filter, approach, window, review) %>%
-  pivot_wider(
-    id_cols = c("task", "filter", "window"),
-    names_from = c("approach", "review"),
-    values_from = "mean"
-  ) %>%
-  arrange(task, filter, window) %>%
-  filter(task == "nback") %>%
-  select(-task) %>%
+  prepare_data_reliability(chosen_task = "nback") %>%
   make_flextable_reliability(cutoff = cutoff)
 
 
 table_mean_reliability_switching <- mean_reliability_task_filter %>%
-  ungroup() %>%
-  filter(
-    approach %in% c("corr", "minsq", "uninformed")
-  ) %>%
-  mutate(
-    approach = ifelse(approach == "uninformed", paste0(type), approach),
-    window = ifelse(window == "const", "medium", window)
-  ) %>%
-  select(-type, -n, -contains("quant")) %>%
-  mutate(
-    approach = fct_relevel(approach, "corr", "minsq", "autoarea", "autopeak"),
-    window = fct_relevel(window, "narrow", "medium", "wide"),
-    review = fct_relevel(review, "none", "auto", "manual")
-  ) %>%
-  arrange(task, filter, approach, window, review) %>%
-  pivot_wider(
-    id_cols = c("task", "filter", "window"),
-    names_from = c("approach", "review"),
-    values_from = "mean"
-  ) %>%
-  arrange(task, filter, window) %>%
-  filter(task == "switching") %>%
-  select(-task) %>%
+  prepare_data_reliability(chosen_task = "switching") %>%
   make_flextable_reliability(cutoff = cutoff)
 
