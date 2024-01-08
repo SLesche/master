@@ -9,7 +9,7 @@ Depending on the similarity measure, I use different functions to find the set o
 ## MINSQ
 The MINSQ algorithm minimizes the weighted sum $S$ of squared differences $d$ between the transformed subject signal and the grand average. 
 $$S = \sum_{i = 1}^{n}\omega_{i}d_{i}^2.$$
-The weighting vector $\omega$ that we use to place emphasis on those time-points of the signal specified by the researcher beforehand is computed as follows:
+The weighting vector $\omega$ that I use to place emphasis on those time-points of the signal specified by the researcher beforehand is computed as follows:
 $$\omega_i = 1+\mathbb{1}_{[t_{start}, t_{end}]}(x_i)(10 \cdot |\frac{y_i}{y_{max}}|)^2,$$
 where 
 $$\mathbb{1}_{[t_{start}, t_{end}]}(x_i) = \begin{cases} 1, & \text{if $t_{start} \le x_i \le t_{end}$} \\ 0, & \text{otherwise}\end{cases}.$$

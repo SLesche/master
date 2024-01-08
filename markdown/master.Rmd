@@ -130,11 +130,11 @@ knitr::opts_chunk$set(message = FALSE)
 ::: {#refs custom-style="Bibliography"}
 :::
 
-\newpage
+<!-- \newpage -->
 
-# (APPENDIX) Appendix {-}
+<!-- # (APPENDIX) Appendix {-} -->
 
-```{r child = "markdown/appendix.Rmd"}
-```
+<!-- ```{r child = "markdown/appendix.Rmd"} -->
+<!-- ``` -->
 
 
