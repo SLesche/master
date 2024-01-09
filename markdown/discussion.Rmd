@@ -7,12 +7,19 @@ Because previous algorithms have been proposed, I considered it key to compare t
 Regarding the reliability of extracted latencies across tasks and preprocessing steps, my algorithm did not prove superior to the area latency approach. Both the MINSQ and MAXCOR approaches led to slightly lower Spearman-Brown corrected split-half correlations than in area latency approaches. However, the differences in reliability are quite small and only carry low practical implications. If the researcher uses latent-variable approaches in their analysis of ERP latencies like structural equation modelling, the error variance may be controlled and resulting latent variables may be considered free of measurement error [@bollen1989structural]. Especially in this case, slightly lower reliabilities carry negligible practical implications.
 
 ** take notes about what interests you in the table **
+- with 0.8 threshold, only area latency consistently good
+- Minsq seems better than maxcor
+- with medium measurement window, minsq and maxcor lead to only very few cases where rel < 0.8
+
 As Table \@ref(tab:tab-mean-reliability-flanker) illustrates, almost all extraction methods showed reliability estimates greater than $0.8$ in the Flanker task. In the Nback and Switching data, only the area latency algorithm continued to consistenlty show large reliability estimates. The MINSQ and MAXCOR algorithm showed their highest reliability estimates when using a medium measurement window.
 
 ## Homogeneity
 Latency values extracted by the MINSQ algorithm proved to have the highest average correlation with all other extraction methods across tasks and preprocessing steps ($\overline{r_{h}} =$ `r mean_homogeneity_overall %>% filter(method1_approach == "minsq", method1_review == "manual") %>% pull(mean) %>% apa_num(gt1 = FALSE)`). This indicates that this approach best reflects the total of all other measures. The MAXCOR algorithm also proved superior to previously established extraction methods.
 
-## Validity (remove headline)
+- Minsq best, most values are greater 0.8
+- this is especially true for medium measurement window, where minsq and maxcor both show consistently good homogeneities for all tasks and filter settings
+
+## Validity
 @sadus2023multiverse showed that manually extracting latency values is the best approach to ensure good psychometric properties and high power to detect experimental effects. The ability of an algorithm to extract latency values correlating highly with those extracted by an expert ERP researcher was therefore of high importance to us. 
 Again, the newly proposed algorithm proved to have a superior ability to replicate human behavior compared to previous approaches. The MINSQ algorithm, after manual inspection, had a mean intraclass correlation of $\overline{r} =$ `r mean_manualcor_overall %>% filter(method2_approach == "minsq", method2_review == "manual") %>% pull(mean) %>% apa_num(gt1 = FALSE, digits = 2)` with manually extracted latencies across tasks and preprocessing steps.
 
