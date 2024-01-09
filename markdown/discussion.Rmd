@@ -3,12 +3,13 @@ Our newly proposed template matching algorithm displayed consistently good psych
 
 Because previous algorithms have been proposed, I considered it key to compare the effectiveness of my new algorithm against already established, potentially simpler algorithms.
 
-** In each case here, I Want to not only discuss means, but also the highest / lowest / best filter setting for each **
-
-## Reliability (Remove later)
+## Reliability
 Regarding the reliability of extracted latencies across tasks and preprocessing steps, my algorithm did not prove superior to the area latency approach. Both the MINSQ and MAXCOR approaches led to slightly lower Spearman-Brown corrected split-half correlations than in area latency approaches. However, the differences in reliability are quite small and only carry low practical implications. If the researcher uses latent-variable approaches in their analysis of ERP latencies like structural equation modelling, the error variance may be controlled and resulting latent variables may be considered free of measurement error [@bollen1989structural]. Especially in this case, slightly lower reliabilities carry negligible practical implications.
 
-## Homogeneity (remove headline)
+** take notes about what interests you in the table **
+As Table \@ref(tab:tab-mean-reliability-flanker) illustrates, almost all extraction methods showed reliability estimates greater than $0.8$ in the Flanker task. In the Nback and Switching data, only the area latency algorithm continued to consistenlty show large reliability estimates. The MINSQ and MAXCOR algorithm showed their highest reliability estimates when using a medium measurement window.
+
+## Homogeneity
 Latency values extracted by the MINSQ algorithm proved to have the highest average correlation with all other extraction methods across tasks and preprocessing steps ($\overline{r_{h}} =$ `r mean_homogeneity_overall %>% filter(method1_approach == "minsq", method1_review == "manual") %>% pull(mean) %>% apa_num(gt1 = FALSE)`). This indicates that this approach best reflects the total of all other measures. The MAXCOR algorithm also proved superior to previously established extraction methods.
 
 ## Validity (remove headline)
