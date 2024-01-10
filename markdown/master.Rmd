@@ -31,8 +31,8 @@ abstract: |
   Extraction of the latency of event-related potentials (ERPs) of the EEG allows insight into the timing of cognitive processes.
   This work introduces a novel algorithm for latency extraction based on detecting a component using a template. The algorithm uses the grand average to generate an experiment-specific template of the component of interest and then matches transformations of that template to subject-level ERPs. This transformation allows users to quantify individual differences in latency.
   I compared the new algorithm to peak latency and area latency algorithms using the same data as Sadus et al. (2023), extracting P3 latencies. 
-  The new algorithm displayed superior psychometric properties and correlated highly with latency values extracted manually by an expert ERP researcher. **HERE PRESENT THE BEST "PIPELINE"** The algorithm provides a fit statistic for each extraction, indicating the degree of certainty and allowing researchers to automatically discard or manually review choices the algorithm has made.
-  While manual review slightly improved the results, the algorithm was able to generate reliable latency values that correlate very highly with decisions made manually by an expert even in a fully automatic fashion.
+  The new algorithm displayed superior psychometric properties and correlated highly with latency values extracted manually by an expert ERP researcher. The algorithm provides a fit statistic for each extraction, indicating the degree of certainty and allowing researchers to automatically discard or manually review choices the algorithm has made.
+  While manual review slightly improved the results, the algorithm was able to generate reliable latency values that correlate highly with decisions made manually by an expert even in a fully automatic fashion.
   Application of this template matching algorithm improves psychometric qualities and provides a more objective, efficient, and robust way to extract latencies of ERP components.
 
 keywords          : "event-related potentials, latency extraction, P3, template matching"
