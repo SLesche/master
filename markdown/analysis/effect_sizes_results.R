@@ -55,7 +55,7 @@ mean_effsize_fullinfo <- data_nested_effsize %>%
 
 cutoff <- 0.03
 footer_text_effsize <- c(
-  "Values represent the effect-size (partial omega-squared) of the age effect; maxcor = MAXCOR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
+  "Values represent the effect-size (partial omega-squared) of the age effect; values greater than 0.03 are colored in green, less than 0.03 in orange; maxcor = MAXCOR-based algorithm; minsq = MINSQ-based algorithm; autoarea = Area latency algorithm; autopeak = Peak latency algorithm; results of the algorithms either not reviewed (none), automatically reviewed based on the fit statistic (auto), or reviewed manually (manual); filter = low-pass filter used in preprocessing (in Hz); window = measurement window used for latency extraction (narrow = 250 - 600 ms; medium = 200 - 700 ms; wide = 150 - 900ms)"
 )
 make_flextable_effsize <- function(data, cutoff){
   ncol = ncol(data)

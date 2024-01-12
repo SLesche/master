@@ -83,17 +83,17 @@ An overview of the intraclass correlation of latencies that were extracted by th
 
 In the Flanker task data, the MINSQ approach combined with a medium measurement window led to intraclass correlations with manually extracted latencies consistently above $0.93$, even in the fully automatic approach. The area latency approach showed intraclass correlations between $0.79$ and $0.93$. A similar pattern emerged for the Nback and Switching tasks. The MINSQ approach combined with a medium measurement window led to the highest intraclass correlations, showing values consistently above $0.8$. Other measures or other measurement windows displayed less consistency, showing intraclass correlations $r \le 0.70$ in some conditions.
 
-(ref:tab-mean-manualcor-flanker) Correlation with manually extracted latencies - Flanker Task
+(ref:tab-mean-manualcor-flanker) Intraclass correlation with manually extracted latencies - Flanker Task
 ```{r tab-mean-manualcor-flanker, tab.cap=paste("(ref:tab-mean-manualcor-flanker)")}
 knit_print(table_mean_manualcor_flanker)
 ```
 
-(ref:tab-mean-manualcor-nback) Correlation with manually extracted latencies - Nback Task
+(ref:tab-mean-manualcor-nback) Intraclass correlation with manually extracted latencies - Nback Task
 ```{r tab-mean-manualcor-nback, tab.cap=paste("(ref:tab-mean-manualcor-nback)")}
 knit_print(table_mean_manualcor_nback)
 ```
 
-(ref:tab-mean-manualcor-switching) Correlation with manually extracted latencies - Switching Task
+(ref:tab-mean-manualcor-switching) Intraclass correlation with manually extracted latencies - Switching Task
 ```{r tab-mean-manualcor-switching, tab.cap=paste("(ref:tab-mean-manualcor-switching)")}
 knit_print(table_mean_manualcor_switching)
 ```
