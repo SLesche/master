@@ -1,7 +1,7 @@
 # Implementation
 I implemented the algorithm in MATLAB (Version 2022b) [@matlab2022b]. Let the vector $x = (x_1, x_2, ..., x_n)$ denote the time-points at which a subject-level signal $s_j = (s_1, s_2, ..., s_n)$ of subject $j$ is taken and $t = (t_1, t_2, ..., t_n)$ the signal of the template. In order to transform the template, I use MATLABs Curve Fitting Toolbox [@matlab2022b] to find a _sum of sines_ function with $k$ sine terms
 $$f(x, a, b) = a\sum_{i = 1}^{k} A_isin(bf_ix + \phi_i),$$
-where $x$ denotes a time-point, $a$ represents the amplitude-scaling parameter, $b$ represents the latency-scaling parameter and $A_i$, $f_i$, and $\phi_i$ denote amplitude, frequency, phase. The sum of sines parameter vectors $A$, $f$, and $\phi$ are optimized such that $f(x, 1, 1)$ predicts $t$ with $R^2 \ge 0.999$ the number of sine terms $k$ is increased until this fit is achieved. After the sum of sines function is found, the variable template is given by the function $f(x, a, b)$ with the parameter $a$ allowing scaling of the amplitude and the parameter $b$ allowing "compressing" or "stretching" the template along the x-Axis.
+where $x$ denotes a time-point, $a$ represents the amplitude-scaling parameter, $b$ represents the latency-scaling parameter and $A_i$, $f_i$, and $\phi_i$ denote amplitude, frequency, phase. The sum of sines parameter vectors $A$, $f$, and $\phi$ are optimized such that $f(x, 1, 1)$ predicts $t$ with $R^2 \ge 0.999$. The number of sine terms $k$ is increased until this fit is achieved. After the sum of sines function is found, the variable template is given by the function $f(x, a, b)$ with the parameter $a$ allowing scaling of the amplitude and the parameter $b$ allowing "compressing" or "stretching" the template along the x-Axis.
 
 As these transformations also change the measurement window, I chose to use the subject-level ERP as a template and keep the grand average untransformed as a signal. This reverse matching approach is only an implementation detail and does not affect any decisions made by the algorithm.
 
@@ -23,7 +23,7 @@ $$f(x, a,b, d) = d +a\sum_{i = 1}^{n} A_isin(bf_ix + \phi_i).$$
 Should the algorithm again converge on a solution with $a_j \le 0$, the latency value is set to NA.
 
 ## MAXCOR
-The MAXCOR algorithm optimizes the parameters to produce the maximum correlation $r_{st}$ between the signal $s$ and the transformed template $t$ for values $x_i$ where $t_{start} \le x_i \le t_{end}$ in the measurement window. Time-points outside the measurement window are not allowed to influence the correlation.
+The MAXCOR algorithm optimizes the parameters to produce the maximum correlation $r_{st}$ between the signal $s$ and the transformed template $t$ for values $x_i$ where $t_{start} \le x_i \le t_{end}$. Time-points outside the measurement window are not allowed to influence the correlation.
 
 $$ argmax\ r_{st}(b_j) = \frac{\sum_{i = t_{start}}^{t_{end}}(s_i - \bar{s})(t_i - \bar{t})}{\sqrt{\sum_{i = t_{start}}^{t_{end}}(s_i - \bar{s})^2(t_i - \bar{t})^2}},$$
 where 
