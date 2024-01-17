@@ -9,6 +9,9 @@ mean_homogeneity_overall <- double_full_cors %>%
     method1_bin == method2_bin,
     method1_rater == "sven", method2_rater == "sven") %>%
   filter(method1_bin %in% c(5, 6)) %>%
+  filter(
+    !(method1_approach == method2_approach & method1_type == method2_type)
+  ) %>%
   mutate(correlation = V1) %>%
   group_by(method1_approach, method1_type, method1_review) %>%
   summarize(
@@ -22,6 +25,9 @@ mean_homogeneity_full_info <- double_full_cors %>%
   filter(
     method1_bin == method2_bin,
     method1_rater == "sven", method2_rater == "sven") %>%
+  filter(
+    !(method1_approach == method2_approach & method1_type == method2_type)
+  ) %>%
   filter(method1_bin %in% c(5, 6)) %>%
   mutate(correlation = V1) %>%
   group_by(task, method1_filter, method1_window, method1_approach, method1_type, method1_review) %>%
@@ -95,6 +101,7 @@ prepare_data_homogeneity <- function(data, chosen_task){
     arrange(task, filter, window) %>%
     filter(task == chosen_task) %>%
     select(-task)
+  return(prep)
 }
 
 table_mean_homogeneity_flanker <- mean_homogeneity_full_info %>%

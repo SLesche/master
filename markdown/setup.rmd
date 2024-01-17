@@ -7,7 +7,6 @@
 ```{r setup-libraries}
 library(papaja)
 library(tidyverse)
-library(rio)
 library(rmarkdown)
 library(knitr)
 library(emmeans)
