@@ -15,13 +15,17 @@ spearman_brown_double <- function(rel){
   return(corrected_rel)
 }
 
+FisherZ <- function(rho)  {0.5*log((1+rho)/(1-rho)) }   #converts r to z
+
+FisherZInv <- function(z) {(exp(2*z)-1)/(1+exp(2*z)) }   #converts back again
+
 fisher_cor_mean <- function(corr_values){
   corr_values[corr_values == 1] = 0.99
   corr_values[corr_values == -1] = -0.99
   corr_values[corr_values > 1 | corr_values < -1] = NA
-  z_values = DescTools::FisherZ(corr_values)
+  z_values = FisherZ(corr_values)
   mean_value = mean(z_values, na.rm = TRUE)
-  mean_corr = DescTools::FisherZInv(mean_value)
+  mean_corr = FisherZInv(mean_value)
   return(mean_corr)
 }
 
