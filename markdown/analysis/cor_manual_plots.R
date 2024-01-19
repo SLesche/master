@@ -44,7 +44,7 @@ corr_overall <- mean_manualcor_full_info %>%
   geom_boxplot()+
   facet_wrap(~method1_type)+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "intraclass-correlation"
@@ -52,7 +52,7 @@ corr_overall <- mean_manualcor_full_info %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 corr_by_task <- mean_manualcor_full_info %>%
   mutate(combination = factor(interaction(approach, review))) %>%
@@ -62,7 +62,7 @@ corr_by_task <- mean_manualcor_full_info %>%
   geom_boxplot()+
   facet_wrap(~interaction(method1_type, task), ncol = 2)+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "intraclass-correlation"
@@ -70,7 +70,7 @@ corr_by_task <- mean_manualcor_full_info %>%
   # scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 corr_by_filter <- mean_manualcor_full_info %>%
   mutate(combination = factor(interaction(approach, review))) %>%
@@ -80,7 +80,7 @@ corr_by_filter <- mean_manualcor_full_info %>%
   geom_boxplot()+
   facet_wrap(~interaction(method1_type, filter), ncol = 2)+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "intraclass-correlation"
@@ -88,7 +88,7 @@ corr_by_filter <- mean_manualcor_full_info %>%
   # scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 corr_by_window <- mean_manualcor_full_info %>%
   filter(approach %in% c("minsq", "maxcor")) %>%
@@ -99,7 +99,7 @@ corr_by_window <- mean_manualcor_full_info %>%
   geom_boxplot()+
   facet_wrap(~interaction(method1_type, forcats::fct_reorder(combination, mean, .desc = TRUE)), ncol = 2)+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "intraclass-correlation"
@@ -107,7 +107,7 @@ corr_by_window <- mean_manualcor_full_info %>%
   # scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 corr_optimal_window <- mean_manualcor_full_info %>%
   filter(window == "medium") %>%
@@ -118,7 +118,7 @@ corr_optimal_window <- mean_manualcor_full_info %>%
   geom_boxplot()+
   facet_wrap(~interaction(method1_type, task), ncol = 2)+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "intraclass-correlation"
@@ -126,4 +126,4 @@ corr_optimal_window <- mean_manualcor_full_info %>%
   # scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))

@@ -64,7 +64,7 @@ homogeneity_total <- mean_homogeneity_overall %>%
   )+
   geom_boxplot()+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "homogeneity"
@@ -72,7 +72,7 @@ homogeneity_total <- mean_homogeneity_overall %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 homogeneity_by_task <- mean_homogeneity_overall %>%
   mutate(combination = factor(interaction(approach, review))) %>%
@@ -82,7 +82,7 @@ homogeneity_by_task <- mean_homogeneity_overall %>%
   geom_boxplot()+
   facet_wrap(~task)+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "homogeneity"
@@ -90,7 +90,7 @@ homogeneity_by_task <- mean_homogeneity_overall %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 homogeneity_by_filter <- mean_homogeneity_overall %>%
   mutate(combination = factor(interaction(approach, review))) %>%
@@ -100,7 +100,7 @@ homogeneity_by_filter <- mean_homogeneity_overall %>%
   geom_boxplot()+
   facet_wrap(~forcats::fct_relevel(filter, "8", "16", "32"))+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "homogeneity"
@@ -108,7 +108,7 @@ homogeneity_by_filter <- mean_homogeneity_overall %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 homogeneity_by_window <- mean_homogeneity_overall %>%
   mutate(combination = factor(interaction(approach, review))) %>%
@@ -118,7 +118,7 @@ homogeneity_by_window <- mean_homogeneity_overall %>%
   geom_boxplot()+
   facet_wrap(~forcats::fct_reorder(combination, mean, .desc = TRUE))+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "homogeneity"
@@ -126,4 +126,23 @@ homogeneity_by_window <- mean_homogeneity_overall %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
+
+homogeneity_medium_window <- mean_homogeneity_overall %>%
+  filter(window == "medium") %>%
+  mutate(combination = factor(interaction(approach, review))) %>%
+  ggplot(
+    aes(x = forcats::fct_reorder(combination, mean, .desc = TRUE), y = mean, fill = approach)
+  )+
+  geom_boxplot()+
+  geom_jitter(width = 0.1, alpha = 0.2)+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
+  labs(
+    x = "method",
+    y = "homogeneity"
+  )+
+  scale_x_discrete(guide = guide_axis(n.dodge=3))+
+  theme_classic()+
+  theme(text=element_text(size=21),
+        axis.text = element_text(size=15))
+

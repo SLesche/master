@@ -72,7 +72,7 @@ eff_overall <- data_eff %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 eff_by_task <- data_eff %>%
   mutate(combination = factor(interaction(approach, type, review))) %>%
@@ -91,7 +91,7 @@ eff_by_task <- data_eff %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 eff_by_filter <- data_eff %>%
   filter(filter %in% c("8", "16", "32")) %>%
@@ -111,7 +111,7 @@ eff_by_filter <- data_eff %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 
 eff_by_window <- data_eff %>%
@@ -132,4 +132,4 @@ eff_by_window <- data_eff %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))

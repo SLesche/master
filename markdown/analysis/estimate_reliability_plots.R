@@ -53,7 +53,7 @@ rel_over_everything <- rel_overview_long_good %>%
   )+
   geom_boxplot()+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "reliability"
@@ -61,7 +61,7 @@ rel_over_everything <- rel_overview_long_good %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 rel_by_task <- rel_overview_long_good %>%
   mutate(combination = factor(interaction(approach, review))) %>%
@@ -71,7 +71,7 @@ rel_by_task <- rel_overview_long_good %>%
   geom_boxplot()+
   facet_wrap(~task)+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "reliability"
@@ -79,7 +79,7 @@ rel_by_task <- rel_overview_long_good %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 
 rel_by_filter <- rel_overview_long_good %>%
@@ -90,7 +90,7 @@ rel_by_filter <- rel_overview_long_good %>%
   geom_boxplot()+
   facet_wrap(~filter)+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "reliability"
@@ -98,7 +98,7 @@ rel_by_filter <- rel_overview_long_good %>%
   scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
 
 rel_by_window <- rel_overview_long_good %>%
   mutate(combination = factor(interaction(approach, review))) %>%
@@ -108,7 +108,7 @@ rel_by_window <- rel_overview_long_good %>%
   geom_boxplot()+
   facet_wrap(~forcats::fct_reorder(combination, reliability, .desc = TRUE))+
   geom_jitter(width = 0.1, alpha = 0.2)+
-  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed")+
+  geom_hline(yintercept = 0.8, color = "red", linetype = "dashed", linewidth = 1)+
   labs(
     x = "method",
     y = "reliability"
@@ -116,7 +116,9 @@ rel_by_window <- rel_overview_long_good %>%
   # scale_x_discrete(guide = guide_axis(n.dodge=3))+
   theme_classic()+
   theme(text=element_text(size=21),
-        axis.text = element_text(size=10))
+        axis.text = element_text(size=15))
+
+
 
 ## Checking for effect of window on rel ----
 rel_window_facet <- rel_overview_long_good %>%
